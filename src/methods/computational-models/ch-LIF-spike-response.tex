@@ -13,13 +13,18 @@ The derivative: \(\dot{v}(t) = \alpha \cdot \exp(\alpha \cdot t) \cdot f(t) + \e
 \begin{equation}
     v(t) + \tau_m \cdot \dot{v}(t) = (1 + \alpha \cdot \tau_m) \cdot \exp(\alpha \cdot t) \cdot f(t) + \exp(\alpha \cdot t) \cdot \dot{f}(t)
 \end{equation}
-    
-If \(1 + \alpha \cdot \tau_m = 0\) \(\implies\) \(v(t) + \tau_m \cdot \dot{v}(t) = \exp(\alpha \cdot t) \cdot \dot{f}(t) = I(t) \cdot \exp(\alpha \cdot t)\) \\
+
+Then:
+\begin{equation} 
+    1 + \alpha \cdot \tau_m = 0 \implies v(t) + \tau_m \cdot \dot{v}(t) = \exp(\alpha \cdot t) \cdot \dot{f}(t) = I(t) \cdot \exp(\alpha \cdot t) \label{eq:LIF-exp-sol}
+\end{equation}\\
 
 
-Why this solution is useful? \\
+Why this solution is useful:
+
 \(\delta(t)\) = Dirac delta function \\
-\(H(t)\) = Heaviside function = \(\int \delta(t) \cdot dt\) \\
+\(H(t)\) = Heaviside function = \(\int \delta(t) \cdot dt\) 
+
 The refractory period will stay the same throughout  
 
 \begin{equation}
@@ -37,7 +42,7 @@ If we set
 	I(t) = I_0 \cdot \delta(t)
 \end{equation}
 
-According to 5.6:
+According to \ref{eq:LIF-exp-sol}:
 
 \begin{equation}
 	v(t) = (\int I(t) \cdot dt + B) \cdot \exp(-t/\tau_m)
@@ -66,7 +71,7 @@ For the input:
 
 Our result will be:
 \begin{equation}
-	v(t) = \sum_i I_0 \cdot H(t-t_i) \cdot \exp(-(t-t_i)/\tau_m)
+	v(t) = \sum_i I_0 \cdot H(t-t_i) \cdot \exp(-(t-t_i)/\tau_m) \label{eq:LIF-spike-sol}
 \end{equation}
 
 And as we can see once we add the refractory period into consideration:
@@ -98,7 +103,7 @@ I(t) = I_0 \cdot \sum_{n=0}^N \delta(t-n \cdot T)
 where \(T\) is the constant time period of the function and \(f = \frac{1}{T}\) is the frequency of the function.
 
 For simplicity measures, we will assume: \(\tau_{\text{ref}} = 0\) and \(v_{\text{reset}} = 0\).
-From the previous equation (7.1), we can conclude that the output for such an input will be:
+From the previous equation \ref{eq:LIF-spike-sol}, we can conclude that the output for such an input will be:
 \begin{equation}
 v(t) = I_0 \cdot \sum_{n=0}^N H(t-n \cdot T) \cdot e^{-((t-n \cdot T)/\tau_m)}
 \end{equation}
