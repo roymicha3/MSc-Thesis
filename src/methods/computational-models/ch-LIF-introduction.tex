@@ -110,9 +110,32 @@ Now we will look at some graphs that express the influence of the \( t_{\text{re
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{methods/computational-models/graphs/LIF-heaviside-response.png}
+    \includegraphics[width=0.8\textwidth]{methods/computational-models/graphs/LIF-heaviside-high-ref.png}
     \caption{High applied current with high refractory period gives low frequency}
-    \label{fig:LIF-heaviside-response}
+    \label{fig:LIF-heaviside-high-ref}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{methods/computational-models/graphs/LIF-heaviside-low-ref.png}
+    \caption{High applied current with low refractory period gives higher frequency}
+    \label{fig:LIF-heaviside-low-ref}
+\end{figure}
+
+The refractory period is a period after firing of a specific neuron during which it will ``ignore'' the input current. We can demonstrate that behavior by the following equation:
+*For this example, we assume that the neuron fired at \( t=0 \).
+\begin{equation}
+\forall t \in (0,\tau_{\text{ref}}), \quad I(t) = v_{\text{reset}}
+\end{equation}
+\begin{equation}
+v(t=0) = v_{\text{thresh}}
+\end{equation}
+\begin{equation}
+v(t) + \tau_m \cdot \dot{v}(t) = v_{\text{reset}}
+\end{equation}
+We already solved a similar equation (see 1.1), so the following solution will be:
+\begin{equation}
+v(t) = (v_{\text{thresh}} - v_{\text{reset}}) \cdot \exp\left(-\frac{t}{\tau_m}\right) + v_{\text{reset}}
+\end{equation}
+These graphs portray the equation we have shown above, and as we can see, they present the behavior of the neuron model as we would have expected!
 
