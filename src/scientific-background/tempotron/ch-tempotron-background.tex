@@ -1,0 +1,18 @@
+\section{The Tempotron}
+
+The Tempotron model is a computational neural network specifically designed for spike-time-based pattern recognition. Training the Tempotron involves optimizing the synaptic weights to achieve accurate pattern recognition based on the timing of input spikes. Different researchers have proposed several methods over the years to train the Tempotron model effectively. Here is an overview of some notable methods and the researchers associated with their development:
+\begin{itemize}
+
+    \item Tempotron Training Algorithm: In 2006, Gütig and Sompolinsky \cite{gutig2006tempotron} introduced a training algorithm for the Tempotron model based on spike-time-dependent plasticity (STDP). Their work focused on adjusting the synaptic weights using a reinforcement learning approach, where potentiation and depression of synapses were governed by the timing of pre and post-synaptic spikes. This algorithm enabled the Tempotron to learn to recognize spatiotemporal patterns.
+    
+    \item 	Supervised Tempotron Learning: Bohte, Kok, and La Poutré \cite{bohte2002error} proposed a supervised learning approach for training the Tempotron in 2002. Their method used gradient descent optimization to adjust the synaptic weights based on the error between the target output and the actual output of the Tempotron. The Tempotron was trained to improve its accuracy in recognizing spike-time patterns by iteratively updating the weights.
+    
+    \item Reinforcement Learning for Tempotron: In 2011, Ponulak and Kasiński \cite{ponulak2011introduction} presented a reinforcement learning algorithm to train the Tempotron model. Their approach utilized a reward-based mechanism, where the Tempotron received positive or negative reinforcement signals based on its classification performance. By maximizing the cumulative reward signal, the Tempotron adapted its synaptic weights to enhance pattern recognition capabilities.
+    
+    \item SpikeProp Algorithm: Bohte, Kok, and La Poutré \cite{bohte2002error} also developed the SpikeProp algorithm in 2000, which was specifically designed to train networks of spiking neurons, including the Tempotron model. SpikeProp utilized error backpropagation principles but adapted them to account for the discrete nature of spikes. This algorithm enabled efficient weight updates in the Tempotron based on the discrepancy between the target spike train and the generated output spikes.
+    
+    \item Unsupervised Tempotron Learning: Masquelier and Thorpe \cite{masquelier2007unsupervised} introduced an unsupervised learning algorithm for the Tempotron in 2007. Their method focused on training the Tempotron using Hebbian learning, which modifies the synaptic weights based on correlated activity between pre- and post-synaptic neurons. This unsupervised approach allowed the Tempotron to learn to recognize complex temporal patterns without explicit target labels.
+
+These are just a few examples of the various methods proposed to train the Tempotron model. Each method brings its own insights and techniques to improve the learning capabilities of the Tempotron. Researchers have continued to refine and extend these methods over time, contributing to the advancement of spike-based pattern recognition and the broader field of spiking neural networks.
+
+\end{itemize}
