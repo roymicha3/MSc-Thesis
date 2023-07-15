@@ -1,0 +1,32 @@
+# LaTeX project specific files
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# Compiled output files
+*.pdf
+*.dvi
+*.ps
+
+# Temporary files
+*.fdb_latexmk
+*.fls
+*.gz
+*.gz\(busy\)
+*.log
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# Build directories (if you use latexmk)
+_build
+
+# Ignore Overleaf files (optional, if using Overleaf)
+*.zip
+*.tex.latexmain
+*.backup
