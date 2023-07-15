@@ -6,6 +6,8 @@ src/*.log
 src/*.out
 src/*.synctex.gz
 src/*.toc
+src/*.lof
+src/*.lot
 
 # Compiled output files
 src/*.pdf
