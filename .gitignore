@@ -1,32 +1,37 @@
 # LaTeX project specific files
-*.aux
-*.bbl
-*.blg
-*.log
-*.out
-*.synctex.gz
-*.toc
+src/*.aux
+src/*.bbl
+src/*.blg
+src/*.log
+src/*.out
+src/*.synctex.gz
+src/*.toc
 
 # Compiled output files
-*.pdf
-*.dvi
-*.ps
+src/*.pdf
+src/*.dvi
+src/*.ps
 
 # Temporary files
-*.fdb_latexmk
-*.fls
-*.gz
-*.gz\(busy\)
-*.log
-*.nav
-*.snm
-*.vrb
-*.xdv
+src/*.fdb_latexmk
+src/*.fls
+src/*.gz
+src/*.gz\(busy\)
+src/*.log
+src/*.nav
+src/*.snm
+src/*.vrb
+src/*.xdv
 
 # Build directories (if you use latexmk)
-_build
+src/_build
 
 # Ignore Overleaf files (optional, if using Overleaf)
 *.zip
 *.tex.latexmain
 *.backup
+
+# Exclude LaTeX-specific files from "images" folder
+src/images/*.aux
+src/images/*.log
+src/images/*.synctex.gz
