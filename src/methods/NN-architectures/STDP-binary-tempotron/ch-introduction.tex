@@ -1,0 +1,28 @@
+\subsubsection{Introduction}
+
+In this section, we implement the simple Tempotron model that classifies random input spike patterns into two categories. This section aims to further understand the model's capabilities, such as capacity (maximum number of patterns per synapse that can be classified correctly) and computational capabilities depending on the system's parameters.
+
+For multiple input trains with respective weights:
+
+\begin{equation}
+    v(t) = \sum_{i=1}^k w_i \cdot \sum_{t_i^l} k(t-t_i^l)
+\end{equation}
+
+This is the Tempotron model. We wish to train this model for given input series and their respective labeling. To do that, we first need to find how to compute the weights.
+
+The labeling we are using is either the neuron should or should not fire in response to a given input ($\oplus$ and $\ominus$ respectively).
+
+The cost function is defined as follows:
+
+\begin{equation}
+    t_{\text{max}} = \arg\max_t (v(t))
+\end{equation}
+
+\begin{equation}
+    v_{\text{max}} = v(t_{\text{max}})
+\end{equation}
+
+\begin{equation}
+    \mathbf{w} = (w_1, w_2, \dots, w_k)^T
+\end{equation}
+

@@ -1,0 +1,50 @@
+\subsubsection{Basic Definitions}
+
+The time is given by:
+
+\begin{equation}
+    \text{time} = \left\{\frac{n}{N} \cdot T\right\}_{n=0}^{N-1}, \quad k(t) = v_0 \cdot \left(\exp\left(-\frac{t}{\tau}\right) - \exp\left(-\frac{t}{\tau_s}\right)\right)
+\end{equation}
+
+where:
+
+\begin{align*}
+    v_0 &= 2.12 \quad \Rightarrow \quad \max_t k(t) = 1 \\
+    \tau_s &= \frac{\tau}{4}
+\end{align*}
+
+For each pre-synaptic neuron $j$ with spike times $\{t_i^j\}_{i=1}^k$, the corresponding synaptic trace will be:
+
+\begin{equation}
+    k^j(t) = \sum_{t_i^j < t} k(t - t_i^j) \quad \Rightarrow \quad K_j = \left\{K^j\left[\frac{n}{N} \cdot T\right]\right\}_{n=0}^{N-1}
+\end{equation}
+
+The "presynaptic trace matrix" will be defined as follows:
+
+\begin{equation}
+    K = [K_1, \dots, K_l], \quad \text{for} \ l \in \mathbb{N} \ \text{presynaptic input neurons}
+\end{equation}
+
+Each pattern is defined by the firing times of the pre-synaptic neurons, and we can calculate its respective presynaptic trace matrix.
+
+But what is it good for?
+
+The post-synaptic voltage is defined by:
+
+\begin{equation}
+    v(t) = \sum_{j=1}^l w_j \cdot K_j(t) \quad \Rightarrow \quad V = \sum_{j=1}^l w_j \cdot K_j
+\end{equation}
+
+where:
+
+\begin{equation}
+    w = (w_1, \dots, w_l)^T
+\end{equation}
+
+Overall, the numeric definition is:
+
+\begin{equation}
+    V = K \cdot w
+\end{equation}
+
+We did it because matrix multiplication can be calculated much more efficiently than simple summation!

@@ -1,0 +1,25 @@
+\subsubsection{STDP cost function}
+
+\begin{equation}
+    c(\mathbf{w}_0) = \begin{cases}
+    v_{\text{th}} - v_{\text{max}} & \text{if } v_{\text{max}} < v_{\text{th}} \text{ and } \oplus \\
+    v_{\text{max}} - v_{\text{th}} & \text{if } v_{\text{max}} > v_{\text{th}} \text{ and } \ominus \\
+    0 & \text{else}
+    \end{cases}
+\end{equation}
+
+\subsubsection{Convolution Based cost function}
+
+One problem with the biological implementation of our model is that the Tempotron’s solution to the temporal credit assignment problem requires knowing the time of the maximum postsynaptic voltage.
+
+Let us look at the following equation:
+
+\begin{equation}
+    \int e^{\beta v(t)} \cdot k(t) \, dt \rightarrow_{(\beta \rightarrow \infty)} e^{\beta v(t_{\text{max}})} \cdot k(t_{\text{max}})
+\end{equation}
+
+To solve this issue, we will try to simulate finding the max value of the voltage function by using voltage convolution. Our new cost function will be:
+
+\begin{equation}
+    E(\mathbf{w}_0) = \frac{1}{\beta} \sum_{\mu} y_{\mu} \ln\left(\int e^{\beta v_{\mu}(t)} \, dt\right)
+\end{equation}
