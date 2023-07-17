@@ -1,0 +1,19 @@
+\subsubsection{Cost Functions}
+
+The output layer will reduce the time dimensionality by evaluating the max value of each input voltage:
+
+\begin{equation}
+    x_k^\text{max} = \max_t x_k^{}(t)
+\end{equation}
+
+The activation function of the output layer will be the SoftMax function:
+
+\begin{equation}
+    p_\mu(K_\mu=k) = \sigma_k^\mu = \frac{\exp(\beta \cdot x_k^\text{max})}{\sum_{k'} \exp(\beta \cdot x_{k'}^\text{max})}
+\end{equation}
+
+The cross-entropy loss:
+
+\begin{equation}
+    E(\mathbf{w}) = -\sum_\mu \sum_{k=1}^K y_k^\mu \ln(\sigma_k^\mu)
+\end{equation}

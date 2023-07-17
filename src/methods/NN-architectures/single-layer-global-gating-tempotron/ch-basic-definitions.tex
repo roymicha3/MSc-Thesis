@@ -1,0 +1,40 @@
+\subsubsection{Basic Definitions}
+
+That will give us the following equation:
+\begin{equation}
+V(t) = \frac{1}{\sqrt{M \cdot N}} \sum_{j=1}^{N} \sum_{m=1}^{M} g_m (x) \cdot w_m \cdot x(t)
+\end{equation}
+where $N$ is the number of neurons in the input layer, $K$ is the number of neurons in the output layer, $x$ is the input voltage of the input layer, and $X^\text{input}$ is the raw input sample.
+
+Each gate function has its own weights $v_{(m,i)}$ sampled randomly and is constant throughout the learning procedure!
+
+The first approach that comes to mind is the linear combination approach (we will look into it later on):
+\begin{equation}
+g_m (X^\text{input}) = \sum_{i=1}^{N} v_{(m,i)} \cdot X^\text{input}
+\end{equation}
+
+Another approach will be to extract the spike times from $\sum_{i=1}^{N} v_{(m,i)} \cdot x_i (t)$ by the threshold $t_\text{thresh}$ and apply a temporal kernel over the spike times:
+\begin{equation}
+\theta_m (x) = \sum_{i=1}^{N} v_{(m,i)} \cdot x_i (t)
+\end{equation}
+where $t_m \in [0,T] \, \text{such that} \, \theta_m (x,t) = \sum_{i=1}^{N} v_{(m,i)} \cdot x_i (t) \geq t_\text{thresh}$.
+
+The temporal kernel is defined as:
+\begin{equation}
+g_m (x,t) = \sum_{t_m} k(t - t_m)
+\end{equation}
+
+We can also try to normalize the dendrite gating vector $G(t) = [g_1 (t), \ldots, g_M (t)]$, like SoftMax, for example.
+
+But we can easily see that we have more dimensions than the regular backpropagation problems. To understand how to differentiate the new model, we will look at the weights as a 3D matrix:
+\begin{equation}
+W[m,i,j] = w_{(m,i,j)} \, \text{such that} \, W \in \mathbb{R}^{M \times K \times N}
+\end{equation}
+
+Then, we can express $G(t)^T \cdot W \cdot x$ as:
+\begin{equation}
+G(t)^T \cdot W \cdot x = \sum_{j=1}^{N} \sum_{m=1}^{M} g_m (X^\text{input}) \cdot W[m,:,j] \cdot x_j
+\end{equation}
+where $W[m,:,j] = [W_{(m,1,j)}, \ldots, W_{(m,K,j)}]$.
+
+Finally, if $(G(t)^T \cdot W \cdot x)[i] = V_i$ ,  then $V = G(t)^T \cdot W \cdot x$.

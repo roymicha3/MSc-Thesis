@@ -1,0 +1,13 @@
+\subsubsection{Training}
+
+And now we can easily backpropagate with the derivative of the loss function we computed earlier. Combined with equation (20.6), we will get the total derivative:
+
+\begin{equation}
+    \frac{dL}{dw_{k,m,i}} = -\beta \cdot (\sigma_k^\mu - y_k^\mu) \cdot g_m(x) \cdot \sum_j K (t_{\text{max}}^k - t_{i,j}^\mu)
+\end{equation}
+
+where:
+$L$ is the loss function (in this case, the cross-entropy loss),
+$y$ is the one-hot vector label,
+$\mu$ is the index of the sample and
+$x$ refers to the input voltage.
