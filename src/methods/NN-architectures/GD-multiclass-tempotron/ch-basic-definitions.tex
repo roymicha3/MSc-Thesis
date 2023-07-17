@@ -1,0 +1,13 @@
+\subsubsection{Basic Definitions}
+
+For input spikes in the form of spike times – each input sample is a set of spike time series:
+\( \lbrace{t_{i,j}^{\mu}} \rbrace_{i, j}\) \text{ = the time of the j\textsuperscript{th} spike of the i\textsuperscript{th} input neuron sample \(\mu\)}
+
+The input layer filters the incoming delta train (earlier denoted as spike trains) with the kernel function as mentioned in equation \ref{eq:cuba-model}.
+
+\begin{equation}
+    v_k(t) = \sum_{i=1}^{N} w_{i,k} \cdot x_i(t), \quad x_i(t) = \sum_{t_{i,j} < t} k(t - t_{i,j}^{\mu})
+\end{equation}
+
+s.t. \(w_k\) = the weight vector of the k\textsuperscript{th} output neuron
+

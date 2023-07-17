@@ -1,0 +1,43 @@
+\subsubsection{Convolution based Cross-Entropy}
+
+We will repeat the computations, but this time instead of \(v_k(t_{\text{max}}^k)\) we will use:
+
+\begin{equation}
+    h_k(x) = \ln\left(\int_0^T \exp(\beta v_k(t))\, dt\right)
+\end{equation}
+
+where:
+
+\begin{equation}
+    v_k(t) = \sum_{i=1}^N w_{i,k} x_i(t), \quad x_i(t) = \sum_{t_{i,j} < t} k(t - t_{i,j}^\mu) 
+\end{equation}
+
+with \(w_k\) being the weight vector of the \(k\)-th output neuron and \(t_{i,j}^\mu\) denoting the time of the \(j\)-th spike of the \(i\)-th input neuron sample \(\mu\).
+
+Define: \(z_k(x) = \int_0^T \exp(\beta v_k(t))\, dt \implies h_k(x) = \ln(z_k(x))\)
+
+The partial derivative with respect to \(w_{i,k}\) of \(\int_0^T \exp(\beta v_k(t))\, dt\) is:
+
+\begin{equation}
+    \frac{\partial}{\partial w_{i,k}} \int_0^T \exp(\beta v_k(t))\, dt = \int_0^T \frac{\partial}{\partial v_k(t)} \exp(\beta v_k(t))\cdot \frac{\partial v_k(t)}{\partial w_{i,k}}\, dt = \int_0^T \beta \exp(\beta v_k(t)) x_i(t)\, dt
+\end{equation}
+
+The derivative of \(h_k(x)\) with respect to \(w_{i,k}\) is:
+
+\begin{equation}
+    \frac{\partial h_k(x)}{\partial w_{i,k}} = \frac{1}{z_k} \int_0^T \beta \exp(\beta v_k(t)) x_i(t)\, dt
+\end{equation}
+
+The activation function of the output layer will be the SoftMax function:
+
+\begin{equation}
+    p_\mu(K_\mu = k) = \sigma_k^\mu = \frac{\exp(\beta h_k)}{\sum_{k'} \exp(\beta h_{k'})}
+\end{equation}
+
+The cross-entropy loss is given by:
+
+\begin{equation}
+    E(\mathbf{w}) = -\sum_\mu \sum_{k=1}^K y_k^\mu \cdot \ln(\sigma_k^\mu)
+\end{equation}
+
+where \(y_k^\mu\) is the one-hot vector identifying the label of the \(\mu\)-th sample.

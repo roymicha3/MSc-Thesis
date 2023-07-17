@@ -1,0 +1,57 @@
+\subsubsection{Training – Max Time Cross-Entropy}
+
+Let's define: \(x_k = \beta v_k^{\max}\)
+
+The derivative is:
+
+\begin{equation}
+    \frac{d}{dw_k^i} x_k = \beta \frac{d}{dw_k^i} \sum_i w_k^i \sum_j k(t_{\max}^k - t_{i,j}^\mu) = \beta \sum_j k(t_{\max}^k - t_{i,j}^\mu)
+\end{equation}
+
+where \(w_k\) is the weight vector of the \(k\)-th output neuron, \(t_{\max}^k\) is \(t\) that maximizes \(v_k(t)\), and \(t_{i,j}^\mu\) represents the time of the \(j\)-th spike of the \(i\)-th input neuron sample \(\mu\).
+
+Another useful definition will be:
+
+\begin{equation}
+    u_k = \frac{\exp(x_k)}{\sum_{k'} \exp(x_{k'})}
+\end{equation}
+
+The derivative is:
+For \(k' = k\):
+
+\begin{equation}
+    \frac{du_k}{dx_k} = \frac{\exp(x_k)}{\sum_{k'} \exp(x_{k'})} - \frac{\exp(x_k)}{\left(\sum_{k'} \exp(x_{k'})\right)^2} \cdot \exp(x_k) = u_k - u_k^2
+\end{equation}
+
+And for \(k' \neq k\):
+
+\begin{equation}
+    \frac{du_{k'}}{dx_k} = -\frac{\exp(x_{k'})}{\left(\sum_{k''} \exp(x_{k''})\right)^2} \cdot \exp(x_k) = -u_k \cdot u_{k'}
+\end{equation}
+
+According to the chain rule:
+
+\begin{equation}
+    \frac{d}{dw_k^i} E(\mathbf{w}) = -\frac{d}{du_{k'}} \sum_\mu \sum_{k'=1}^K y_{k'}^\mu \ln(u_{k'}) \cdot \frac{du_{k'}}{dx_k} \cdot \frac{dx_k}{dw_k^i}
+\end{equation}
+
+The chain rule yields:
+
+\begin{equation}
+    \frac{d}{du_{k'}} \ln(u_{k'}) \cdot \frac{du_{k'}}{dx_k} \cdot \frac{dx_k}{dw_k^i} = \begin{cases}
+    \frac{1}{u_{k'}} \cdot (u_k - u_k^2) \cdot \frac{dx_k}{dw_k^i}, & \text{if } k' = k, \\
+    -\frac{1}{u_{k'}} \cdot (u_k \cdot u_{k'}) \cdot \frac{dx_k}{dw_k^i}, & \text{if } k' \neq k.
+    \end{cases}
+\end{equation}
+
+The expression becomes:
+
+\begin{equation}
+    \frac{d}{dw_k^i} E(\mathbf{w}) = -\beta \sum_\mu \left(\sum_{k'=1}^K y_{k'}^\mu \cdot (u_k - \delta_{k',k})\right) \cdot \sum_j k(t_{\max}^k - t_{i,j}^\mu)
+\end{equation}
+
+Now, during each iteration on sample \(\mu\) of the learning procedure, we will compute:
+
+\begin{equation}
+    \Delta w_k^i = -\beta \cdot (\sigma_k^\mu - y_k^\mu) \cdot \sum_j k(t_{\max}^k - t_{i,j}^\mu)
+\end{equation}
