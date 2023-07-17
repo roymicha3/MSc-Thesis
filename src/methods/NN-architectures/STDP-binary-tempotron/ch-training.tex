@@ -1,2 +1,99 @@
 \subsubsection{Training - Simple Cost function}
 
+\begin{equation}
+\mathbf{w}_n = (w_1^n, w_2^n, \ldots, w_k^n)^T
+\end{equation}
+
+For $\lambda > 0$ as our learning rate:
+
+\begin{equation}
+\mathbf{w}_{n+1} = \mathbf{w}_n + \lambda \nabla c(\mathbf{w}_n)
+\end{equation}
+
+Where $\nabla c(\mathbf{w}_n) = \left(\frac{d}{dw_1} c(\mathbf{w}_n), \frac{d}{dw_2} c(\mathbf{w}_n), \ldots, \frac{d}{dw_k} c(\mathbf{w}_n)\right)^T$.
+
+For all $j \in [1, k]$, the derivative $\frac{d}{dw_j} c(\mathbf{w}_n)$ is given by:
+
+\begin{equation}
+    \frac{d}{dw_j} c(\mathbf{w}_n) = 
+    \begin{cases}
+    \sum_{t_j^l < t_{\text{max}}} k(t_{\text{max}} - t_j^l), & \text{if } v_{\text{max}} < v_{\text{th}} \land \oplus, \cr
+    -\sum_{t_j^l < t_{\text{max}}} k(t_{\text{max}} - t_j^l), & \text{if } v_{\text{max}} > v_{\text{th}} \land \ominus, \cr
+    0, & \text{else}
+    \end{cases}
+\end{equation}
+
+For each iteration of the learning algorithm, we will need to:
+
+Set $\lambda$ as the learning rate. \\
+Evaluate $V[t]$ by: 
+
+\begin{equation}
+    V = K \cdot \mathbf{w}
+\end{equation}
+
+Find $t_{\text{max}}$ by: 
+
+\begin{equation}
+    t_{\text{max}} = \arg\max_t V[t]
+\end{equation}
+
+Finally, compute $\Delta w_j = \lambda \cdot K_j[t_{\text{max}}]$ by getting the $t_{\text{max}}$'th row in $K$.
+
+\subsubsection{Training - Convolution based Cost function}
+
+\begin{equation}
+\frac{dE}{dw_i} = \frac{1}{\beta}\sum_{\mu}{y_{\mu} \cdot 
+\frac{d}{dw_i}\ln\left(\int e^{\beta v_{\mu}(t)} dt\right)} = \frac{1}{\beta}\sum_{\mu}{y_{\mu}\frac{1}{\int e^{\beta v_{\mu}(t)} dt}\frac{d}{dw_i}\int e^{\beta v_{\mu}(t)} dt}
+\end{equation}
+
+\begin{equation}
+= \frac{1}{\beta}\sum_{\mu}{y_{\mu}\frac{1}{\int e^{\beta v_{\mu}(t)} dt}\int e^{\beta v_{\mu}(t)} \beta v_{\mu}(t) dt} = \frac{1}{\beta}\sum_{\mu}{y_{\mu}\frac{1}{\int e^{\beta v_{\mu}(t)} dt}\int e^{\beta v_{\mu}(t)} \beta k_i(t) dt}
+\end{equation}
+
+\begin{equation}
+= \frac{1}{\beta}\sum_{\mu}{y_{\mu}\frac{1}{\int e^{\beta v_{\mu}(t)} dt}\int e^{\beta v_{\mu}(t)} \beta k_i(t) dt} = \sum_{\mu}{y_{\mu}\frac{\int e^{\beta v_{\mu}(t)} k_i(t) dt}{\int e^{\beta v_{\mu}(t)} dt}}
+\end{equation}
+
+That gives us the new step in our iterations:
+
+\begin{equation}
+\Delta w_i = y_{\mu}\frac{\int e^{\beta v_{\mu}(t)} k_i(t) dt}{\int e^{\beta v_{\mu}(t)} dt}
+\end{equation}
+
+To talk about the numeric evaluation of $\Delta w$, we first need to talk about numeric integration – using the trapezoidal rule:
+
+\newtheorem{theorem}{Theorem}
+
+\begin{mdframed}[linewidth=2pt, frametitlerule=true, frametitlebackgroundcolor=gray!20, innertopmargin=10pt, innerbottommargin=10pt]
+    \begin{theorem}[Trapezoidal Rule]
+        For $f(x)$:
+        
+        \begin{equation*}
+            \int_a^b f(x) dx = \sum_{t=a}^{b-\Delta} \int_t^{t+\Delta} f(x) dx
+        \end{equation*}
+
+        \begin{equation*}
+            \lim_{{\Delta\to0}} \int_t^{t+\Delta} f(x) dx = \Delta \left(\frac{f(t)+f(t+\Delta)}{2}\right)
+        \end{equation*}
+
+        For $\Delta = \frac{T}{N}$:
+
+        \begin{equation*}
+            \int_0^T f(x) dx = \sum_{n=0}^{N-1} \frac{T}{N}\left(\frac{f[n\frac{T}{N}]+f[(n+1)\frac{T}{N}]}{2}\right)
+        \end{equation*}
+
+        Overall, if we assume $f[0] \cdot \frac{T}{N}$ and $f\left[\frac{(N-1)T}{N}\right] \cdot \frac{T}{N}$ are negligible, we get:
+
+        \begin{equation*}
+            \int_0^T f(x) dx \approx \frac{T}{N}\sum_{n=0}^{N-1} f[n\frac{T}{N}]
+        \end{equation*}
+    \end{theorem}
+\end{mdframed}
+
+The new step computation will be:
+
+\begin{equation}
+    \Delta w_i = y_{\mu} \cdot \frac{\frac{T}{N}\sum_{n=0}^{N-1} e^{\beta \cdot v[nT/N]} \cdot k_i[nT/N]}{\frac{T}{N}\sum_{n=0}^{N-1} e^{\beta \cdot v[nT/N]}} = y_{\mu} \cdot \frac{\sum_{n=0}^{N-1} e^{\beta \cdot v[nT/N]} \cdot k_i[nT/N]}{\sum_{n=0}^{N-1} e^{\beta \cdot v[nT/N]}}
+\end{equation}
+
