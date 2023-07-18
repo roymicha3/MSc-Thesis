@@ -1,0 +1,29 @@
+Given the variables:
+
+%% this is a statistical analysis of the different patterns that are made by the rate encoding
+
+- \( r \): Average rate of firing for all neurons in time window \( T \).
+
+- \( P \): Number of specific neurons we want to fire within \([t, t + \delta]\).
+
+Probability of exactly \( P \) specific neurons firing within \([t, t + \delta]\) at time \( t \) is given by the Poisson distribution:
+
+\begin{equation}
+P(\text{P specific neurons fire at } [t, t + \delta] \text{ at time } t) = \frac{{(r \cdot \delta)^P \cdot e^{-r \cdot \delta}}}{{P!}}
+\end{equation}
+
+To find the probability of exactly \( P \) specific neurons firing within \([t, t + \delta]\) across \( T \), we only need to consider the probability for any interval \([t, t + \delta]\) and then integrate it over \( T \):
+
+\begin{equation}
+\begin{aligned}
+    P(\text{exactly } P \text{ specific neurons fire at } [t, t + \delta] \text{ in } T) =    \int_{0}^{T} \frac{{(r \cdot \delta)^P \cdot e^{-r \cdot \delta}}}{{P!}} \, dt
+\end{aligned}
+\end{equation}
+
+Since the firing rates are constant over \([t, t + \delta]\), \( r \) is the same for all intervals. Thus, we can calculate the integral by multiplying the single interval probability by the width \( T \):
+
+So, the final result for the probability of exactly \( P \) specific neurons firing within \([t, t + \delta]\) in \( T \) when firing rates are constant is:
+
+\begin{equation}
+P(\text{exactly } P \text{ specific neurons fire at } [t, t + \delta] \text{ in } T) = T \cdot \frac{{(r \cdot \delta)^P \cdot e^{-r \cdot \delta}}}{{P!}}
+\end{equation}
