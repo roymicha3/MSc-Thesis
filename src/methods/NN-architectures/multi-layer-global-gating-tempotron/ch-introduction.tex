@@ -20,13 +20,18 @@ $z^0$ represents the input voltage $x \in \mathbb{R}^{N_0}$
     \right)
 \end{equation}
 
+\begin{equation}
+    {\text{output}} = \text{Softmax}\left(\begin{bmatrix} z^L[1](t_{\text{max}}^1) \\ \vdots \\ z^L[N_L](t_{\text{max}}^{N_L}) \end{bmatrix}\right)
+\end{equation}
 
-and ${\text{output}} = \text{Softmax}\left(\begin{bmatrix} z^L[1](t_{\text{max}}^1) \\ \vdots \\ z^L[N_L](t_{\text{max}}^{N_L}) \end{bmatrix}\right)$.
     \item Global Gating as an activation function:
 
-For each input sample $\mu$, $f_\mu^m(z) = g_m(x_\mu) \cdot z$,
-where $W_m^l \in \mathbb{R}^{N_l \times N_{l-1}}$ and $N_l$ is the dimensions of the $l$'th layer.
-For all $l \in [L]$, we have $z^l = \sum_{m=1}^M W_m^l \cdot f_\mu^m(z^{l-1}) = \sum_{m=1}^M f_\mu^m(W_m^l \cdot z^{l-1}) \in \mathbb{R}^{N_l}$.
+For each input sample $\mu$,  $f_\mu^m(z) = g_m(x_\mu) \cdot z$ ,
+where $W_m^l \in \mathbb{R}^{N_l \times N_{l-1}}$ and $N_l$ is the dimensions of the $l$'th layer. \\
+
+\begin{equation}
+    \forall l \in [L] , \Rightarrow z^l = \sum_{m=1}^M W_m^l \cdot f_\mu^m(z^{l-1}) = \sum_{m=1}^M f_\mu^m(W_m^l \cdot z^{l-1}) \in \mathbb{R}^{N_l}.
+\end{equation}
 
 \end{enumerate}
 

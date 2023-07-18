@@ -1,1 +1,76 @@
 \subsubsection{Basic Definitions}
+
+For a deep fully connected neural network with L layers, each layer consists of weights noted as a weight matrix:
+
+\begin{equation} \label{eq:weight_l}
+    W_l \in \mathbb{R}^{N_l \times N_{l-1}}
+\end{equation}
+
+Such that \( N_l \) is the number of neurons in the \(l\)-th layer.
+And an activation matrix noted as:
+
+\begin{equation} \label{eq:activation_def}
+    \forall l \in [1, L-1], \ f_l: \mathbb{R}^{N_l} \to \mathbb{R}^{N_l} \colon f_l (x) = \begin{bmatrix} f_l^1(x_1) \\ \vdots \\ f_l^{N_l}(x_{N_l}) \end{bmatrix}, \ f_l^i : \mathbb{R} \to \mathbb{R}
+\end{equation}
+
+This is true for all layers except the output layer, for the output layer, we will compute the derivative explicitly!
+That is why we can easily define:
+
+\begin{equation} \label{eq:col_der}
+    (f_l (x))' = \begin{bmatrix} \frac{d}{dx_1} \cdot f_l^1(x_1) \\ \vdots \\ \frac{d}{dx_{N_l}} \cdot f_l^{N_l}(x_{N_l}) \end{bmatrix}
+\end{equation}
+
+And finally, a Loss function:
+
+\begin{equation}
+    L: \mathbb{R}^{2 \cdot N_L} \to \mathbb{R}
+\end{equation}
+
+\begin{equation}
+    L(z_L, y) \in \mathbb{R}
+\end{equation}
+
+\begin{equation}
+    z_L \in \mathbb{R}^{N_L} - \text{the output of the final layer}
+\end{equation}
+
+\begin{equation}
+    y \in \mathbb{R}^{N_L} - \text{the true label of the input sample (one hot representation)}
+\end{equation}
+
+Now we can define - for all \( z \in [1, L] \):
+
+\begin{equation} \label{eq:backprop_def}
+    z_l = \begin{bmatrix} z_l[1] \\ \vdots \\ z_l[N_l] \end{bmatrix} - \text{the output of the \(l\)-th layer}
+\end{equation}
+
+\begin{equation} \notag
+    a_l = \begin{bmatrix} a_l[1] \\ \vdots \\ a_l[N_l] \end{bmatrix} - \text{the input of the \(l\)-th activation}
+\end{equation}
+
+Such that:
+
+\begin{equation} \notag
+    a_l = W_l \cdot z_{l-1} \in \mathbb{R}^{N_l} \colon z_0 = x
+\end{equation}
+
+\begin{equation} \notag
+    z_l = f_l(a_l)
+\end{equation}
+
+\begin{equation} \notag
+    \nabla_l = \left[ \frac{\partial}{\partial W_{i,j}^l} \right]_{i,j}
+\end{equation}
+
+\begin{mdframed}[backgroundcolor=gray_background, linewidth=0pt]
+    \textbf{Definition:} Hadamard product
+
+    \begin{equation} \notag
+        \forall A, B \in \mathbb{R}^N, \ A \odot B = \begin{bmatrix} A_1 \cdot B_1 \\ \vdots \\     A_N \cdot B_N \end{bmatrix} - \text{elementwise multiplication}
+    \end{equation}
+    
+\end{mdframed}
+
+
+
+

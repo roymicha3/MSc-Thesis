@@ -1,0 +1,105 @@
+\subsubsection{Simple network backpropagation}
+
+Let's prove some lemmas that will help us compute the derivative of the cost function with respect to the weights:
+
+\begin{mdframed}[backgroundcolor=blue_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Lemma}]
+\begin{center}
+\begin{equation} \label{lemma:simple_derivative}
+    \frac{dL(z_L, y)}{dW_l} = (z_{l-1})^T \cdot [(f_l(a_l))' \odot \frac{dL}{dz_l}]
+\end{equation}
+\end{center}
+\end{mdframed}
+
+\textbf{Proof}:
+Using the chain rule:
+
+\begin{equation} \label{eq:BP-chain-rule}
+    \frac{dL}{dW_l} = \sum_{k=1}^{N_{l-1}} \frac{dL}{dz_l^k} \cdot \frac{dz_l^k}{da_l^k} \cdot \frac{da_l^k}{dW_l}
+\end{equation}
+
+Using eq \ref{eq:activation_def}:
+
+\begin{equation}
+    \frac{dz_l^k}{da_l^k} = \frac{d(f_l^k(a_l^k))}{da_l^k}
+\end{equation}
+
+By eq \ref{eq:weight_l}:
+
+\begin{equation}
+    \frac{da_l^k}{dW_{i,j}^l} = \begin{cases} z_{l-1}^k, & \text{if } k=i \\ 0, & \text{else} \end{cases}
+\end{equation}
+
+Overall:
+
+\begin{equation}
+    \frac{dL}{dW_{i,j}^l} = \frac{dL}{dz_l^i} \cdot \frac{df_l^i}{da_l^i} \cdot z_{l-1}^j
+\end{equation}
+
+Using eq \ref{eq:col_der}:
+
+\begin{equation}
+    \frac{dL}{dW_l} = (z_{l-1})^T \cdot [(f_l(a_l))' \odot \frac{dL}{dz_l}]
+\end{equation}
+
+
+\begin{mdframed}[backgroundcolor=blue_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Lemma}]
+\begin{center}
+\begin{equation} \label{lemma:simple_partial_derivative}
+    \frac{dL}{dz_l} = (W_{l+1})^T \cdot (f_{l+1})' \odot \frac{dL}{dz_{l+1}}
+\end{equation}
+\end{center}
+\end{mdframed}
+
+\textbf{Proof}: \\
+Let's take another look at eq \ref{eq:backprop_def}:
+
+\begin{equation}
+    z_{l+1} = f_{l+1}(a_{l+1}) \colon a_{l+1} = W^{l+1} \cdot z_l
+\end{equation}
+
+\begin{equation}
+    \frac{dL}{dz_l} = \frac{dL}{dz_{l+1}} \cdot \frac{dz_{l+1}}{da_{l+1}} \cdot \frac{da_{l+1}}{dz_l}
+\end{equation}
+
+\begin{equation}
+    \frac{da_{l+1}}{dz_l} = (W_{l+1})^T
+\end{equation}
+
+\begin{equation}
+    \frac{dz_{l+1}}{da_{l+1}} = \text{diag}[f_{l+1}(a_{l+1})]'
+\end{equation}
+
+Overall:
+\begin{equation}
+    \frac{dL}{dz_l} = (W_{l+1})^T \cdot [(f_{l+1}(a_{l+1}))' \odot \frac{dL}{dz_{l+1}}]
+\end{equation}
+
+Now that we have the way to efficiently compute the derivatives, we can write an efficient backpropagation algorithm:
+
+
+\begin{mdframed}[backgroundcolor=green_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Pseudo-code}]
+
+For each sample and label \(x, y\) and learning rate \(\gamma\): \\
+
+Forward propagate over the net:
+\(z_0 = x, z_l = \text{layer}_l(z_{l-1})\)
+
+Backpropagation: \\
+
+\begin{enumerate}
+
+    \item Initialization: 
+    
+    \[E_L = \frac{dL}{dz_L} \cdot L(x, y)\] \\
+
+    \item For \(l \in \{L, L-1, L-2, \ldots, 1\}\):
+
+    \[ E_{l-1} = (W_l)^T \cdot [(f_l)'\odot E_{l}] \]
+
+    \[ W_l  += \gamma \cdot (z_{l-1})^T \cdot E_l \]
+
+    \item Repeat the first loop as needed.
+
+
+\end{enumerate}
+\end{mdframed}

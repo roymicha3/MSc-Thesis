@@ -1,0 +1,74 @@
+\subsubsection{Backpropagation with time factor and gating units}
+
+And now all we need is to add the gating, and we have our backpropagation algorithm for our model:
+
+\begin{equation}
+\frac{df_\mu^m(z_l)}{dz_l} = g_m(x_\mu) \cdot \bar{1}_{N_l} \quad \text{where} \quad \bar{1}_{N_l} = \begin{bmatrix} 1 \\ \vdots \\ 1 \end{bmatrix} \in \mathbb{R}^{N_l}
+\end{equation}
+*From now on, we will refer to this derivative as scalar multiplication - \\
+$\forall z \in \mathbb{R}^N \implies g_m(x_\mu) \cdot \bar{1}_N \cdot z = g_m(x_\mu) \cdot z$
+
+
+Using eq \ref{eq:BP-chain-rule} we will get:
+
+\begin{equation}
+    a_l^m = W_l^m \cdot z_l
+\end{equation}
+
+\begin{equation}
+    \frac{dz_l}{da_l^m} = g_m(x)
+\end{equation}
+
+\begin{equation}
+    \frac{dL}{dW_m^l} = (z_{l-1})^T \cdot [g_m(x) \cdot \frac{dL}{dz_l}]
+\end{equation}
+
+Using eq \ref{lemma:simple_derivative} we can compute:
+
+\begin{equation}
+    \frac{dL}{dz_l} = \frac{dL}{dz_{l+1}} \cdot \frac{dz_{l+1}}{da_{l+1}} \cdot \frac{da_{l+1}}{dz_l}
+\end{equation}
+
+\begin{equation}
+    z_{l+1} = \sum_{m=1}^M f_\mu^m (W_l^m \cdot z_l) = \sum_{m=1}^M g_m(x) \cdot W_l^m \cdot z_l \implies \frac{dz_{l+1}}{dz_l} = \sum_{m=1}^M g_m(x) \cdot (W_{l+1}^m)^T
+\end{equation}
+
+\begin{equation}
+    \frac{dL}{dz_l} = \sum_{m=1}^M g_m(x) \cdot (W_{l+1}^m)^T \cdot \frac{dL}{dz_{l+1}}
+\end{equation}
+
+Overall, by eq \ref{eq:BP-chain-rule} and \ref{lemma:simple_derivative} with pseudo-code \ref{pscode:BP-time}:
+
+\begin{equation}
+    \forall k \in [N_L], E_l^k = \begin{cases} \sum_{m=1}^M E_{l+1}^{k,m}, & l < L \\ \frac{dL}{dz_L^k}, & l = L \end{cases}
+\end{equation}
+
+\begin{equation}
+    \forall k \in [N_L], E_l^{k,m} = (W_l^m)^T \cdot g_m(x) \cdot E_{l+1}^k, \quad l < L
+\end{equation}
+
+
+\begin{mdframed}[backgroundcolor=green_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Pseudo-code}]
+
+For each sample and label \(x_\mu, y_\mu\):
+
+Forward propagate over the net:
+
+\(z_0 = x \\ z_l = \sum_{m=1}^M f_\mu^m(W_l^m \cdot z_{l-1})\)
+
+Backpropagation:
+
+\begin{enumerate}
+    \item Initialization:
+    \(\forall k \in [N_L], E_L^k = \frac{dL}{dz_L^k}\)
+
+    \item For \(l \in \{L, L-1, L-2, \ldots, 1\}\):
+    \(\forall k \in [N_L], E_l^{k,m} = (W_l^m)^T \cdot g_m(x^k) \cdot E_{l+1}^k\), \(\forall k \in [N_L], E_l^k = \sum_{m=1}^M E_l^{k,m}\)
+    \(W_l^m += \gamma \cdot \sum_{k=1}^{N_L} [z_l^k]^T \cdot E_l^{k,m}\)
+
+    \item Repeat the first loop as needed.
+    
+\end{enumerate}
+
+\end{mdframed}
+

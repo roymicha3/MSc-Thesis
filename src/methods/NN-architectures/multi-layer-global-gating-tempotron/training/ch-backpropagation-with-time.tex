@@ -1,0 +1,75 @@
+\subsubsection{Backpropagation with time factor}
+
+But as you might have noticed, there is a problem – the time variability:
+
+We looked at each layer output \(z_l[i]\) for \(i=1\) to \(N_l\) as a scalar, but it is, in fact, a time series!
+That will make our life a little harder, for that reason we define \(z_l^i = z_l(t_{\text{max}}^i) \in \mathbb{R}^{N_l}\), which is in fact, a vector of scalars!
+
+To simplify our next computation, we will assume two basic assumptions:
+\begin{enumerate}
+    \item We only care about the time samples that are taken into consideration in our loss.
+
+    \item The time samples \(\{t_{\text{max}}^i\}_{i=1}^{N_L}\) are far enough from each other to assume that the output voltage of each of the time samples is independent of the other.
+\end{enumerate}
+
+In other words: \(\forall i,j \in [N_L]: i \neq j \implies \frac{dz_l^i}{dz_l^j} = 0\)
+
+This will give us the option to derive using different time samples independently, thus simplifying our computations. For example, let's give another look at eq (20.10):
+\begin{equation}
+\frac{dL}{dw_{i,k}^L} = -\beta \cdot (\sigma_k^\mu - y_k^\mu) \cdot \sum_j k(t_{\text{max}}^k - t_{i,j}^\mu) = -\beta \cdot (\sigma_k^\mu - y_k^\mu) \cdot z_{L-1}^k[i]
+\end{equation}
+
+Overall:
+\begin{equation}
+\frac{dL}{dW^L} = -\beta \cdot \sum_{k=1}^{N_L} [z_{L-1}^k]^T \cdot [e_k^{N_L} \cdot (\sigma^\mu - y^\mu)]
+\end{equation}
+where \(e_k^{N_L} \in \mathbb{R}^{N_L}\) and \(e_k^{N_L}[i] = \begin{cases} 0, & i \neq k \\ 1, & i = k \end{cases}\) for all \(i \in [N_L]\).
+
+\begin{equation}
+\frac{dL}{dz_L^k} = e_k^{N_L} \cdot (\sigma^\mu - y^\mu)
+\end{equation}
+
+\begin{equation}
+\frac{dL}{dW^L} = -\beta \cdot \sum_{k=1}^{N_L} [z_{L-1}^k]^T \cdot \left[\frac{dL}{dz_L^k}\right]
+\end{equation}
+
+For each other layer \(l \in [L-1]\):
+\begin{equation}
+\frac{dL}{dW^l} = -\beta \cdot \sum_{k=1}^{N_L} [z_{l-1}^k]^T \cdot \left[\frac{dL}{dz_l^k}\right]
+\end{equation}
+
+Using the backpropagation rule and generalizing eq (38.3) for other layers:
+\begin{equation}
+E_l^k = \begin{cases} (W_{l+1})^T \cdot [(f^{l+1})' \odot E_{l+1}^k], & l < L \\ \frac{dL}{dz_L^k}, & l = L \end{cases}
+\end{equation}
+
+\begin{equation}
+\frac{dL}{dW^l} = \sum_{k=1}^{N_L} [z_l^k]^T \cdot E_l^k
+\end{equation}
+
+The new algorithm, therefore is:
+
+\begin{mdframed}[backgroundcolor=green_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Pseudo-code}] \label{pscode:BP-time}
+
+For each sample and label \(x,y\) and learning rate \(\gamma\):
+
+Forward propagate over the net:
+
+\(z_0^k = x(t_{\text{max}}^k) \\ z_l^k = f^l (W_l \cdot z_{l-1}^k) = [layer_l (z_{l-1})](t_{\text{max}}^k)\) for all \(k \in [N_L]\).
+
+Backpropagation:
+
+\begin{enumerate}
+    \item Initialization:
+    \(E_L^k = \frac{d}{dz_L^k} \cdot L(x,y)\) for all \(k \in [N_L]\).
+
+    \item For \(l \in \{L, L-1, L-2, \ldots, 1\}\):
+    \(W_l += \gamma \cdot \sum_{k=1}^{N_L} [z_l^k]^T \cdot E_l^k\).
+    \[E_{l-1}^k = (W_l)^T \cdot [(f^l)' \odot E_l^k] \]
+
+    \item Repeat the first loop as needed.
+    
+\end{enumerate}
+
+\end{mdframed}
+
