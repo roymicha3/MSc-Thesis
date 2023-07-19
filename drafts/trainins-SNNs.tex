@@ -1,0 +1,41 @@
+\section*{Scientific Background: Methods of Training Spiking Neural Networks}
+
+Spiking Neural Networks (SNNs) aim to emulate the temporal dynamics and asynchronous communication observed in biological neural systems. Unlike traditional artificial neural networks (ANNs), where computations are continuous and differentiable, SNNs communicate via discrete spikes that are time-dependent. The membrane potential of a spiking neuron $i$ at time $t$ is denoted as $V_i(t)$, and a spike occurs when $V_i(t)$ exceeds a certain threshold $V_{\text{th}}$.
+
+Training SNNs involves addressing the temporal credit assignment problem, which is determining which past spikes contributed to a neuron's current spike. Conventional backpropagation, which relies on differentiability, is not directly applicable to SNNs due to their non-differentiable spike-based nature.
+
+\textbf{SpikeProp:}
+SpikeProp, introduced by Bohte et al. (2000), extends backpropagation to handle temporal aspects of spikes. It introduces "pseudo-time" $t_{\text{pseudo}}$ that corresponds to each spike time. The weight update rule in SpikeProp is given as:
+
+\[
+\Delta w_{ij} = \eta \cdot \frac{\partial E}{\partial w_{ij}} \cdot \frac{\partial t_{\text{pseudo}}}{\partial w_{ij}}
+\]
+
+where $\eta$ is the learning rate, $E$ represents the network error, and $\frac{\partial E}{\partial w_{ij}}$ is the gradient of the error with respect to the synaptic weight $w_{ij}$. The term $\frac{\partial t_{\text{pseudo}}}{\partial w_{ij}}$ corresponds to the derivative of the pseudo-time with respect to the synaptic weight. SpikeProp facilitates end-to-end training of SNNs while accounting for temporal coding.
+
+\textbf{e-prop:}
+E-prop, proposed by Bellec et al. (2020), leverages eligibility traces inspired by synaptic plasticity. It efficiently addresses the temporal credit assignment problem without explicit spike time alignment during training. The eligibility trace $z_{ij}(t)$ for the synaptic weight $w_{ij}$ is updated according to:
+
+\[
+z_{ij}(t) = \alpha \cdot z_{ij}(t - 1) + \sum_{k} \delta(t - t_k) \cdot V_i(t - \Delta t_k)
+\]
+
+where $\alpha$ is the trace decay factor, $\delta(t - t_k)$ is a Dirac delta function indicating a spike event at time $t_k$, and $V_i(t - \Delta t_k)$ is the membrane potential of neuron $i$ at time $t - \Delta t_k$ when it receives a spike from neuron $k$ at time $t_k$. The weight update rule in e-prop is given as:
+
+\[
+\Delta w_{ij} = \eta \cdot \frac{\partial E}{\partial w_{ij}} \cdot z_{ij}(t)
+\]
+
+E-prop efficiently computes eligibility traces based on spike times and neuronal membrane potentials, making it a biologically plausible and scalable method for training large-scale SNNs.
+
+\textbf{Feedback Alignment:}
+Feedback Alignment, originally proposed by Lillicrap et al. (2016) for training ANNs, has been adapted for SNNs to address temporal credit assignment. This method replaces the requirement for symmetric weight matrices in the backward pass with random feedback weights $b_{ij}$. The weight update rule in Feedback Alignment is given as:
+
+\[
+\Delta w_{ij} = \eta \cdot \frac{\partial E}{\partial u_{ij}} \cdot \frac{\partial b_{ij}}{\partial w_{ij}}
+\]
+
+where $\frac{\partial E}{\partial u_{ij}}$ is the gradient of the error with respect to the pre-activation $u_{ij}$, and $\frac{\partial b_{ij}}{\partial w_{ij}}$ is the derivative of the random feedback weight with respect to the synaptic weight. Feedback Alignment decouples the forward and backward paths, making it suitable for training deep SNNs without requiring precise spike time alignment during training.
+
+\section*{Comparisons to Regular Neural Network Methods:}
+In comparison to regular neural network methods, such as backpropagation, these SNN training methods offer specific solutions to address the challenges of training SNNs. While traditional backpropagation relies on differentiable activation functions and precise spike time alignment, these SNN training methods consider the temporal nature of spikes and develop mechanisms for credit assignment without requiring symmetrical weight matrices. By leveraging these methods, SNNs can capture the temporal dynamics observed in biological neural systems and enable more biologically plausible learning.
