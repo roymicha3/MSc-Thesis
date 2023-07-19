@@ -1,13 +1,7 @@
-\subsection{Double Exponent Model}
+\documentclass{article}
+\usepackage{amsmath}
 
-In this model, we have two variables: \\
-\begin{enumerate}
-    \item $v(t)$ represents the membrane potential of the neuron
-
-    \item $I(t)$ represents the synaptic current.
-\end{enumerate}
-
-The term $\tau_m$ is the membrane time constant, and $\tau_s$ is the synaptic time constant. Both time constants determine how quickly the variables respond to changes in input.
+\begin{document}
 
 The second-order low-pass filter model is represented by the following equations:
 
@@ -19,13 +13,14 @@ The second-order low-pass filter model is represented by the following equations
     v(t) + \tau_m \frac{dv(t)}{dt} = I(t)
 \end{equation}
 
+Explanation of the model:
+In this model, we have two variables: $v(t)$ represents the membrane potential of the neuron, and $I(t)$ represents the synaptic current. The term $\tau_m$ is the membrane time constant, and $\tau_s$ is the synaptic time constant. Both time constants determine how quickly the variables respond to changes in input.
+
+Motivation:
 This model is motivated by the desire to capture more realistic neuronal dynamics. The first equation \ref{eq:def_eq_I} represents the dynamics of the input synaptic current, where $\tau_s$ controls how quickly the current responds to changes in input. The second equation \ref{eq:def_eq_V} represents the dynamics of the neuron's membrane potential, where $\tau_m$ determines the speed of the response to synaptic input.
 
-\subsubsection*{Spike Response:}
-
-To understand the spike response, let's consider the case of an impulse input current $I_{\text{in}}(t) = I_0 \delta(t)$ , where $I_0$ is the amplitude of the input current and $\delta(t)$ is the Dirac delta function.
-
-In this case, the equations become:
+Spike Response:
+To understand the spike response, let's consider the case of an impulse input current ($I_{\text{in}}(t) = I_0 \delta(t)$), where $I_0$ is the amplitude of the input current and $\delta(t)$ is the Dirac delta function. In this case, the equations become:
 
 \begin{equation} \label{eq:I_spike_res}
     I(t) + \tau_s \frac{dI(t)}{dt} = I_0 \delta(t)
@@ -35,8 +30,8 @@ In this case, the equations become:
     v(t) + \tau_m \frac{dv(t)}{dt} = I(t)
 \end{equation}
 
-Solving Equation \ref{eq:I_spike_res}: \\
-We can solve Equation \ref{eq:I_spike_res} by taking the Laplace transform. The Laplace transform of the Dirac delta function as input is:
+Solving Equation \ref{eq:I_spike_res}:
+We can solve Equation \ref{eq:I_spike_res} by taking the Laplace transform. The Laplace transform of the Dirac delta function is 1, so we get:
 
 \begin{equation}
     I(s) + \tau_s s I(s) = I_0
@@ -48,7 +43,7 @@ Solving for $I(s)$:
     I(s) = \frac{I_0}{1 + \tau_s s}
 \end{equation}
 
-Solving Equation \ref{eq:V_spike_res}: \\
+Solving Equation \ref{eq:V_spike_res}:
 Similarly, we take the Laplace transform of Equation \ref{eq:V_spike_res}:
 
 \begin{equation}
@@ -89,6 +84,8 @@ For simplicity, we can let $s = 0$ to find the value of $A$:
     I_0 = A
 \end{equation}
 
+So, $A = I_0$.
+
 Next, we can let $s = -\frac{1}{\tau_s}$ to find the value of $B$:
 
 \begin{equation}
@@ -113,37 +110,7 @@ To take the inverse Laplace transform, we use standard Laplace transform pairs. 
     v(t) = \frac{I_0}{\tau_m - \tau_s} \left(e^{-\frac{t}{\tau_m}} - e^{-\frac{t}{\tau_s}}\right)
 \end{equation}
 
-This is the double exponential spike response of the neuron's membrane potential to an impulse input current $I_{\text{in}}(t) = I_0 \delta(t)$. \\
-The solution is characterized by two time constants: $\tau_m$ and $\tau_s$. The first term with $\tau_m$ dominates at short timescales, representing the fast response of the neuron, while the second term with $\tau_s$ governs the slower response at longer timescales.
+This is the double exponential spike response of the neuron's membrane potential to an impulse input current $I_{\text{in}}(t) = I_0 \delta(t)$. The solution is characterized by two time constants: $\tau_m$ and $\tau_s$. The first term with $\tau_m$ dominates at short timescales, representing the fast response of the neuron, while the second term with $\tau_s$ governs the slower response at longer timescales.
 
-We can normalize it into:
 
-\begin{equation}
-    v(t) = v_0 \cdot (e^{-t/\tau_m} - e^{-t/\tau_s})
-\end{equation}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{methods/computational-models/graphs/LIF-second-order.png}
-    \caption{LIF 2-order membrane voltage response to spike}
-    \label{fig:LIF-second-order}
-\end{figure}
-
-A useful definition will be:
-
-\begin{equation}
-    k(t) = v_0 \cdot (e^{-t/\tau_m} - e^{-t/\tau_s})
-\end{equation}
-
-So, the solution for:
-
-\begin{equation}
-    v(t) = \sum_{t^l} k(t - t^l)
-\end{equation}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{methods/computational-models/graphs/LIF-spike-response-second-order.png}
-    \caption{LIF 2-order membrane voltage response to multiple spikes}
-    \label{fig:LIF-second-order-spike-response}
-\end{figure}
+\end{document}

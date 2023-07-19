@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{lipsum} % for dummy text, remove this line in your actual document
+
+\begin{document}
+
+\title{Scientific Background on Spike-Timing-Dependent Plasticity (STDP)}
+\author{Your Name}
+\date{\today}
+\maketitle
+
+\section{Introduction}
+Spike-Timing-Dependent Plasticity (STDP) is a type of synaptic plasticity that is crucial for learning and memory processes in neural networks. It describes how the synaptic strength between neurons changes based on the precise timing of their spiking activity. STDP has been extensively studied in various neural systems and is believed to play a vital role in neural development, information storage, and neural network connectivity.
+
+\section{STDP Mechanism}
+STDP is characterized by the temporal correlation between the pre-synaptic spike arrival time (\(t_{\text{pre}}\)) and the post-synaptic spike arrival time (\(t_{\text{post}}\)). The synaptic weight change (\(\Delta w\)) is determined by the relative timing of the pre and post-synaptic spikes. The basic idea of STDP can be described by the following equation:
+
+\begin{equation}
+\Delta w = 
+\begin{cases}
+A_{\text{LTP}} \cdot \exp\left(-\frac{\Delta t}{\tau_{\text{LTP}}}\right), & \text{if } \Delta t > 0 \\
+-A_{\text{LTD}} \cdot \exp\left(\frac{\Delta t}{\tau_{\text{LTD}}}\right), & \text{if } \Delta t < 0
+\end{cases}
+\end{equation}
+
+where \(\Delta t = t_{\text{post}} - t_{\text{pre}}\) is the time difference between the post-synaptic and pre-synaptic spikes. \(A_{\text{LTP}}\) and \(A_{\text{LTD}}\) are the amplitudes of Long-Term Potentiation (LTP) and Long-Term Depression (LTD), respectively. \(\tau_{\text{LTP}}\) and \(\tau_{\text{LTD}}\) are the time constants associated with the LTP and LTD processes, respectively.
+
+\section{STDP Examples}
+STDP has been observed and extensively studied in various neural systems, including the hippocampus, cortex, and cerebellum. One of the most well-known experimental demonstrations of STDP is the study of Xenopus retinotectal synapses.
+
+In this experiment, it was found that when a pre-synaptic spike arrives shortly before a post-synaptic spike, the synaptic weight is potentiated (LTP), strengthening the connection between the pre and post-synaptic neurons. On the other hand, if the post-synaptic spike arrives shortly before the pre-synaptic spike, the synaptic weight is depressed (LTD), weakening the connection.
+
+The experimentally observed STDP curve can be fitted using the asymmetric STDP function:
+
+\begin{equation}
+\Delta w = A_{\text{STDP}} \cdot \left[\alpha \cdot \exp\left(-\frac{\Delta t}{\tau_{\text{LTP}}}\right) - (1 - \alpha) \cdot \exp\left(\frac{\Delta t}{\tau_{\text{LTD}}}\right)\right]
+\end{equation}
+
+where \(A_{\text{STDP}}\) is the maximum synaptic weight change, and \(\alpha\) is a parameter that controls the asymmetry of the STDP curve.
+
+\section{Conclusion}
+Spike-Timing-Dependent Plasticity is a fundamental mechanism in neural networks that enables the synaptic weights to adapt based on the precise timing of pre and post-synaptic spikes. It is a critical component in various learning and memory processes in the brain and has been extensively studied and observed in experimental settings. Understanding the principles of STDP is crucial for developing biologically plausible neural network models and improving our understanding of information processing in the brain.
+
+\end{document}

@@ -56,7 +56,7 @@ Subtracting \( v_{\text{reset}} \) from each side and dividing by \( (v_{\text{r
 
 Overall, our solution will be:
 
-\begin{equation}
+\begin{equation} \label{eq:general_sol}
 v(t) = (v_{\text{reset}} - I_0) \cdot \exp(-t/\tau_m) + I_0
 \end{equation}
 
@@ -140,7 +140,7 @@ v(t=0) = v_{\text{thresh}}
 \begin{equation}
 v(t) + \tau_m \cdot \dot{v}(t) = v_{\text{reset}}
 \end{equation}
-We already solved a similar equation (see 1.1), so the following solution will be:
+We already solved a similar equation \ref{eq:general_sol}, so the following solution will be:
 \begin{equation}
 v(t) = (v_{\text{thresh}} - v_{\text{reset}}) \cdot \exp\left(-\frac{t}{\tau_m}\right) + v_{\text{reset}}
 \end{equation}

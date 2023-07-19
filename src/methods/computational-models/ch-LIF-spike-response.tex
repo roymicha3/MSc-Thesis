@@ -62,7 +62,7 @@ For the condition:
 	v(t) = I_0 \cdot H(t) \cdot \exp(-t/\tau_m)
 \end{equation}
 
-By linearity of the integration, we conclude the following:
+By linearity of the integration, we conclude the following: \\
 For the input:
 
 \begin{equation}
@@ -108,9 +108,9 @@ From the previous equation \ref{eq:LIF-spike-sol}, we can conclude that the outp
 v(t) = I_0 \cdot \sum_{n=0}^N H(t-n \cdot T) \cdot e^{-((t-n \cdot T)/\tau_m)}
 \end{equation}
 
-If \(v_{\text{th}} \leq I_0 \cdot \sum_{n=0}^{n_0} e^{-n \cdot T/\tau_m}\), then \(f(I_0, T) \geq \frac{1}{n_0} \cdot f\)
+If \(v_{\text{th}} \leq I_0 \cdot \sum_{n=0}^{n_0} e^{-n \cdot T/\tau_m} \rightarrow f(I_0, T) \geq \frac{1}{n_0} \cdot f\)
 
-And if \(v_{\text{th}} \geq I_0 \cdot \sum_{n=0}^{n_0} e^{-n \cdot T/\tau_m}\), then \(f(I_0, T) \leq \frac{1}{n_0} \cdot f\)
+And if \(v_{\text{th}} \geq I_0 \cdot \sum_{n=0}^{n_0} e^{-n \cdot T/\tau_m} \rightarrow f(I_0, T) \leq \frac{1}{n_0} \cdot f\)
 
 Overall, we got:
 \begin{equation}
