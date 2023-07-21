@@ -1,0 +1,47 @@
+choosing \( \tau_m \textit{ and } \tau_s\) values according to the window size:
+
+To find an approximation for the values of \(\tau_m\) and \(\tau_s\) that satisfy the inequality \(e^{-\frac{t}{\tau_m}} - e^{-\frac{t}{\tau_s}} \geq c\) for all relevant \(t\) values, we can use the Newton-Raphson method. This method helps us find the roots of the function \(f(t) = e^{-\frac{t}{\tau_m}} - e^{-\frac{t}{\tau_s}} - c\), where the roots correspond to the points where the neuron's firing rate \(v(t) = \frac{I_0}{\tau_m - \tau_s} \left(e^{-\frac{t}{\tau_m}} - e^{-\frac{t}{\tau_s}}\right)\) is equal to the threshold \(c\).
+
+Here's the step-by-step process using the Newton-Raphson method:
+
+1. Choose a specific value for the threshold \(c\) that represents the desired "window size" threshold.
+2. Define the function \(f(t) = e^{-\frac{t}{\tau_m}} - e^{-\frac{t}{\tau_s}} - c\).
+3. Compute the derivative of \(f(t)\) with respect to \(t\):
+\[
+f'(t) = -\frac{1}{\tau_m}e^{-\frac{t}{\tau_m}} + \frac{1}{\tau_s}e^{-\frac{t}{\tau_s}}
+\]
+4. Choose an initial guess for \(t\), denoted as \(t_0\).
+5. Use the iterative Newton-Raphson method to update the value of \(t\) until convergence. The iterative update formula is given by:
+\[
+t_{n+1} = t_n - \frac{f(t_n)}{f'(t_n)}
+\]
+Continue this iteration until \(|t_{n+1} - t_n|\) is sufficiently small (i.e., convergence is achieved).
+6. Once we have a value of \(t\) that satisfies the condition \(f(t) = 0\) (i.e., \(v(t) = c\)), compute the corresponding values of \(\tau_m\) and \(\tau_s\) using the equations:
+\[
+\tau_m = -\frac{t}{\ln(1 - \frac{c}{I_0} \tau_s)}
+\]
+\[
+\tau_s = -\frac{t}{\ln(1 + \frac{c}{I_0} \tau_m)}
+\]
+7. The values of \(\tau_m\) and \(\tau_s\) obtained in Step 6 represent an approximation that satisfies the inequality \(v(t) \geq c\) for all relevant \(t\) values.
+
+Please note that the accuracy of the approximation depends on the initial guess \(t_0\), the convergence criteria, and the numerical precision used in the Newton-Raphson method. For different values of \(c\), we may obtain different \(\tau_m\) and \(\tau_s\) values.
+
+To implement this numerically, you can use a programming language of your choice (e.g., Python, MATLAB) and implement the Newton-Raphson method along with the above equations for \(\tau_m\) and \(\tau_s\). You can set the desired threshold \(c\) and choose an initial guess \(t_0\) based on your knowledge of the system.
+
+Keep in mind that this is an iterative numerical method, and you may need to adjust the parameters and initial guess to achieve the desired accuracy and convergence.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+choosing the window size in terms of pattern probability:
+
+The window size \(\delta\) required to achieve a desired probability threshold \(c\) of exactly \(P\) specific neurons firing within the time window \(T\) when the firing rates are drawn from the normal distribution is given by:
+
+\begin{equation}
+\delta \geq \frac{{\ln\left(\frac{{c \cdot P! \cdot \sigma \sqrt{2\pi}}}{{T}}\right) - \mu \cdot P - \frac{1}{2}\sigma^2 \delta^2}}{{\mu + P\sigma^2}}
+\end{equation}
+
+This inequality provides the minimum value of \(\delta\) needed to ensure a probability of at least \(c\) for having exactly \(P\) specific neurons firing within the time window \(T\) for the given firing rate \(r\) characterized by the mean \(\mu\) and standard deviation \(\sigma\) of the normal distribution.
+
+Please note that depending on the specific values of \(c\), \(P\), \(T\), \(\mu\), and \(\sigma\), this inequality may or may not have a valid solution. If it does not have a valid solution, it may imply that it is not possible to guarantee a probability of at least \(c\) of having exactly \(P\) specific neurons firing within \(T\) for the given parameters. In such cases, you may need to adjust the values of \(c\), \(P\), or \(T\) to find a valid solution.
+

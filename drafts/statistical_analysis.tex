@@ -27,3 +27,208 @@ So, the final result for the probability of exactly \( P \) specific neurons fir
 \begin{equation}
 P(\text{exactly } P \text{ specific neurons fire at } [t, t + \delta] \text{ in } T) = T \cdot \frac{{(r \cdot \delta)^P \cdot e^{-r \cdot \delta}}}{{P!}}
 \end{equation}
+
+%%%%% Mixed poisson distribution %%%%%%%
+
+Given the variables:
+
+- \( \mu \): Mean of the normal distribution for rate values.
+- \( \sigma^2 \): Variance of the normal distribution for rate values.
+- \( P \): Number of specific neurons we want to fire within \([t, t + \delta]\).
+
+Step 1: Probability of \( P \) specific neurons firing within \([t, t + \delta]\) at time \( t \) for a given rate \( r \).
+
+The probability of \( P \) specific neurons firing within \([t, t + \delta]\) at time \( t \) for a given rate \( r \) follows a Poisson distribution:
+
+\begin{equation}
+P(\text{P specific neurons fire at } [t, t + \delta] \text{ at time } t \mid r) = \frac{{(r \cdot \delta)^P \cdot e^{-r \cdot \delta}}}{{P!}}
+\end{equation}
+
+Step 2: Probability of \( P \) specific neurons firing within \([t, t + \delta]\) in \( T \) when rates are drawn from the normal distribution.
+
+To find the probability of \( P \) specific neurons firing within \([t, t + \delta]\) in \( T \) when rates are drawn from the normal distribution, we integrate the individual Poisson probabilities over all possible rate values for the specific neurons.
+
+Step 3: Probability density function (PDF) of the normal distribution.
+
+The probability density function (PDF) of the normal distribution with mean \( \mu \) and variance \( \sigma^2 \) is given by:
+
+\begin{equation}
+\mathcal{R}(r) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(r-\mu)^2}{2\sigma^2}}
+\end{equation}
+
+Step 4: Simplifying the integral.
+
+The integral to compute the probability of \( P \) specific neurons firing within \([t, t + \delta]\) in \( T \) becomes:
+
+\begin{equation}
+P(\text{exactly } P \text{ specific neurons fire at } [t, t + \delta] \text{ in } T) = T \cdot \frac{1}{P! \sigma \sqrt{2\pi}} \int_{-\infty}^{\infty} (r \cdot \delta)^P \cdot e^{-r \cdot \delta} \cdot e^{-\frac{(r-\mu)^2}{2\sigma^2}} \, dr
+\end{equation}
+
+Step 5: Moment generating function (MGF) of the normal distribution.
+
+The moment generating function (MGF) of the normal distribution with mean \( \mu \) and variance \( \sigma^2 \) is given by:
+
+\begin{equation}
+M(t) = e^{\mu t + \frac{1}{2}\sigma^2 t^2}
+\end{equation}
+
+Step 6: Deriving the \( P \)-th moment.
+
+The \( P \)-th derivative of the MGF gives us the \( P \)-th moment of the normal distribution. We evaluate this moment at \( t = \delta \) to get:
+
+\begin{equation}
+M^{(P)}(\delta) = (\mu + P\sigma^2\delta)^P e^{\mu\delta + \frac{1}{2}\sigma^2 \delta^2}
+\end{equation}
+
+In Step 6, we used a special function called the moment generating function (MGF) to help us solve the integral. The MGF is like a magic tool that can give us certain information about a probability distribution. For the normal distribution, the MGF is defined as:
+
+\begin{equation}
+M(t) = e^{\mu t + \frac{1}{2}\sigma^2 t^2}
+\end{equation}
+
+Here, \(\mu\) and \(\sigma^2\) are two important numbers that describe the normal distribution. Don't worry too much about their meanings; just remember they are fixed values based on how the neurons behave.
+
+Now, in Step 4, we have a big integral that looks quite complicated:
+
+\begin{equation}
+P(\text{exactly } P \text{ specific neurons fire at } [t, t + \delta] \text{ in } T) = T \cdot \frac{1}{P! \sigma \sqrt{2\pi}} \int_{-\infty}^{\infty} (r \cdot \delta)^P \cdot e^{-r \cdot \delta} \cdot e^{-\frac{(r-\mu)^2}{2\sigma^2}} \, dr
+\end{equation}
+
+It may seem daunting, but we can use the MGF to make it easier. One useful trick is that the \(P\)-th derivative of the MGF (think of it as the \(P\)-th power) gives us a special number called the \(P\)-th moment. We'll call this number \(M^{(P)}\).
+
+The \(P\)-th moment for our problem turns out to be:
+
+\begin{equation}
+M^{(P)}(\delta) = (\mu + P\sigma^2\delta)^P e^{\mu\delta + \frac{1}{2}\sigma^2 \delta^2}
+\end{equation}
+
+The fantastic thing is that we can now use this moment \(M^{(P)}(\delta)\) to solve the integral! We can plug it back into the integral, and it becomes much simpler:
+
+\begin{equation}
+P(\text{exactly } P \text{ specific neurons fire at } [t, t + \delta] \text{ in } T) = T \cdot \frac{1}{P! \sigma \sqrt{2\pi}} M^{(P)}(\delta)
+\end{equation}
+
+The moment \(M^{(P)}(\delta)\) is like a special key that unlocks the integral and gives us the probability we're looking for. And that's how we use the moment generating function to help us find the answer!
+
+Remember, this explanation is just an overview to understand the basic idea. Probability can get more complex, but this should give you an intuitive sense of how the MGF is useful in solving the integral.
+
+Let me know if you have any more questions or if there's anything else you'd like to learn about!
+
+
+
+Step 7: Final probability.
+
+Finally, the probability of exactly \( P \) specific neurons firing within \([t, t + \delta]\) in \( T \) when rates are drawn from the normal distribution is:
+
+\begin{equation}
+\begin{aligned}
+P(\text{exactly } P \text{ specific neurons fire at } [t, t + \delta] \text{ in } T) &= T \cdot \frac{1}{P! \sigma \sqrt{2\pi}} M^{(P)}(\delta) \\
+&= T \cdot \frac{(\mu + P\sigma^2\delta)^P}{P!} e^{\mu\delta + \frac{1}{2}\sigma^2 \delta^2} \frac{1}{\sigma \sqrt{2\pi}}
+\end{aligned}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Now, let's delve into the significance of the \(P\)-th moment \(M^{(P)}(\delta)\) and its pivotal role in simplifying the integral to determine the probability of \(P\) specific neurons firing within \([t, t + \delta]\) in \(T\) when the firing rates follow a normal distribution.
+
+In probability theory, moments are statistical measures that provide valuable insights into the characteristics of a probability distribution. For a random variable \(X\), the \(P\)-th moment, denoted as \(\mu_P\) or \(E[X^P]\), represents the expected value of \(X\) raised to the \(P\)-th power.
+
+In our context, we are interested in understanding the behavior of specific neurons firing within the time interval \([t, t + \delta]\) in \(T\). We introduce a random variable \(r\) to represent the firing rates of these specific neurons, and we assume that these rates are drawn from a normal distribution with mean \(\mu\) and variance \(\sigma^2\).
+
+The probability of \(P\) specific neurons firing within \([t, t + \delta]\) at time \(t\) for a given rate \(r\) follows a Poisson distribution:
+
+\begin{equation}
+P(\text{P specific neurons fire at } [t, t + \delta] \text{ at time } t \mid r) = \frac{{(r \cdot \delta)^P \cdot e^{-r \cdot \delta}}}{{P!}}
+\end{equation}
+
+To compute the \(P\)-th moment of the normal distribution, we utilize the moment generating function (MGF), denoted as \(M(t)\). For the normal distribution with mean \(\mu\) and variance \(\sigma^2\), the MGF is defined as:
+
+\begin{equation}
+M(t) = E[e^{tX}] = e^{\mu t + \frac{1}{2}\sigma^2 t^2}
+\end{equation}
+
+The \(P\)-th moment \(M^{(P)}\) is then obtained by taking the \(P\)-th derivative of the MGF and evaluating it at \(t = \delta\):
+
+\begin{equation}
+M^{(P)}(\delta) = \left. \frac{{d^P M(t)}}{{dt^P}} \right|_{t=\delta} = \left. \frac{{d^P \left( e^{\mu t + \frac{1}{2}\sigma^2 t^2} \right)}}{{dt^P}} \right|_{t=\delta}
+\end{equation}
+
+By calculating this derivative, we derive the expression for \(M^{(P)}(\delta)\) as:
+
+\begin{equation}
+M^{(P)}(\delta) = (\mu + P\sigma^2\delta)^P e^{\mu\delta + \frac{1}{2}\sigma^2 \delta^2}
+\end{equation}
+
+Now, connecting this \(P\)-th moment to the "Mixed Poisson distribution" calculations, we revisit Step 4 where the integral to compute the probability is presented as:
+
+\begin{equation}
+P(\text{exactly } P \text{ specific neurons fire at } [t, t + \delta] \text{ in } T) = T \cdot \frac{1}{P! \sigma \sqrt{2\pi}} \int_{-\infty}^{\infty} (r \cdot \delta)^P \cdot e^{-r \cdot \delta} \cdot e^{-\frac{(r-\mu)^2}{2\sigma^2}} \, dr
+\end{equation}
+
+By leveraging the \(P\)-th moment \(M^{(P)}(\delta)\), we significantly simplify the integral:
+
+\begin{equation}
+\begin{aligned}
+P(\text{exactly } P \text{ specific neurons fire at } [t, t + \delta] \text{ in } T) &= T \cdot \frac{1}{P! \sigma \sqrt{2\pi}} M^{(P)}(\delta) \\
+&= T \cdot \frac{(\mu + P\sigma^2\delta)^P}{P!} e^{\mu\delta + \frac{1}{2}\sigma^2 \delta^2} \frac{1}{\sigma \sqrt{2\pi}}
+\end{aligned}
+\end{equation}
+
+This elegant expression of the probability is derived from the \(P\)-th moment and enables us to analyze the exact firing pattern of \(P\) specific neurons within \([t, t + \delta]\) when their firing rates are distributed normally.
+
+The \(P\)-th moment acts as a key factor in simplifying the integral and providing crucial insights into the probability distribution of interest. By understanding the moments and utilizing the moment generating function, we can tackle complex problems and gain a deeper understanding of the behavior of specific neurons.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Now, let's delve into the significance of the \(P\)-th moment \(M^{(P)}(\delta)\) and its pivotal role in simplifying the integral to determine the probability of \(P\) specific neurons firing within \([t, t + \delta]\) in \(T\) when the firing rates follow a normal distribution.
+
+In probability theory, moments are statistical measures that provide valuable insights into the characteristics of a probability distribution. For a random variable \(X\), the \(P\)-th moment, denoted as \(\mu_P\) or \(E[X^P]\), represents the expected value of \(X\) raised to the \(P\)-th power.
+
+In our context, we are interested in understanding the behavior of specific neurons firing within the time interval \([t, t + \delta]\) in \(T\). We introduce a random variable \(r\) to represent the firing rates of these specific neurons, and we assume that these rates are drawn from a normal distribution with mean \(\mu\) and variance \(\sigma^2\).
+
+The probability of \(P\) specific neurons firing within \([t, t + \delta]\) at time \(t\) for a given rate \(r\) follows a Poisson distribution:
+
+\begin{equation}
+P(\text{P specific neurons fire at } [t, t + \delta] \text{ at time } t \mid r) = \frac{{(r \cdot \delta)^P \cdot e^{-r \cdot \delta}}}{{P!}}
+\end{equation}
+
+To compute the \(P\)-th moment of the normal distribution, we utilize the moment generating function (MGF), denoted as \(M(t)\). For the normal distribution with mean \(\mu\) and variance \(\sigma^2\), the MGF is defined as:
+
+\begin{equation}
+M(t) = E[e^{tX}] = e^{\mu t + \frac{1}{2}\sigma^2 t^2}
+\end{equation}
+
+The \(P\)-th moment \(M^{(P)}\) is then obtained by taking the \(P\)-th derivative of the MGF and evaluating it at \(t = \delta\):
+
+\begin{equation}
+M^{(P)}(\delta) = \left. \frac{{d^P M(t)}}{{dt^P}} \right|_{t=\delta} = \left. \frac{{d^P \left( e^{\mu t + \frac{1}{2}\sigma^2 t^2} \right)}}{{dt^P}} \right|_{t=\delta}
+\end{equation}
+
+By calculating this derivative, we derive the expression for \(M^{(P)}(\delta)\) as:
+
+\begin{equation}
+M^{(P)}(\delta) = (\mu + P\sigma^2\delta)^P e^{\mu\delta + \frac{1}{2}\sigma^2 \delta^2}
+\end{equation}
+
+Now, connecting this \(P\)-th moment to the "Mixed Poisson distribution" calculations, we revisit Step 4 where the integral to compute the probability is presented as:
+
+\begin{equation}
+P(\text{exactly } P \text{ specific neurons fire at } [t, t + \delta] \text{ in } T) = T \cdot \frac{1}{P! \sigma \sqrt{2\pi}} \int_{-\infty}^{\infty} (r \cdot \delta)^P \cdot e^{-r \cdot \delta} \cdot e^{-\frac{(r-\mu)^2}{2\sigma^2}} \, dr
+\end{equation}
+
+By leveraging the \(P\)-th moment \(M^{(P)}(\delta)\), we significantly simplify the integral:
+
+\begin{equation}
+\begin{aligned}
+P(\text{exactly } P \text{ specific neurons fire at } [t, t + \delta] \text{ in } T) &= T \cdot \frac{1}{P! \sigma \sqrt{2\pi}} M^{(P)}(\delta) \\
+&= T \cdot \frac{(\mu + P\sigma^2\delta)^P}{P!} e^{\mu\delta + \frac{1}{2}\sigma^2 \delta^2} \frac{1}{\sigma \sqrt{2\pi}}
+\end{aligned}
+\end{equation}
+
+This elegant expression of the probability is derived from the \(P\)-th moment and enables us to analyze the exact firing pattern of \(P\) specific neurons within \([t, t + \delta]\) when their firing rates are distributed normally.
+
+The \(P\)-th moment acts as a key factor in simplifying the integral and providing crucial insights into the probability distribution of interest. By understanding the moments and utilizing the moment generating function, we can tackle complex problems and gain a deeper understanding of the behavior of specific neurons.
+
+If you have any further questions or require additional clarification, feel free to ask!
+
