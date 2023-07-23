@@ -2,20 +2,39 @@
 
 \textbf{Latency Encoding:}
 
+\begin{wrapfigure}{r}{0.25\textwidth}
+    \centering
+    \includegraphics[width=0.25\textwidth]{methods/spike-encoding/graphs/LIF-circuit.png}
+    \caption{RC circuit}
+    \label{image:LIF_circuit}
+  \end{wrapfigure}
+
 Let's have another look at the RC circuit model used to modulate the behavior of a LIF neuron. This model gives us an equation we have seen before:
+
 \begin{equation}
-I_{\text{in}} = I_R + I_C
-\end{equation}
-\begin{equation}
-I_{\text{in}} = \frac{1}{R} \cdot V_{\text{out}} + C \cdot \dot{V}_{\text{out}}
-\end{equation}
-\begin{equation}
-\tau = R \cdot C
+    I_{\text{in}} = I_R + I_C
 \end{equation}
 
-The result we computed earlier for constant input (for $v_{\text{th}} = 1, R = 1$) is:
 \begin{equation}
-v(t) = I_{\text{in}} \cdot \left(1 - \exp\left(-\frac{t}{\tau}\right)\right)
+    I_{\text{in}} = \frac{1}{R} \cdot V_{\text{out}} + C \cdot \dot{V}_{\text{out}}
+\end{equation}
+
+\begin{equation}
+    \tau = R \cdot C
+\end{equation}
+
+
+The result we computed earlier for constant input (for $v_{\text{th}} = 1, R = 1$) is:
+
+\begin{wrapfigure}{r}{0.35\textwidth}
+    \centering
+    \includegraphics[width=0.35\textwidth]{methods/spike-encoding/graphs/exponential-decay.png}
+    \caption{RC circuit}
+    \label{image:exponential_decay}
+\end{wrapfigure}
+
+\begin{equation}
+    v(t) = I_{\text{in}} \cdot \left(1 - \exp\left(-\frac{t}{\tau}\right)\right)
 \end{equation}
 
 A spike occurs when $v(t) = v_{\text{threshold}} \implies t_{\text{spike}}(I_{\text{in}}) = -\tau \cdot \ln\left(\frac{I_{\text{in}}}{I_{\text{in}} - v_{\text{threshold}}}\right)$.
@@ -35,6 +54,13 @@ I_0 = \frac{v_{\text{th}}}{1 - \exp\left(-\frac{\Delta T}{\tau}\right)}
 \end{equation}
 
 But a problem is at hand: the distribution of the values of each image is problematic.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{methods/spike-encoding/graphs/mnist-values-histogram.png}
+    \caption{histograms of the pixel values of random Mnist images divided into 10 bins}
+    \label{fig:mnist-values-histogram}
+\end{figure}
 
 The fact that most values are 0's is not an issue; quite the opposite, we aim for sparsity. But the problem is that most values are distributed over 2-3 significant values. Another problem is that a linear normalization with logarithmic encoding is unable to distinguish close by values.
 
