@@ -2,40 +2,40 @@
 
 \textbf{Latency Encoding:}
 
-\begin{wrapfigure}{r}{0.25\textwidth}
+Let's have another look at the RC circuit model used to modulate the behavior of a LIF neuron. This model gives us an equation we have seen before:
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.25\textwidth]{methods/spike-encoding/graphs/LIF-circuit.png}
-    \caption{RC circuit}
-    \label{image:LIF_circuit}
-  \end{wrapfigure}
-
-Let's have another look at the RC circuit model used to modulate the behavior of a LIF neuron. This model gives us an equation we have seen before:
+    \caption{RC Circuit}
+    \label{image:RC_circuit}
+\end{figure}
 
 \begin{equation}
     I_{\text{in}} = I_R + I_C
 \end{equation}
 
 \begin{equation}
-    I_{\text{in}} = \frac{1}{R} \cdot V_{\text{out}} + C \cdot \dot{V}_{\text{out}}
+    I_{\text{in}} = \frac{1}{R} \cdot V_{\text{out}} + C \cdot \dot{V}_{\text{out}} \notag
 \end{equation}
 
 \begin{equation}
-    \tau = R \cdot C
+    \tau = R \cdot C \notag
 \end{equation}
 
 
 The result we computed earlier for constant input (for $v_{\text{th}} = 1, R = 1$) is:
 
-\begin{wrapfigure}{r}{0.35\textwidth}
-    \centering
-    \includegraphics[width=0.35\textwidth]{methods/spike-encoding/graphs/exponential-decay.png}
-    \caption{RC circuit}
-    \label{image:exponential_decay}
-\end{wrapfigure}
-
 \begin{equation}
     v(t) = I_{\text{in}} \cdot \left(1 - \exp\left(-\frac{t}{\tau}\right)\right)
 \end{equation}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{methods/spike-encoding/graphs/exponential-decay.png}
+    \caption{time of discharge as a function of the input current}
+    \label{image:exponential_decay}
+\end{figure}
 
 A spike occurs when $v(t) = v_{\text{threshold}} \implies t_{\text{spike}}(I_{\text{in}}) = -\tau \cdot \ln\left(\frac{I_{\text{in}}}{I_{\text{in}} - v_{\text{threshold}}}\right)$.
 
@@ -66,9 +66,11 @@ The fact that most values are 0's is not an issue; quite the opposite, we aim fo
 
 The resulting raster plot of the encoding expresses this issue:
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
-    % Insert raster plot figure here
+    \includegraphics[width=0.5\linewidth]{methods/spike-encoding/graphs/latency-encoding-raster.png}
+    \caption{raster plot of a random Mnist image encoded via latency encoding}
+    \label{fig:latency-encoding-raster}
 \end{figure}
 
 To fix it, we suggest linear latency encoding by:
@@ -78,4 +80,18 @@ t(I_{\text{in}}) = -\tau \cdot \left(R \cdot I_{\text{in}} - V_{\text{thr}}\righ
 
 And clipping the zero values (they hold no useful information). The green lines represent the $\tau$ value, and the red lines represent $v_{\text{thr}}$.
 
-And as we can see, the results are significantly improved.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{methods/spike-encoding/graphs/exp-to-linear.png}
+    \caption{on the right - the exponential latency encoding function, on the left - the liner latency encoding function}
+    \label{fig:latency-exp-vs-lin}
+\end{figure}
+
+And as we can see, the results are significantly improved:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{methods/spike-encoding/graphs/latency-encoding-raster-linear.png}
+    \caption{ raster plot of a random Mnist image encoded via linear latency encoding}
+    \label{fig:latency-encoding-raster-linear}
+\end{figure}
