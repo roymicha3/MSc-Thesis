@@ -1,0 +1,35 @@
+\subsection{Overview}
+
+The field of computational neuron models seeks to comprehend and simulate the behavior of individual neurons in the brain using mathematical and computational methods. Over time, neuron models have evolved from simplistic abstractions to more intricate and biologically realistic representations. In 1907, Lapicque \cite{abbott1999lapicque} conducted significant research on the impact of current source stimuli on the nerve fiber of a frog's leg [4]. Through his investigation, he observed the influence of stimuli amplitude and duration on the leg's twitching response. He proposed that a spiking neuron can be analogously modeled as a low-pass filter circuit, consisting of a capacitor (C) and a resistor (R). This concept was later referred to as the Leaky Integrated and Fire (LIF) neuron.
+Various spiking neuron models exist alongside the Leaky Integrate-and-Fire (LIF) neuron. Some notable models are described below:
+
+\begin{itemize}
+
+    \item The Leaky Integrate-and-Fire model (LIF): Represents the dynamics of a neuron's membrane potential. It models the neuron's behavior by integrating incoming current over time and then "fires" (produces an action potential) when the potential reaches a certain threshold. The equation is given by:
+    
+    \begin{equation}
+    \tau_m \frac{{dV}}{{dt}} = -(V(t) - V_{\text{rest}}) + R \cdot I(t) \label{eq:lif-simple}
+    \end{equation}
+    
+    where:
+    \( \tau_m \) is the membrane time constant,
+    \( V \) is the membrane potential,
+    \( V_{\text{rest}} \) is the resting membrane potential,
+    \( R \) is the membrane resistance,
+    and \( I(t) \) is the input current.
+    
+    The leak factor, often denoted as \( \beta \), determines the strength of the leak current in the neuron. It is related to the membrane resistance \( R \) as \( \beta = \frac{1}{R} \).
+
+    \item Integrate-and-Fire (IF): This model removes the leakage mechanism, resulting in \(\beta = 1\) in Equation \ref{eq:lif-simple}
+    
+    \item Current-based (CuBa): Commonly referred to as CuBa neuron models, these incorporate synaptic conductance variation into leaky integrate-and-fire neurons. Unlike the default LIF neuron, CuBa neurons act as second-order low-pass filters, introducing a finite rise time for the membrane potential rather than abrupt jumps in response to incoming spikes. Figure \ref{fig:LIF-second-order-spike-response} depicts a neuron with a finite rise time for the membrane potential.
+    
+    \item Recurrent Neurons \cite{williams1989learning}: In this model, the output spikes of a neuron are fed back to the input. Recurrence is not an alternative model but rather a topology that can be applied to any neuron. It can be implemented in different ways, such as one-to-one recurrence, where each neuron routes its own spike back to itself, or all-to-all recurrence, where the output spikes of a full layer are weighted and summed before being fed back to the entire layer.
+
+    \item Kernel-based Models: Also known as spike-response models, these models convolve input spikes with a predefined kernel, such as the 'alpha function'. The ability to define the kernel shape provides significant flexibility.
+
+    \item Higher-complexity neuroscience-inspired models: A wide range of more detailed neuron models exist, incorporating biophysical realism and/or morphological details that are not captured by simple leaky integrators. Well-known models in this category include the Hodgkin-Huxley model \cite{hodgkin1952quantitative} and the Izhikevich (or Resonator) model \cite{izhikevich2003simple}, which offer improved accuracy in reproducing electrophysiological results.
+    
+\end{itemize}
+
+These diverse spiking neuron models cater to different research interests, incorporating varying levels of biological realism, morphological complexity, and applicability to specific tasks within the field of neural computing.

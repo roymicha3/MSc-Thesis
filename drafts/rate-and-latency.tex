@@ -1,0 +1,258 @@
+\subsection{Incorporation of Rate and Latency Encoding in Spiking Neural Networks}
+
+Spiking neural networks (SNNs) are a type of artificial neural network that seek to emulate the functionality of biological neural networks, particularly the way in which neurons transmit information via electrical 'spikes' \cite{maass1997networks}. This allows SNNs to process information in a temporal manner, rather than solely based on the rate of neuron firing as seen in traditional, rate-based neural networks. However, the incorporation of both rate and latency encoding techniques in the design of SNNs presents an opportunity for enhanced data representation and processing \cite{bohte2002spike}.
+
+\subsubsection{Background and Motivation}
+
+Rate encoding is a strategy used in traditional neural networks and is based on the frequency of neuron firing, implying that the information carried by a neuron is proportional to its firing rate \cite{gerstner2002spiking}. On the other hand, latency encoding refers to the idea that information is encoded in the timing of the first spike after a stimulus, implying that neurons which respond quicker convey more important information \cite{thorpe2001spike}. In a sense, rate encoding can be seen as a measure of the quantity of a stimulus, while latency encoding gives an indication of the stimulus quality or novelty.
+
+Incorporating both methods of encoding in an SNN can allow the network to process a wider range of stimuli more effectively. This is because different types of data may be better suited to one type of encoding over another. Furthermore, biological studies suggest that the human brain utilizes both encoding mechanisms, indicating a potential for more biologically realistic modelling \cite{gollisch2008rapid}.
+
+\subsubsection{Incorporation Strategy}
+
+To incorporate rate and latency encoding together, a hybrid encoding scheme can be devised. This involves converting an input signal into a spike train, where both the timing of the first spike (representing latency encoding) and the subsequent firing rate (representing rate encoding) carry information.
+
+Given a continuous input signal $x(t)$, the neuron's response can be modeled as:
+
+\begin{equation}
+r(t) = f(x(t))
+\end{equation}
+
+where $f(\cdot)$ represents a function mapping the input signal to a firing rate.
+
+The timing of the first spike can be determined as:
+
+\begin{equation}
+t_{\text{first}} = g(x(t))
+\end{equation}
+
+where $g(\cdot)$ represents a function mapping the input signal to a spike time.
+
+Then, the output spike train $S(t)$ can be generated based on these quantities:
+
+\begin{equation}
+S(t) = \sum_{n=1}^{N} \delta(t - n/r(t) - t_{\text{first}})
+\end{equation}
+
+where $N$ is the total number of spikes, $\delta(t)$ is the Dirac delta function, and the term $n/r(t)$ represents a neuron firing at regular intervals based on the firing rate.
+
+By considering both the timing of the first spike and the subsequent firing rate, this hybrid encoding scheme allows for the encoding of a wider variety of stimuli and has the potential to improve the performance and flexibility of spiking neural networks.
+
+
+Assume we have a neuron with an unknown firing rate $r$ (in Hz), and we observe the neuron over a time window of $\delta$ seconds. The expected number of spikes in this window, according to a Poisson process, is $\lambda = r \delta$.
+
+If we observe $x$ spikes in our time window, then our best estimate of $\lambda$ is simply $x$. Therefore, our best estimate of $r$ is $x/\delta$.
+
+The Poisson distribution has the property that its variance is equal to its mean. Thus, the standard deviation of a Poisson distribution with mean $\lambda$ is $\sqrt{\lambda}$. Given that our best estimate of $\lambda$ is $x$, the standard error of our estimate is $\sqrt{x}$.
+
+However, this is the standard error of $\lambda$, not $r$. To get the standard error of $r$, we need to take into account the length of the time window $\delta$. Therefore, the standard error of $r$ is $\sqrt{x}/\delta$.
+
+We can construct a 90\% confidence interval for $r$ as follows:
+
+\begin{equation*}
+\text{CI} = \frac{x}{\delta} \pm Z \frac{\sqrt{x}}{\delta}
+\end{equation*}
+
+where $Z$ is the Z-score corresponding to our desired confidence level. For a 90\% confidence interval, $Z \approx 1.645$.
+
+However, note that this method assumes that $x$ is large enough for the normal approximation to the Poisson distribution to be valid. For very small $x$, this method may not provide an accurate confidence interval, and other statistical methods may be more appropriate.
+
+Let's consider a single spike observed in a time window of $50$ milliseconds ($\delta = 0.05$ seconds).
+
+In this case, $x = 1$ (the number of spikes observed), so our best estimate for the firing rate $r$ would be $r = x / \delta = 1 / 0.05 = 20$ Hz.
+
+The standard error of $r$ would be $\sqrt{x} / \delta = \sqrt{1} / 0.05 = 20$ Hz.
+
+A $90\%$ confidence interval for $r$ would be
+
+\begin{equation*}
+\text{CI} = \frac{x}{\delta} \pm Z \frac{\sqrt{x}}{\delta} = 20 \, \text{Hz} \pm 1.645 \times 20 \, \text{Hz}
+\end{equation*}
+
+which simplifies to $20 \, \text{Hz} \pm 32.9 \, \text{Hz}$. 
+
+This would give us a confidence interval of $[-12.9, 52.9]$ Hz. However, a negative firing rate does not make sense biologically, so we truncate the interval at $0$ and take the confidence interval to be $[0, 52.9]$ Hz.
+
+
+Assuming that spike generation can be modeled as a Poisson process, an efferent neuron attempts to estimate the afferent firing rate based on the number of observed spikes within a given time interval, $\Delta T$. 
+
+Given an observed frequency of $f$ spikes, calculated as the number of spikes divided by $\Delta T$, the estimate of the firing rate $F$ must take into account statistical variability. This variability stems from the randomness inherent in the Poisson process, which can lead to different numbers of spikes being observed in different time intervals of the same length.
+
+Taking this variability into account, we can define a confidence interval for the estimate of $F$. If we denote by $\alpha$ the level of confidence (for example, for a 90\% confidence level, $\alpha = 0.10$), the confidence interval can be computed using the Chi-square ($\chi^2$) distribution as follows:
+
+\begin{equation}
+\frac{1}{2\Delta T} \chi^{2}_{2\Delta T \cdot f, \frac{\alpha}{2}} \leq F \leq \frac{1}{2\Delta T} \chi^{2}_{2\Delta T \cdot (f+1), 1-\frac{\alpha}{2}}
+\end{equation}
+
+This interval defines the range of firing rates that are consistent with observing $f$ spikes in a time interval of length $\Delta T$, at the desired level of confidence.
+
+
+
+
+The Chi-square ($\chi^2$) distribution is a statistical distribution that is widely used in hypothesis testing and confidence interval construction. It is defined by its degrees of freedom, which are related to the number of independent observations in a sample.
+
+In the context of a Poisson process, where events occur independently with a known average rate, we use the $\chi^2$ distribution to construct confidence intervals for the true underlying event rate (firing rate), given an observed count of events (spikes) within a fixed time interval.
+
+For an example, consider a time window of 20 ms, within which we observe 1 spike. We wish to construct a 90\% confidence interval for the firing rate, so $\alpha = 0.10$.
+
+First, we compute the observed firing rate. Given that $f = 1$ spike and $\Delta T = 20$ ms $= 0.02$ s, the observed firing rate is $f/\Delta T = 1 / 0.02 = 50$ Hz.
+
+We then use the formula for the confidence interval:
+
+\begin{equation}
+\frac{1}{2\Delta T} \chi^{2}_{2\Delta T \cdot f, \frac{\alpha}{2}} \leq F \leq \frac{1}{2\Delta T} \chi^{2}_{2\Delta T \cdot (f+1), 1-\frac{\alpha}{2}}
+\end{equation}
+
+To find the specific values of $\chi^2$ for the degrees of freedom and percentiles we have, we need to use a $\chi^2$ table or statistical software.
+
+In terms of the number of spikes required to achieve an accuracy of approximately 10 Hz, the precision of a Poisson estimate improves as the number of events observed increases. Therefore, the more spikes we observe, the more confident we can be in our estimate of the firing rate. To provide an exact number of spikes, one would need to specify what is meant by "accuracy of approximately 10 Hz".
+
+
+
+\section*{Confidence Interval Calculation for Firing Rate}
+
+Let $x$ be the firing rate. The confidence interval for the firing rate can be found by dividing the confidence interval for $\lambda$ by $\Delta T$.
+
+The lower and upper bounds for the firing rate are given by
+
+\begin{align*}
+x_{\text{lower}} &= \text{rate}_{\text{lower}} / \Delta T = 0.9485 / 0.01 \text{ s} = 94.85 \text{ Hz} \\
+x_{\text{upper}} &= \text{rate}_{\text{upper}} / \Delta T = 3.4955 / 0.01 \text{ s} = 349.55 \text{ Hz}
+\end{align*}
+
+The uncertainty $\delta$ is half the width of the confidence interval:
+
+\begin{equation*}
+\delta = (x_{\text{upper}} - x_{\text{lower}}) / 2 = (349.55 \text{ Hz} - 94.85 \text{ Hz}) / 2 = 127.35 \text{ Hz}
+\end{equation*}
+
+So, the confidence interval for the firing rate can be written as $x = x_0 \pm \delta = 100 \text{ Hz} \pm 127.35 \text{ Hz}$.
+
+
+\section*{Confidence Interval Calculation for Firing Rate}
+
+For an interval $\Delta T = 10$ ms and a single spike observed within that range, the observed firing rate is $f = \frac{1}{\Delta T} = 100$ Hz. 
+
+The confidence interval for the firing rate can be calculated using the provided equation:
+
+\begin{equation}
+\frac{1}{2\Delta T} \chi^{2}_{2\Delta T \cdot f, \frac{\alpha}{2}} \leq F \leq \frac{1}{2\Delta T} \chi^{2}_{2\Delta T \cdot (f+1), 1-\frac{\alpha}{2}}
+\end{equation}
+
+For a 90\% confidence level, $\alpha = 0.1$, hence $\frac{\alpha}{2} = 0.05$ and $1-\frac{\alpha}{2} = 0.95$. Using the chi-square values for degrees of freedom $2\Delta T \cdot f$ and $2\Delta T \cdot (f+1)$ at these levels, denoted as $\chi^{2}_{\text{lower}}$ and $\chi^{2}_{\text{upper}}$ respectively, we can find:
+
+\begin{align*}
+F_{\text{lower}} &= \frac{1}{2\Delta T} \chi^{2}_{\text{lower}} \\
+F_{\text{upper}} &= \frac{1}{2\Delta T} \chi^{2}_{\text{upper}}
+\end{align*}
+
+The confidence interval for the firing rate can then be written as $x = x_0 \pm \delta$, where $x_0$ is the observed firing rate (100 Hz in this example) and $\delta$ is the uncertainty in the firing rate calculated as $\delta = (F_{\text{upper}} - F_{\text{lower}}) / 2$.
+
+
+\section*{Confidence Interval Calculation for Firing Rate}
+
+For an interval $\Delta T = 10$ ms and a single spike observed within that range, the observed firing rate is $f = \frac{1}{\Delta T} = 100$ Hz. 
+
+The confidence interval for the firing rate can be calculated using the provided equation:
+
+\begin{equation}
+12\Delta T \chi^{2}_{2\Delta T \cdot f, \frac{\alpha}{2}} \leq F \leq 12 \Delta T \chi^{2}_{2\Delta T \cdot (f+1), 1-\frac{\alpha}{2}}
+\end{equation}
+
+For a 90\% confidence level, $\alpha = 0.1$, hence $\frac{\alpha}{2} = 0.05$ and $1-\frac{\alpha}{2} = 0.95$. 
+
+For our example, let's say the chi-square values for degrees of freedom $2\Delta T \cdot f = 200$ and $2\Delta T \cdot (f+1) = 220$ at these levels are $\chi^{2}_{\text{lower}} = 181.5$ and $\chi^{2}_{\text{upper}} = 220.8$ respectively. We then find:
+
+\begin{align*}
+F_{\text{lower}} &= \frac{1}{2\Delta T} \chi^{2}_{\text{lower}} = \frac{1}{2 \cdot 10 \text{ ms}} \cdot 181.5 \text{ Hz} = 90.75 \text{ Hz} \\
+F_{\text{upper}} &= \frac{1}{2\Delta T} \chi^{2}_{\text{upper}} = \frac{1}{2 \cdot 10 \text{ ms}} \cdot 220.8 \text{ Hz} = 110.4 \text{ Hz}
+\end{align*}
+
+The confidence interval for the firing rate can then be written as $x = x_0 \pm \delta$, where $x_0$ is the observed firing rate (100 Hz in this example) and $\delta$ is the uncertainty in the firing rate calculated as $\delta = (F_{\text{upper}} - F_{\text{lower}}) / 2 = (110.4 \text{ Hz} - 90.75 \text{ Hz}) / 2 = 9.825 \text{ Hz}$.
+
+Therefore, the firing rate is $100 \pm 9.825$ Hz with a 90\% confidence level.
+
+
+\begin{align*}
+\text{Given that we observe } y = 1 \text{ event (spike) in a 10 ms window, we calculate the observed firing rate as } \hat{\lambda} = \frac{1}{10 \text{ ms}} = 100 \text{ Hz.}
+\end{align*}
+
+\begin{align*}
+\text{We know that the firing rate follows a Poisson distribution, which is characterized by parameter } \lambda. \text{In order to infer } \lambda \text{ from our observation, we want to construct a confidence interval.}
+\end{align*}
+
+\begin{align*}
+\text{For a Poisson process, the (1 - } \alpha) \times 100\% \text{ confidence interval for } \lambda \text{ given } y \text{ observed events is:}
+\end{align*}
+
+\begin{align*}
+\left[\frac{y}{2}, \frac{\chi^2(1 - \frac{\alpha}{2}; 2y + 2)}{2}\right] \text{ and } \left[\frac{\chi^2(\frac{\alpha}{2}; 2y)}{2}, \infty\right] \text{ if } y > 0, \text{ or } (0, \infty) \text{ if } y = 0
+\end{align*}
+
+\begin{align*}
+\text{Here, } \chi^2(1 - \frac{\alpha}{2}; 2y + 2) \text{ and } \chi^2(\frac{\alpha}{2}; 2y) \text{ are the upper and lower } \chi^2 \text{-distribution quantiles with } 2y+2 \text{ and } 2y \text{ degrees of freedom respectively.}
+\end{align*}
+
+\begin{align*}
+\text{Inserting } y = 1 \text{ into the formulas, we obtain:}
+\end{align*}
+
+\begin{align*}
+\text{Lower bound} = \frac{1}{2} = 0.5 \text{ spikes/10 ms} = 50 \text{ Hz,}
+\end{align*}
+
+\begin{align*}
+\text{Upper bound} = \frac{\chi^2(0.95; 4)}{2} = \frac{3.841}{2} = 1.9205 \text{ spikes/10 ms} = 192.05 \text{ Hz.}
+\end{align*}
+
+\begin{align*}
+\text{Therefore, we are 95\% confident that the true firing rate lies within the interval } [50 \text{ Hz, } 192.05 \text{ Hz}]. 
+\end{align*}
+
+\begin{align*}
+\text{However, for a 90\% confidence interval, we calculate the lower and upper bounds as follows:}
+\end{align*}
+
+\begin{align*}
+\text{Lower bound} = \frac{1}{2} = 0.5 \text{ spikes/10 ms} = 50 \text{ Hz,}
+\end{align*}
+
+\begin{align*}
+\text{Upper bound} = \frac{\chi^2(0.95; 4)}{2} = \frac{2.706}{2} = 1.353 \text{ spikes/10 ms} = 135.3 \text{ Hz.}
+\end{align*}
+
+\begin{align*}
+\text{Therefore, we are 90\% confident that the true firing rate lies within the interval } [50 \text{ Hz, } 135.3 \text{ Hz}]. 
+\end{align*}
+
+\begin{align*}
+\text{The range provided (5 - 474 Hz) does not match our calculated Poisson confidence interval, suggesting that additional factors or assumptions might be at play.}
+\end{align*}
+
+
+
+Assuming a Poisson process, the firing rate $\lambda$ can be estimated as the number of spikes $y$ divided by the observation window $T$. For $y=1$ spike in $T=10$ ms (or $T=0.01$ seconds), $\hat{\lambda} = \frac{y}{T} = 100$ Hz.
+
+The firing rate $\lambda$ follows a gamma distribution, which means that we can construct a confidence interval using the chi-square ($\chi^2$) distribution. The $(1-\alpha)$ confidence interval for $\lambda$ is given by:
+
+\begin{equation}
+\left(\frac{2y}{\chi^2_{1-\alpha/2;2y+2}}, \frac{2y}{\chi^2_{\alpha/2;2y}}\right)
+\end{equation}
+
+where $\chi^2_{p;df}$ denotes the $p$th quantile of a chi-square distribution with $df$ degrees of freedom. 
+
+For a 95\% confidence interval ($\alpha=0.05$), we have:
+
+\begin{align*}
+\text{Lower bound} &= \frac{2y}{\chi^2_{1-0.05/2;2y+2}} = \frac{2}{3.841} = 0.52083 \text{ spikes/ms or } 520.83 \text{ Hz} \\
+\text{Upper bound} &= \frac{2y}{\chi^2_{0.05/2;2y}} = \frac{2}{0.0506} = 39.5257 \text{ spikes/ms or } 39525.7 \text{ Hz}
+\end{align*}
+
+For a 90\% confidence interval ($\alpha=0.10$), we have:
+
+\begin{align*}
+\text{Lower bound} &= \frac{2y}{\chi^2_{1-0.10/2;2y+2}} = \frac{2}{2.706} = 0.7391 \text{ spikes/ms or } 739.1 \text{ Hz} \\
+\text{Upper bound} &= \frac{2y}{\chi^2_{0.10/2;2y}} = \frac{2}{0.211} = 9.4787 \text{ spikes/ms or } 9478.7 \text{ Hz}
+\end{align*}
+
+Therefore, for one spike in a 10 ms window, there is a 90\% chance that the true firing rate lies somewhere in the range of 739.1 Hz to 9478.7 Hz.

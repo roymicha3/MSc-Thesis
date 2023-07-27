@@ -1,0 +1,75 @@
+\subsubsection{Parameter Selection Using MNIST Data Characteristics}
+
+The MNIST dataset consists of images of handwritten digits, each image being 28x28 pixels. Each pixel value ranges from 0 (black) to 255 (white), which can be normalized to a range of 0 to 1. These characteristics can be utilized for deciding on the parameters for the alpha function.
+
+\textbf{Temporal Resolution:} When rate encoding MNIST images, the temporal resolution is determined by how we choose to discretize time. If we choose a high temporal resolution (for example, encoding pixel values as firing rates over 1000ms), we have a wider range of possible firing rates, but we also have longer spike trains. This should be taken into account when choosing $\tau_m$ and $\tau_s$ - we need these to be short enough to capture the dynamics within the spike train, but not so short that we lose information.
+
+\textbf{Intensity Distribution:} In MNIST, a significant portion of the pixels in any given image are typically 0 (the background), while the rest are a range of values representing the digit. The firing rates of the neurons will thus be largely skewed towards lower rates, with occasional periods of higher rates. When choosing $\tau_m$, we might want to focus on capturing these moments of higher activity, so a value of $\tau_m$ that corresponds to the higher percentiles of the ISI distribution might be more appropriate.
+
+\textbf{Digit Representation:} Each digit in MNIST is represented in a 28x28 pixel grid, and digit information is conveyed via the spatial arrangement of pixel intensities. Thus, the change in firing rates (which would be related to changes in pixel intensities) may not be as fast as in other types of data, such as audio signals. Therefore, we can afford to choose a larger $\tau_s$ to integrate the information over a longer period.
+
+\textbf{Validation:} Given that MNIST is a labeled dataset, we can validate our chosen parameters by feeding the alpha-function-processed spike trains to a simple classifier, like a linear SVM or a single-layer neural network, and checking the classification accuracy.
+
+As with the previous methods, this approach will give a starting point, and the parameters might need to be fine-tuned based on the specific requirements of the application.
+
+
+\subsubsection{Image Feature Breakdown by Spike Encoding}
+
+When an image is encoded into spike trains, different image features become represented by different patterns in the spike trains.
+
+\textbf{Rate Encoding:} In rate encoding, the intensity of a pixel is represented by the firing rate of a neuron. Darker pixels result in higher firing rates and lighter pixels in lower firing rates. If $\tau_m$ and $\tau_s$ are chosen such that the PSP is capable of following fast changes in the firing rate, different grayscale levels will be represented as distinct patterns in the PSP. If, however, $\tau_m$ and $\tau_s$ are too long, the PSP might not be able to distinguish between different firing rates, resulting in a loss of information. To ensure the model captures the different intensities in the image, we might therefore choose $\tau_m$ based on the fastest expected change in pixel intensity (which can be estimated from the data) and $\tau_s$ such that it allows the neuron to follow these changes.
+
+\textbf{Latency Encoding:} In latency encoding, the time of the first spike after a 'reset' is inversely related to the pixel intensity. Darker pixels result in shorter latencies and lighter pixels in longer latencies. If $\tau_m$ and $\tau_s$ are too short, the neuron might not be able to 'wait' for the first spike, and the information about the pixel intensity might be lost. To ensure the model captures the different latencies, we might therefore choose $\tau_m$ based on the longest expected latency (which can also be estimated from the data) and $\tau_s$ such that it allows the neuron to 'wait' for the first spike.
+
+\textbf{Inner Latency and Rate Factors:} Depending on the complexity of the image features, one could also consider introducing inner latency and rate factors within the encoding process. These factors could help to further differentiate and highlight certain feature differences. For instance, an inner rate factor could be used to amplify the differences in firing rates between neurons representing different parts of the image, or an inner latency factor could adjust the first spike time relative to the overall spike sequence to highlight or suppress certain features.
+
+The selection of $\tau_m$ and $\tau_s$ could be thus guided by the specific encoding strategy (rate or latency) and the requirements of the task. In each case, validating the chosen parameters by examining the encoded spike trains and the performance on the task would be crucial.
+
+
+\subsubsection{Approach 1: Empirical Estimation}
+
+This approach involves analyzing the dataset and estimating appropriate values for the parameters based on this analysis. For example, $\tau_m$ could be chosen based on the fastest expected change in pixel intensity and $\tau_s$ such that it allows the neuron to follow these changes.
+
+\begin{equation}
+\tau_m = \frac{1}{\max(\Delta I)}
+\end{equation}
+
+\begin{equation}
+\tau_s = k\cdot\tau_m
+\end{equation}
+
+Where $\Delta I$ is the change in pixel intensity, and $k$ is a constant greater than 1. $R_{\text{inner}}$ and $T_{\text{inner}}$ could be set to 1 initially and then adjusted based on the performance of the network.
+
+\subsubsection{Approach 2: Parameter Search}
+
+In this approach, a search over a range of possible values for the parameters is performed. This could be a grid search, random search, or a more sophisticated approach like Bayesian optimization.
+
+\begin{equation}
+(\tau_m^, \tau_s^, R_{\text{inner}}^, T_{\text{inner}}^) = \arg\min_{\tau_m, \tau_s, R_{\text{inner}}, T_{\text{inner}}} L(\tau_m, \tau_s, R_{\text{inner}}, T_{\text{inner}})
+\end{equation}
+
+Where $L$ is a loss function that quantifies the performance of the network.
+
+\subsubsection{Approach 3: Learning}
+
+In this approach, the parameters are treated as hyperparameters and updated during the training process. This could be done using gradient-based methods if the network is differentiable, or using reinforcement learning or evolutionary algorithms if it's not.
+
+\begin{equation}
+\tau_m^{(t+1)}, \tau_s^{(t+1)}, R_{\text{inner}}^{(t+1)}, T_{\text{inner}}^{(t+1)} = f(\tau_m^{(t)}, \tau_s^{(t)}, R_{\text{inner}}^{(t)}, T_{\text{inner}}^{(t)}, \nabla L)
+\end{equation}
+
+Where $f$ is an update function (e.g., a gradient step), and $\nabla L$ is the gradient of the loss function.
+
+\subsubsection{Approach 4: Hybrid}
+
+This approach combines the above methods. For example, an initial guess for the parameters could be made using empirical estimation or a small parameter search. Then, these initial values could be further refined using a learning approach. This could potentially speed up the learning process and lead to better final values.
+
+\begin{equation}
+\tau_m^{(0)}, \tau_s^{(0)}, R_{\text{inner}}^{(0)}, T_{\text{inner}}^{(0)} = \text{Empirical Estimation or Parameter Search}
+\end{equation}
+
+\begin{equation}
+\tau_m^{(t+1)}, \tau_s^{(t+1)}, R_{\text{inner}}^{(t+1)}, T_{\text{inner}}^{(t+1)} = f(\tau_m^{(t)}, \tau_s^{(t)}, R_{\text{inner}}^{(t)}, T_{\text{inner}}^{(t)}, \nabla L)
+\end{equation}
+
+These approaches provide different ways to optimize the parameters $\tau_m$, $\tau_s$, $R_{\text{inner}}$, and $T_{\text{inner}}$, and the best approach depends on the specific task and constraints.

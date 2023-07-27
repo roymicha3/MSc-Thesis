@@ -1,41 +1,82 @@
-\section*{Scientific Background: Methods of Training Spiking Neural Networks}
+\documentclass{article}
+\usepackage{amsmath}
 
-Spiking Neural Networks (SNNs) aim to emulate the temporal dynamics and asynchronous communication observed in biological neural systems. Unlike traditional artificial neural networks (ANNs), where computations are continuous and differentiable, SNNs communicate via discrete spikes that are time-dependent. The membrane potential of a spiking neuron $i$ at time $t$ is denoted as $V_i(t)$, and a spike occurs when $V_i(t)$ exceeds a certain threshold $V_{\text{th}}$.
+\title{Structure of Neurons in the Retina: A Focus on Rods and Spiking Neural Network Imitation}
+\author{Your Name}
+\date{\today}
 
-Training SNNs involves addressing the temporal credit assignment problem, which is determining which past spikes contributed to a neuron's current spike. Conventional backpropagation, which relies on differentiability, is not directly applicable to SNNs due to their non-differentiable spike-based nature.
+\begin{document}
 
-\textbf{SpikeProp:}
-SpikeProp, introduced by Bohte et al. (2000), extends backpropagation to handle temporal aspects of spikes. It introduces "pseudo-time" $t_{\text{pseudo}}$ that corresponds to each spike time. The weight update rule in SpikeProp is given as:
+\maketitle
 
-\[
-\Delta w_{ij} = \eta \cdot \frac{\partial E}{\partial w_{ij}} \cdot \frac{\partial t_{\text{pseudo}}}{\partial w_{ij}}
-\]
+\section{Introduction}
 
-where $\eta$ is the learning rate, $E$ represents the network error, and $\frac{\partial E}{\partial w_{ij}}$ is the gradient of the error with respect to the synaptic weight $w_{ij}$. The term $\frac{\partial t_{\text{pseudo}}}{\partial w_{ij}}$ corresponds to the derivative of the pseudo-time with respect to the synaptic weight. SpikeProp facilitates end-to-end training of SNNs while accounting for temporal coding.
+The retina is a critical component of the visual system, responsible for converting light stimuli into electrical signals for visual perception. Neurons in the retina, specifically rods and cones, play essential roles in this process. Rods, in particular, are specialized photoreceptor cells responsible for low-light and scotopic vision.
 
-\textbf{e-prop:}
-E-prop, proposed by Bellec et al. (2020), leverages eligibility traces inspired by synaptic plasticity. It efficiently addresses the temporal credit assignment problem without explicit spike time alignment during training. The eligibility trace $z_{ij}(t)$ for the synaptic weight $w_{ij}$ is updated according to:
+\section{Rods in the Retina}
 
-\[
-z_{ij}(t) = \alpha \cdot z_{ij}(t - 1) + \sum_{k} \delta(t - t_k) \cdot V_i(t - \Delta t_k)
-\]
+Rods are one of the two types of photoreceptor cells found in the retina. They are highly sensitive to light and are mainly involved in dim-light or night vision. Unlike cones, rods do not mediate color vision and are instead responsible for providing us with black-and-white vision in low-light conditions.
 
-where $\alpha$ is the trace decay factor, $\delta(t - t_k)$ is a Dirac delta function indicating a spike event at time $t_k$, and $V_i(t - \Delta t_k)$ is the membrane potential of neuron $i$ at time $t - \Delta t_k$ when it receives a spike from neuron $k$ at time $t_k$. The weight update rule in e-prop is given as:
+\section{Rod Structure}
 
-\[
-\Delta w_{ij} = \eta \cdot \frac{\partial E}{\partial w_{ij}} \cdot z_{ij}(t)
-\]
+Rods exhibit a distinct morphology, consisting of three primary components: the outer segment, inner segment, and synaptic terminal.
 
-E-prop efficiently computes eligibility traces based on spike times and neuronal membrane potentials, making it a biologically plausible and scalable method for training large-scale SNNs.
+\subsection{Outer Segment}
 
-\textbf{Feedback Alignment:}
-Feedback Alignment, originally proposed by Lillicrap et al. (2016) for training ANNs, has been adapted for SNNs to address temporal credit assignment. This method replaces the requirement for symmetric weight matrices in the backward pass with random feedback weights $b_{ij}$. The weight update rule in Feedback Alignment is given as:
+The outer segment of rods contains stacks of membranous discs that harbor the photopigment molecule rhodopsin. Rhodopsin is sensitive to light and is responsible for initiating the phototransduction cascade when it absorbs photons.
 
-\[
-\Delta w_{ij} = \eta \cdot \frac{\partial E}{\partial u_{ij}} \cdot \frac{\partial b_{ij}}{\partial w_{ij}}
-\]
+\subsection{Inner Segment}
 
-where $\frac{\partial E}{\partial u_{ij}}$ is the gradient of the error with respect to the pre-activation $u_{ij}$, and $\frac{\partial b_{ij}}{\partial w_{ij}}$ is the derivative of the random feedback weight with respect to the synaptic weight. Feedback Alignment decouples the forward and backward paths, making it suitable for training deep SNNs without requiring precise spike time alignment during training.
+The inner segment of rods houses the cell nucleus, mitochondria, and other essential organelles necessary for the cell's function and maintenance.
 
-\section*{Comparisons to Regular Neural Network Methods:}
-In comparison to regular neural network methods, such as backpropagation, these SNN training methods offer specific solutions to address the challenges of training SNNs. While traditional backpropagation relies on differentiable activation functions and precise spike time alignment, these SNN training methods consider the temporal nature of spikes and develop mechanisms for credit assignment without requiring symmetrical weight matrices. By leveraging these methods, SNNs can capture the temporal dynamics observed in biological neural systems and enable more biologically plausible learning.
+\subsection{Synaptic Terminal}
+
+The synaptic terminal of rods is where they form connections with other retinal neurons, particularly bipolar cells. When the phototransduction process is activated in the outer segment, it leads to changes in neurotransmitter release at the synaptic terminal.
+
+\section{Phototransduction in Rods}
+
+The process of phototransduction in rods is fundamental for converting light stimuli into electrical signals that can be further processed by the visual system.
+
+Let $S(t)$ represent the light stimulus at time $t$ (in photons/$\mu$m$^2$/s), and $R(t)$ be the concentration of the active photopigment (in molecules/$\mu$m$^2$) at time $t$. The phototransduction process can be modeled by the following set of equations:
+
+\begin{equation}
+\frac{dR}{dt} = \frac{k_S \cdot S(t)}{1 + k_D \cdot R(t)} - \gamma \cdot R(t)
+\end{equation}
+
+where:
+$k_S$ is the rate of photopigment activation (in $\mu$m$^2$/s/photons),
+$k_D$ is the rate of photopigment inactivation (in $\mu$m$^2$/s),
+$\gamma$ is the rate of photopigment decay (in s$^{-1}$).
+
+The closure of cGMP-gated ion channels and subsequent hyperpolarization of the rod's outer segment can be described by a light-sensitive current ($I_{\text{light}}$) in the outer segment membrane, modeled as:
+
+\begin{equation}
+I_{\text{light}}(t) = g_{\text{max}} \cdot R(t) \cdot (V_m - E_{\text{rev}})
+\end{equation}
+
+where:
+$g_{\text{max}}$ is the maximum conductance of the light-sensitive channels (in nS),
+$V_m$ is the membrane potential (in mV),
+$E_{\text{rev}}$ is the reversal potential for the light-sensitive current (in mV).
+
+\section{Spiking Neural Network Imitation of Rods}
+
+Spiking Neural Networks (SNNs) are a class of artificial neural networks inspired by the behavior of biological neurons, including those found in the retina. SNN-related methods can imitate the structure and function of rods for specific applications.
+
+\subsection{Event-Based Processing}
+
+SNNs operate in an event-driven manner, generating spikes (action potentials) when certain conditions are met. This event-based processing is akin to the spiking behavior of biological neurons, such as rods.
+
+\subsection{Low-Light Sensitivity}
+
+SNNs can be designed to be highly sensitive to input signals, making them suitable for tasks that require detection and processing of low-light conditions, just like rods are specialized for scotopic vision.
+
+\subsection{Encoding Black-and-White Vision}
+
+Similar to how rods provide black-and-white vision, SNNs can encode visual information with spike patterns that do not involve color information, making them useful for specific visual processing tasks.
+
+\section{Conclusion}
+
+Rods are essential photoreceptor cells in the retina, responsible for scotopic vision and black-and-white perception. Spiking Neural Network (SNN) related methods can imitate the structure and function of rods, enabling event-driven processing and sensitivity to low-light conditions for specific artificial vision tasks.
+
+\end{document}
