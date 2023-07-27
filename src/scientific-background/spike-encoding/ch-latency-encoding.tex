@@ -1,6 +1,4 @@
-\subsection{Latency Encoding}
-
-\textbf{Latency Encoding:}
+\subsection{Latency Encoding} \label{ssec:latency-encoding}
 
 Let's have another look at the RC circuit model used to modulate the behavior of a LIF neuron. This model gives us an equation we have seen before:
 
@@ -52,46 +50,3 @@ The minimum time $\Delta T$ which we allow a spike is:
 \begin{equation}
 I_0 = \frac{v_{\text{th}}}{1 - \exp\left(-\frac{\Delta T}{\tau}\right)}
 \end{equation}
-
-But a problem is at hand: the distribution of the values of each image is problematic.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{methods/spike-encoding/graphs/mnist-values-histogram.png}
-    \caption{histograms of the pixel values of random Mnist images divided into 10 bins}
-    \label{fig:mnist-values-histogram}
-\end{figure}
-
-The fact that most values are 0's is not an issue; quite the opposite, we aim for sparsity. But the problem is that most values are distributed over 2-3 significant values. Another problem is that a linear normalization with logarithmic encoding is unable to distinguish close by values.
-
-The resulting raster plot of the encoding expresses this issue:
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{methods/spike-encoding/graphs/latency-encoding-raster.png}
-    \caption{raster plot of a random Mnist image encoded via latency encoding}
-    \label{fig:latency-encoding-raster}
-\end{figure}
-
-To fix it, we suggest linear latency encoding by:
-\begin{equation}
-t(I_{\text{in}}) = -\tau \cdot \left(R \cdot I_{\text{in}} - V_{\text{thr}}\right)
-\end{equation}
-
-And clipping the zero values (they hold no useful information). The green lines represent the $\tau$ value, and the red lines represent $v_{\text{thr}}$.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{methods/spike-encoding/graphs/exp-to-linear.png}
-    \caption{on the right - the exponential latency encoding function, on the left - the liner latency encoding function}
-    \label{fig:latency-exp-vs-lin}
-\end{figure}
-
-And as we can see, the results are significantly improved:
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{methods/spike-encoding/graphs/latency-encoding-raster-linear.png}
-    \caption{ raster plot of a random Mnist image encoded via linear latency encoding}
-    \label{fig:latency-encoding-raster-linear}
-\end{figure}

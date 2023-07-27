@@ -1,18 +1,3 @@
 \subsection{Population Encoding}
 
- \textit{population encoding} refers to a specific technique utilized in neural networks for encoding information about stimuli. The principle underpinning this technique is the collaborative function of a group of neurons, collectively encoding a single unit of information. This enables the capture of a greater complexity of information than what could be represented by individual neurons.
-
-A key advantage of population encoding is the ability to represent a more diverse array of stimulus features. Under this scheme, each neuron in the network can be assigned distinct parameters, which are determined by the specific model and encoding method used. As a result, each neuron in the population can respond differently to the same stimulus, thereby facilitating the encoding of various aspects of the stimulus.
-
-Population encoding methods can incorporate both \textit{Rate Encoding} and \textit{Latency Encoding}, thus combining the benefits of both methods and more. However, it is worth noting that the choice between Rate and Latency encoding, or a combination of both, should be chosen by the specifics of the problem at hand.
-
-To formally define population encoding, let us consider $M$ to be the number of neurons in the population and $\{ E_m \}_{m=1}^{M}$ to be the set of encoders within the population, each corresponding to a specific neuron.
-
-Given a non-negative real input $x \in \mathbb{R}_{\geq 0}$ and a trial time of $T$ time samples, the population encoding method is given by:
-
-\begin{equation}
-    PE(x) = 
-    \begin{bmatrix} E_{1}(x) \\ E_{2}(x) \\ \vdots \\ E_{M}(x) \end{bmatrix} \in \mathbb{R}^{M \times T}
-\end{equation}
-
-This equation provides a general form of population encoding, where each encoder $E_m(x)$ applies to the input $x$ and produces a time series of outputs, resulting in a $M \times T$ matrix representation.
+We shall now delve into various strategies to adopt the population encoding method. Our focus is to utilize this approach in a manner that leverages the salient features of the data, harnesses the unique characteristics of the neuron model, and employs the diverse encoding methodologies we have previously explored in...
