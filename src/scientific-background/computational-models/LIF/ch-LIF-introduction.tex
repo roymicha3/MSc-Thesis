@@ -131,17 +131,22 @@ Now we will look at some graphs that express the influence of the \( t_{\text{re
 
 The refractory period is a period after firing of a specific neuron during which it will ``ignore'' the input current. We can demonstrate that behavior by the following equation:
 *For this example, we assume that the neuron fired at \( t=0 \).
+
 \begin{equation}
-\forall t \in (0,\tau_{\text{ref}}), \quad I(t) = v_{\text{reset}}
+    \forall t \in (0,\tau_{\text{ref}}), \quad I(t) = v_{\text{reset}}
 \end{equation}
+
 \begin{equation}
-v(t=0) = v_{\text{thresh}}
+    v(t=0) = v_{\text{thresh}}
 \end{equation}
+
 \begin{equation}
-v(t) + \tau_m \cdot \dot{v}(t) = v_{\text{reset}}
+    v(t) + \tau_m \cdot \dot{v}(t) = v_{\text{reset}}
 \end{equation}
+
 We already solved a similar equation \ref{eq:general_sol}, so the following solution will be:
+
 \begin{equation}
-v(t) = (v_{\text{thresh}} - v_{\text{reset}}) \cdot \exp\left(-\frac{t}{\tau_m}\right) + v_{\text{reset}}
+    v(t) = (v_{\text{thresh}} - v_{\text{reset}}) \cdot \exp\left(-\frac{t}{\tau_m}\right) + v_{\text{reset}}
 \end{equation}
 These graphs portray the equation we have shown above, and as we can see, they present the behavior of the neuron model as we would have expected!
