@@ -1,0 +1,78 @@
+\section{Introduction}
+
+Population encoding is a method employed in neural networks for encoding stimulus information. In this scheme, a collective of neurons together represents a single information piece, thereby capturing a broader range of complexities than individual neurons could represent alone.
+
+This technique allows for the encoding of a greater diversity of stimulus features and each neuron can posses specific parameters (depending on the chosen model and encoding method) that way each of the neurons in the population can respond differently to the same stimulus, thereby allowing for the encoding of different aspects of the stimulus.
+
+\section{Temporal Aspects of Population Encoding}
+
+It's worth noting that population encoding also provides temporal information about the stimulus. This is in contrast to rate encoding, which often lacks temporal information as it focuses on the overall firing rate over a given time window. In population encoding, the precise timing of the action potentials from different neurons in the population can provide important information about the stimulus.
+
+This method can be incorporated with either Rate Encoding or Latency Encoding, thus benefit from the advantages of the of both methods and more,
+
+
+The general form of this encoding method can be represented as:
+
+$M$ = number of neurons in the population.
+${\{ E_m \} }^M_{m=1}$ = the encoders the population (each neuron corresponds to a specific encoder)
+
+Overall for each single input $x \in \mathbb{R}_{\geq0}$  and trial time of $T$ time samples, our encoding method will be:
+
+\begin{equation}
+    PE(x) = 
+    \begin{bmatrix} E_{1}(x) \\ E_{2}(x) \\ \dots \\ E_{M}(x) \end{bmatrix} \in \mathbb{R}^{M \times T}
+\end{equation}
+
+
+\section{Introduction}
+
+In the field of neuroscience, encoding mechanisms such as rate and population encoding are used to interpret the firing patterns of neurons and understand the information they transmit. This document presents an analysis of population encoding and the Poisson process in the context of a single neuron firing.
+
+\section{The Poisson Process and Neuron Firing}
+
+Suppose that an observer is listening to the output of a single neuron. During a 10 ms observation window, the neuron emits one spike. If we model the neuron's firing as a Poisson process, we need to understand the implications of this model. 
+
+The Poisson process is characterized by a constant firing rate $\lambda$ (lambda). For a neuron, the firing rate is the average number of spikes the neuron emits per unit of time. The key characteristic of a Poisson process is that the events (in this case, neuron spikes) occur independently of each other. 
+
+Given a spike count $k$ in a time window $\Delta T$, the probability of observing this count under a Poisson process with rate $\lambda$ is:
+
+\begin{equation}
+P(k; \lambda, \Delta T) = \frac{e^{-\lambda \Delta T} (\lambda \Delta T)^k}{k!}
+\end{equation}
+
+In our case, $k = 1$, and $\Delta T = 10$ ms.
+
+\section{Determining the Firing Rate}
+
+While the observed firing rate is simply the number of spikes divided by the observation window ($k/\Delta T$), we can only determine a confidence interval for the true firing rate due to the stochastic nature of the Poisson process.
+
+To calculate this, we can use the chi-square distribution. With the observed frequency $f = k/\Delta T$, the $\alpha$-confidence interval for the true frequency $\lambda$ is given by:
+
+\begin{equation}
+12\Delta T \chi^{2}_{2\Delta T \cdot f, \frac{\alpha}{2}} \leq \lambda \leq 12 \Delta T \chi^{2}_{2\Delta T \cdot (f+1), 1-\frac{\alpha}{2}}
+\end{equation}
+
+For $\alpha = 0.9$ (90\% confidence), this gives us the range for $\lambda$, the true firing rate of the neuron.
+
+\section{Implication for Population Encoding}
+
+This analysis leads to a significant insight: the true firing rate of a neuron, even for a simple Poisson process, cannot be precisely determined from a single observation. This uncertainty underlines the advantages of population encoding over rate encoding. In population encoding, information is not represented solely by the firing rate of a single neuron, but by the collective activity of a population of neurons. As a result, population encoding can handle the inherent variability and uncertainty in neural firing, leading to a more robust and potentially more accurate encoding of information.
+
+
+In neuroscience, the term \textit{population encoding} refers to a specific technique utilized in neural networks for encoding information about stimuli. The principle underpinning this technique is the collaborative function of a group of neurons, collectively encoding a single unit of information. This joint endeavor enables the capture of a greater complexity of information than what could be represented by individual neurons.
+
+A key advantage of population encoding is the ability to represent a more diverse array of stimulus features. Under this scheme, each neuron in the network can be assigned distinct parameters, which are determined by the specific model and encoding method used. As a result, each neuron in the population can respond differently to the same stimulus, thereby facilitating the encoding of various aspects of the stimulus.
+
+Population encoding methods can incorporate both \textit{Rate Encoding} and \textit{Latency Encoding}, thus synthesizing the benefits of both methods and more. However, it is worth noting that the choice between Rate and Latency encoding, or a combination of both, is contingent upon the specifics of the problem at hand.
+
+To formally define population encoding, let us consider $M$ to be the number of neurons in the population and $\{ E_m \}_{m=1}^{M}$ to be the set of encoders within the population, each corresponding to a specific neuron.
+
+Given a non-negative real input $x \in \mathbb{R}_{\geq 0}$ and a trial time of $T$ time samples, the population encoding method is given by:
+
+\begin{equation}
+    PE(x) = 
+    \begin{bmatrix} E_{1}(x) \\ E_{2}(x) \\ \vdots \\ E_{M}(x) \end{bmatrix} \in \mathbb{R}^{M \times T}
+\end{equation}
+
+This equation provides a general form of population encoding, where each encoder $E_m(x)$ applies to the input $x$ and produces a time series of outputs, resulting in a $M \times T$ matrix representation.
+

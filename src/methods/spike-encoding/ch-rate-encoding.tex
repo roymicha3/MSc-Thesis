@@ -10,32 +10,6 @@ One common implementation is to use the binomial distribution \(D = \text{Bin}(n
 
 where \(F_0\) is the maximum firing rate (20 Hz), and \(\Delta t\) is the time interval between consecutive samples. This equation allows us to set the expectancy \(E[D(x_{i,j})]\) for each \(x_{i,j}\) to \(f(x_{i,j}) \cdot F_0 \cdot T\), where \(T\) is the experiment time.
 
-\subsubsection{Choosing the Firing Rate}
-
-To ensure that the probability of exactly \(P\) specific neurons firing within \([t, t + \delta]\) in \(T\) is at least \(c \in (0, 1]\), we set up the inequality:
-
-\begin{equation}
-T \cdot \frac{(\mu + P\sigma^2\delta)^P}{P!} e^{\mu\delta + \frac{1}{2}\sigma^2 \delta^2} \frac{1}{\sigma \sqrt{2\pi}} \geq c
-\end{equation}
-
-This inequality provides constraints on the window size \(\delta\) that depends on the parameters \(P\), \(T\), \(\mu\), and \(\sigma\) from the normal distribution. 
-
-Now, let's relate \(f(x_{i,j})\) to the firing rate \(p\) and achieve a final equation for the rate encoding process.
-
-By substituting the relationship between \(p\) and \(f(x_{i,j})\) from equation (30.1) into the inequality above, we get:
-
-\begin{equation}
-T \cdot \frac{(\mu + P\sigma^2\delta)^P}{P!} e^{\mu\delta + \frac{1}{2}\sigma^2 \delta^2} \frac{1}{\sigma \sqrt{2\pi}} \geq f(x_{i,j}) \cdot F_0 \cdot \Delta t
-\end{equation}
-
-Solving for \(\delta\), we obtain:
-
-\begin{equation}
-\delta \geq \frac{1}{\sigma^2}\left(\ln\left(\frac{T \cdot \sigma \sqrt{2\pi} \cdot f(x_{i,j}) \cdot F_0 \cdot \Delta t}{P!}\right) - \mu \cdot P - \frac{1}{2}\sigma^2 \delta^2\right)
-\end{equation}
-
-This equation gives us the minimum window size \(\delta\) required to achieve a desired probability threshold \(c\) for having exactly \(P\) specific neurons firing within \([t, t + \delta]\) in \(T\) based on the input value \(f(x_{i,j})\) and the firing rate \(F_0\).
-
 By using this derived equation, we can implement the rate encoding approach in a way that controls the spike generation based on the input image and ensures that high-intensity pixels (corresponding to higher values of \(f(x_{i,j})\)) will appear in more patterns.
 
 Overall, the rate encoding approach, combined with the derived probability constraints and stochastic spike generation, enables us to effectively convert an image into a time-varying sequence of spikes while preserving its features. This method allows us to model the behavior of real neurons and capture the temporal dynamics of the input information, making it suitable for various applications in neural information processing and spiking neural network simulations.
