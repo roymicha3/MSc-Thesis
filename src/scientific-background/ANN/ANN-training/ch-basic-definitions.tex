@@ -1,6 +1,8 @@
-\subsubsection{Basic Definitions}
+\subsubsection*{Basic Definitions}
 
-For our next calculations, lets revisit our basic definitions from the scientific background \ref{sssec:training}. For a deep fully connected neural network with L layers, each layer consists of weights noted as a weight matrix:
+Using all everything we discussed in this section, we will show how to bring it all together to train a simple network so later on we will use it to train a more sophisticated model.
+
+For a deep fully connected neural network with L layers, each layer consists of weights noted as a weight matrix:
 
 \begin{equation} \label{eq:weight_l}
     W_l \in \mathbb{R}^{N_l \times N_{l-1}}
@@ -62,3 +64,11 @@ Such that:
     \nabla_l = \left[ \frac{\partial}{\partial W_{i,j}^l} \right]_{i,j}
 \end{equation}
 
+\begin{mdframed}[backgroundcolor=gray_background, linewidth=0pt]
+    \textbf{Definition:} Hadamard product
+
+    \begin{equation} \notag
+        \forall A, B \in \mathbb{R}^N, \ A \odot B = \begin{bmatrix} A_1 \cdot B_1 \\ \vdots \\     A_N \cdot B_N \end{bmatrix} - \text{elementwise multiplication}
+    \end{equation}
+    
+\end{mdframed}
