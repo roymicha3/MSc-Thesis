@@ -5,6 +5,24 @@ But as you might have noticed, there is a problem – the time variability:
 We looked at each layer output \(z_l[i]\) for \(i=1\) to \(N_l\) as a scalar, but it is, in fact, a time series!
 That will make our life a little harder, for that reason we define \(z_l^i = z_l(t_{\text{max}}^i) \in \mathbb{R}^{N_l}\), which is in fact, a vector of scalars!
 
+\begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
+\begin{center}
+
+    \label{st:GD-cross-entr-convl-tempotron}
+    Using the Gradient Descent method our step iteration will be:
+    \begin{equation}
+        E_l^k = \begin{cases} (W_{l+1})^T \cdot [(f^{l+1})' \odot E_{l+1}^k], & l < L \\ \frac{dL}{dz_L^k}, & l = L \end{cases}
+    \end{equation}
+
+    \begin{equation}
+        \frac{dL}{dW^l} = \sum_{k=1}^{N_L} [z_l^k]^T \cdot E_l^k
+    \end{equation}
+
+\end{center}
+\end{mdframed}
+
+\textbf{Proof:}
+
 To simplify our next computation, we will assume two basic assumptions:
 \begin{enumerate}
     \item We only care about the time samples that are taken into consideration in our loss.
@@ -14,7 +32,7 @@ To simplify our next computation, we will assume two basic assumptions:
 
 In other words: \(\forall i,j \in [N_L]: i \neq j \implies \frac{dz_l^i}{dz_l^j} = 0\)
 
-This will give us the option to derive using different time samples independently, thus simplifying our computations. For example, let's give another look at eq (20.10):
+This will give us the option to derive using different time samples independently, thus simplifying our computations. For example, let's give another look at eq \ref{st:GD-cross-entr-tempotron}:
 \begin{equation}
 \frac{dL}{dw_{i,k}^L} = -\beta \cdot (\sigma_k^\mu - y_k^\mu) \cdot \sum_j k(t_{\text{max}}^k - t_{i,j}^\mu) = -\beta \cdot (\sigma_k^\mu - y_k^\mu) \cdot z_{L-1}^k[i]
 \end{equation}
@@ -38,7 +56,7 @@ For each other layer \(l \in [L-1]\):
 \frac{dL}{dW^l} = -\beta \cdot \sum_{k=1}^{N_L} [z_{l-1}^k]^T \cdot \left[\frac{dL}{dz_l^k}\right]
 \end{equation}
 
-Using the backpropagation rule and generalizing eq (38.3) for other layers:
+Using the backpropagation rule and generalizing eq \ref{eq:backprop_def} for other layers:
 \begin{equation}
 E_l^k = \begin{cases} (W_{l+1})^T \cdot [(f^{l+1})' \odot E_{l+1}^k], & l < L \\ \frac{dL}{dz_L^k}, & l = L \end{cases}
 \end{equation}

@@ -1,5 +1,18 @@
 \subsubsection{Training – Convolution Based Cross-Entropy}
 
+\begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
+\begin{center}
+
+    \label{st:GD-cross-entr-convl-tempotron}
+    Using the Gradient Descent method our step iteration will be:
+    \begin{equation}
+        \Delta w_{i,k} = -\beta \cdot (\sigma_k^{\mu} - y_k^{\mu}) \cdot \frac{1}{\int_0^T \exp(\beta v_k(t)) dt} \cdot \int_0^T \exp(\beta v_k(t)) x_i(t) dt
+    \end{equation}
+
+\end{center}
+\end{mdframed}
+
+
 Define: 
 
 \begin{equation}

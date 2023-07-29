@@ -1,7 +1,19 @@
 \subsubsection{Training - Simple Cost function}
 
+\begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
+\begin{center}
+
+    \label{st:GD-simple-medel}
+    Using the Gradient Descent method our step iteration will be:
+    \begin{equation}
+        \Delta w_j = K_j(t_{\text{max}})
+    \end{equation}
+
+\end{center}
+\end{mdframed}
+
 \begin{equation}
-\mathbf{w}_n = (w_1^n, w_2^n, \ldots, w_k^n)^T
+\mathbf{w}_n = (w_1^n, w_2^n, \ldots, w_k^n)^T \notag
 \end{equation}
 
 For $\lambda > 0$ as our learning rate:
@@ -41,6 +53,21 @@ Find $t_{\text{max}}$ by:
 Finally, compute $\Delta w_j = \lambda \cdot K_j[t_{\text{max}}]$ by getting the $t_{\text{max}}$'th row in $K$.
 
 \subsubsection{Training - Convolution based Cost function}
+
+
+\begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
+\begin{center}
+
+    \label{st:GD-convl-medel}
+    Using the Gradient Descent method our step iteration will be:
+    \begin{equation}
+        \Delta w_i = y_{\mu}\frac{\int e^{\beta v_{\mu}(t)} k_i(t) dt}{\int e^{\beta v_{\mu}(t)} dt}
+    \end{equation}
+
+\end{center}
+\end{mdframed}
+
+\textbf{Proof:}
 
 \begin{equation}
 \frac{dE}{dw_i} = \frac{1}{\beta}\sum_{\mu}{y_{\mu} \cdot 

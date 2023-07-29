@@ -1,3 +1,138 @@
 \section{Computational Models}
 
-here will be the explanation why we chose the computational neuron model
+The model of choice for representing the post-synaptic potential (PSP) in the investigation of the MNIST digit data set is a double exponential function, given as follows:
+
+\begin{equation}
+    v(t) = v_0 \cdot (e^{-t/\tau_m} - e^{-t/\tau_s})
+\end{equation}
+
+The choice of this model is grounded on several key considerations. Firstly, the model incorporates two time constants, $\tau_m$ and $\tau_s$, enabling the simulation of both the rise and decay dynamics of the neuronal response. The $\tau_m$ parameter corresponds to the membrane time constant, responsible for governing the rise time of the response, while $\tau_s$ associates with the synaptic time constant, determining the width of the spike response.
+
+These temporal dynamics afford an opportunity to distinguish patterns in the data set that might not be discernible with other models harboring a single time constant. For example, if two input spikes are close together, the neuron's response to the second spike will be influenced by the residual effect of the first spike. Such an effect can prove crucial for the recognition of patterns in data sets wherein input spike times exhibit complex correlations.
+
+\subsection{Spike Response Peak}
+
+\begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
+\begin{center}
+
+    \label{st:peak}
+    The time at which the neuron's response peaks, $t_{peak}$, is given by
+
+    \begin{equation}
+        t_{peak} = \tau_m \tau_s \ln\left(\frac{\tau_m}{\tau_s}\right)
+    \end{equation}
+
+\end{center}
+\end{mdframed}
+
+\textbf{Proof:}
+The derivative of $v(t)$ is:
+
+\begin{equation}
+v'(t) = v_0 \cdot \left(\frac{-e^{-t/\tau_m}}{\tau_m} + \frac{e^{-t/\tau_s}}{\tau_s}\right)
+\end{equation}
+
+Setting $v'(t) = 0$ and solving for $t$ results in:
+
+\begin{equation}
+0 = \frac{-e^{-t/\tau_m}}{\tau_m} + \frac{e^{-t/\tau_s}}{\tau_s}
+\end{equation}
+
+This can be solved by taking the natural logarithm of both sides, and after rearranging terms, we find:
+
+\begin{equation}
+t_{peak} = \tau_m \tau_s \ln\left(\frac{\tau_s}{\tau_m}\right)
+\end{equation}
+
+
+\subsection{Rise Time}
+
+To compute the time of peak response, $t_{peak}$, we first need to find the point at which the derivative of the function $v(t)$ is zero. This will yield the time point at which the response is at its maximum.
+
+\begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
+\begin{center}
+
+    \label{st:rise-time}
+    If we assume that $\tau_m \ll \tau_s$, then the time of peak response approximates to:
+    \begin{equation}
+        t_{rise} \approx \frac{1}{\tau_m}
+    \end{equation}
+
+\end{center}
+\end{mdframed}
+
+\textbf{Proof:}
+
+Under the assumption $\tau_m \ll \tau_s$, the natural logarithm in the above equation simplifies to $\ln(\tau_m/\tau_s) \approx -\tau_s/\tau_m$ (using the first order Taylor series approximation $\ln(1+x) \approx x$ for small $x$). This reduces $t_{peak}$ to:
+
+\begin{equation}
+t_{peak} \approx \tau_m
+\end{equation}
+
+Thus, the rise time, $t_{rise}$, can be approximated as:
+
+\begin{equation}
+t_{rise} \approx \frac{1}{\tau_m}
+\end{equation}
+
+\subsection{Response Width}
+
+The spike response width, $W_{spike}$, can be computed by finding the times at which the neuron's response reaches a certain fraction of the peak response (denoted as $\alpha_{cut}$). If we denote these times as $t_1$ and $t_2$, the spike response width is given by $W_{spike} = t_2 - t_1$.
+
+\begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
+\begin{center}
+
+    \label{st:window-width}
+    For $\alpha_{cut} = \frac{1}{2}$ the spike response width, $W_{spike}$, approximates to:
+
+    \begin{equation}
+        W_{spike} \approx \tau_s
+    \end{equation}
+
+\end{center}
+\end{mdframed}
+
+
+\textbf{Proof:}
+
+For $\alpha_{cut} = \frac{1}{2}$ we need to find the solutions to the equation
+\begin{equation}
+    v(t) = v(t_{peak})/2
+\end{equation}
+i.e.,
+\begin{equation}
+e^{-t/\tau_m} - e^{-t/\tau_s} = \frac{1}{2}\left(e^{-t_{peak}/\tau_m} - e^{-t_{peak}/\tau_s}\right)
+\end{equation}
+
+Assuming $\tau_m \ll \tau_s$, we can neglect the $e^{-t/\tau_s}$ term in the equation, which gives
+
+\begin{equation}
+e^{-t/\tau_m} = \frac{1}{2} e^{-t_{peak}/\tau_m}
+\end{equation}
+
+Solving for $t$, we find
+
+\begin{equation}
+t = \tau_m \ln\left(2 e^{t_{peak}/\tau_m}\right)
+\end{equation}
+
+Substituting $t_{peak} = \tau_m \tau_s \ln(\tau_s/\tau_m)$, we get
+
+\begin{equation}
+t = \tau_m \ln\left(2 e^{\tau_s}\right)
+\end{equation}
+
+Thus, the spike width becomes
+
+\begin{equation}
+W_{spike} = t_2 - t_1 = \tau_s \ln\left(\frac{1 + e^{\tau_s}}{1 - e^{\tau_s}}\right)
+\end{equation}
+
+As $\tau_s \gg 1$, we can approximate $e^{\tau_s} \approx 1 + \tau_s$ using the first term of the Taylor series for $e^x$. Thus, the equation for $W_{spike}$ simplifies to
+
+\begin{equation}
+W_{spike} \approx \tau_s
+\end{equation}
+
+
+With the parameters $\tau_m$ and $\tau_s$ granting control over both the rise time and the response width, this model becomes an ideal tool for understanding neural coding in a broad range of scenarios.

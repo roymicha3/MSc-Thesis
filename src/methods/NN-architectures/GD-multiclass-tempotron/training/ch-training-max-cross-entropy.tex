@@ -1,5 +1,20 @@
 \subsubsection{Training – Max Time Cross-Entropy}
 
+
+\begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
+\begin{center}
+
+    \label{st:GD-cross-entr-tempotron}
+    Using the Gradient Descent method our step iteration will be:
+    \begin{equation}
+        \Delta w_k^i = -\beta \cdot (\sigma_k^\mu - y_k^\mu) \cdot \sum_j k(t_{\max}^k - t_{i,j}^\mu)
+    \end{equation}
+
+\end{center}
+\end{mdframed}
+
+\textbf{Proof:}
+
 Let's define: \(x_k = \beta v_k^{\max}\)
 
 The derivative is:

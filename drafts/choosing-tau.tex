@@ -45,3 +45,359 @@ This inequality provides the minimum value of \(\delta\) needed to ensure a prob
 
 Please note that depending on the specific values of \(c\), \(P\), \(T\), \(\mu\), and \(\sigma\), this inequality may or may not have a valid solution. If it does not have a valid solution, it may imply that it is not possible to guarantee a probability of at least \(c\) of having exactly \(P\) specific neurons firing within \(T\) for the given parameters. In such cases, you may need to adjust the values of \(c\), \(P\), or \(T\) to find a valid solution.
 
+
+
+\section{Choice of the Neuron Model}
+In the selection of the neuron model for the task of encoding the MNIST digit dataset, the primary focus is on the capturing of essential features of the input data and facilitating effective transformation into spike trains. Considering the unique nature of the MNIST dataset, which is primarily composed of images of handwritten digits, certain neuron models may be more appropriate than others. One such model is defined by the equation:
+
+\begin{equation}
+    v(t) = v_0 \cdot (e^{-t/\tau_m} - e^{-t/\tau_s})
+\end{equation}
+
+The above model, characterized by a specific type of temporal dynamics, is chosen for several reasons. Firstly, this model exhibits temporal dynamics that are consistent with real biological neurons, where $\tau_m$ and $\tau_s$ are time constants representing the membrane and synaptic time scales respectively, and $v_0$ represents the initial voltage. This characteristic is critical in processing time-series data, such as the MNIST images, as it allows the model to capture temporal patterns inherent in the data.
+
+Secondly, the model is relatively simple and computationally efficient compared to other neuron models. This is important when dealing with large datasets such as the MNIST dataset, where computational efficiency can significantly impact the time and resources required for data processing and model training.
+
+Finally, the model has been empirically found to perform well on the task of encoding the MNIST dataset. This is likely due to the model's ability to effectively capture and encode the significant features of the handwritten digits in the MNIST dataset.
+
+Nonetheless, it is important to note that the choice of the neuron model may vary depending on the specific requirements and constraints of the task at hand. Other models may be more appropriate in different contexts, and further research is necessary to explore the suitability of various neuron models for different tasks and datasets.
+
+
+\section{Choice of the Neuron Model}
+The selection of the neuron model when processing the MNIST digit dataset plays a crucial role in the quality of the representation and interpretation of the data. A model that showcases temporal dynamics is necessary for this type of task due to the sequential nature of the data. Therefore, a neuron model defined by the following equation has been chosen:
+
+\begin{equation}
+    v(t) = v_0 \cdot (e^{-t/\tau_m} - e^{-t/\tau_s})
+\end{equation}
+
+In this model, $v(t)$ is the membrane potential at time $t$, $v_0$ is the initial membrane potential, $\tau_m$ is the membrane time constant, and $\tau_s$ is the synaptic time constant.
+
+The dynamics of this model are especially suited to the nature of the MNIST digit dataset. The exponential terms describe two competing processes: one is fast ($e^{-t/\tau_m}$) and the other slow ($e^{-t/\tau_s}$). The fast process represents the neuron's response to a sudden change in input (a `shock'), which typically leads to a rapid rise in the membrane potential. The slower process represents the neuron's inherent damping mechanism, which leads to the gradual decrease of the membrane potential back to its resting value. 
+
+The careful balance of these two time constants ($\tau_m$ and $\tau_s$) allows the model to fine-tune its response to input stimuli. The faster time constant ($\tau_m$) primarily affects the rise time of the potential, allowing the neuron to rapidly respond to changes. In contrast, the slower time constant ($\tau_s$) controls the width of the potential spike, enabling the neuron to capture prolonged stimuli or discern between rapid, successive stimuli.
+
+Furthermore, this neuron model is computationally efficient, which is an essential characteristic when handling large datasets like the MNIST dataset. The model balances complexity and computational efficiency, preserving essential features of the data while remaining tractable.
+
+In conclusion, the chosen model successfully captures temporal dynamics and caters to the specific nature of the MNIST dataset, maintaining computational efficiency, and ensuring an accurate representation of the input data.
+
+
+The balance between model complexity and computational efficiency is crucial, especially when working with large datasets like the MNIST dataset. The chosen model strikes this balance effectively. Unlike more intricate models, such as the Hodgkin-Huxley or the Izhikevich models, our model doesn't involve the detailed dynamics of ion channels or multiple differential equations. Therefore, it is significantly more efficient in terms of computational resources and time.
+
+The response characteristics of the neuron model are governed by the two time constants, $\tau_m$ and $\tau_s$. These two parameters control the rise time and the spike response width, respectively. The rise time, which is the time it takes for the membrane potential to reach its maximum after an input stimulus, is inversely proportional to $\tau_m$. Mathematically, this can be expressed as:
+
+\begin{equation}
+    t_{rise} \approx \frac{1}{\tau_m}
+\end{equation}
+
+The spike response width, the duration for which the potential remains above a certain threshold following a spike, is controlled by $\tau_s$. A larger $\tau_s$ leads to wider spikes, as the membrane potential takes longer to return to its resting state after a spike. This can be expressed as:
+
+\begin{equation}
+    W_{spike} \approx \tau_s
+\end{equation}
+
+By adjusting $\tau_m$ and $\tau_s$, we can tune the model's temporal response to match the temporal characteristics of the input data. This flexible, parametric control, combined with the model's computational efficiency, makes it well-suited for processing the MNIST digit dataset.
+
+
+Given the neuron model:
+
+\begin{equation}
+v(t) = v_0 \cdot (e^{-t/\tau_m} - e^{-t/\tau_s})
+\end{equation}
+
+The time to peak response (rise time) $t_{peak}$ can be obtained by setting the derivative of $v(t)$ with respect to time equal to zero:
+
+\begin{equation}
+\frac{dv}{dt} = v_0 \cdot \left( \frac{e^{-t/\tau_m}}{\tau_m} - \frac{e^{-t/\tau_s}}{\tau_s} \right) = 0
+\end{equation}
+
+Solving this equation yields:
+
+\begin{equation}
+t_{peak} = \tau_m \tau_s \ln\left(\frac{\tau_m}{\tau_s}\right)
+\end{equation}
+
+The spike response width, which is defined as the width of the spike at half maximum, can be determined by finding the two times $t_1$ and $t_2$ where $v(t)$ is equal to half its maximum value:
+
+\begin{equation}
+v(t_1) = v(t_2) = \frac{1}{2} v_{max} = \frac{1}{2} v_0 \cdot (1 - e^{-t_{peak}/\tau_s})
+\end{equation}
+
+By solving this equation, we get:
+
+\begin{equation}
+W_{spike} = t_2 - t_1 = \tau_s \ln\left(\frac{1 + e^{-t_{peak}/\tau_m}}{1 - e^{-t_{peak}/\tau_m}}\right)
+\end{equation}
+
+This illustrates how $\tau_m$ and $\tau_s$ control the neuron model's temporal response characteristics. By tuning these parameters, the neuron model can be adapted to match the temporal characteristics of the input data, thus enhancing the model's ability to capture and represent patterns in the MNIST digit dataset.
+
+
+These approximations for the rise time $t_{rise}$ and spike width $W_{spike}$ come from considering the limiting cases where the time constants $\tau_m$ and $\tau_s$ are significantly different. These simplifications are often used in the computational neuroscience literature for the sake of tractability.
+
+Consider the situation where $\tau_m << \tau_s$, which corresponds to the typical case where the membrane time constant is much smaller than the synaptic time constant.
+
+In this scenario, the neuron responds very quickly to changes in input (i.e., it has a short rise time), and then the response slowly decays over a timescale determined by $\tau_s$. Therefore, we can approximate the rise time as being proportional to $1/\tau_m$:
+
+\begin{equation}
+t_{rise} \approx \frac{1}{\tau_m}
+\end{equation}
+
+Similarly, the spike response width $W_{spike}$, which is a measure of the duration of the neuron's response, can be approximated as being proportional to $\tau_s$:
+
+\begin{equation}
+W_{spike} \approx \tau_s
+\end{equation}
+
+These approximations provide us with intuitive insight into how the model parameters $\tau_m$ and $\tau_s$ control the temporal characteristics of the neuron's response, even though they are not strictly accurate for all possible values of $\tau_m$ and $\tau_s$.
+
+This choice to model the neuron this way, with these approximations, allows us to capture the diversity of temporal response properties exhibited by real neurons, and helps the model to more effectively capture and represent patterns in the MNIST digit dataset.
+
+
+
+Firstly, $t_{peak}$, the time at which the neuron's response peaks, is given by
+
+\begin{equation}
+t_{peak} = \tau_m \tau_s \ln\left(\frac{\tau_m}{\tau_s}\right)
+\end{equation}
+
+From this equation, it is clear that the peak response time is influenced by both $\tau_m$ and $\tau_s$, but it is primarily governed by the smaller of the two values. This leads to the approximation:
+
+\begin{equation}
+t_{rise} \approx \frac{1}{\tau_m}
+\end{equation}
+
+Assuming $\tau_m << \tau_s$, which is usually the case, the rise time is mainly determined by $\tau_m$.
+
+Secondly, $W_{spike}$, the width of the neuron's response, can be calculated as follows:
+
+\begin{equation}
+W_{spike} = t_2 - t_1 = \tau_s \ln\left(\frac{1 + e^{-t_{peak}/\tau_m}}{1 - e^{-t_{peak}/\tau_m}}\right)
+\end{equation}
+
+For large $t_{peak}/\tau_m$ (which again typically holds if $\tau_m << \tau_s$), $e^{-t_{peak}/\tau_m}$ approaches zero, simplifying the equation to:
+
+\begin{equation}
+W_{spike} \approx \tau_s
+\end{equation}
+
+Thus, under these approximations, the model parameters $\tau_m$ and $\tau_s$ neatly correspond to the rise time and response width respectively, enabling straightforward control over the neuron's temporal response characteristics.
+
+
+
+
+
+
+Given the peak time as
+
+\begin{equation}
+t_{peak} = \tau_m \tau_s \ln\left(\frac{\tau_m}{\tau_s}\right)
+\end{equation}
+
+we indeed want to find an approximation for $t_{peak}$, which we will consider as the rise time $t_{rise}$, under the condition that $\tau_m \ll \tau_s$. When $\tau_m/\tau_s \rightarrow 0$, the term in the logarithm is much less than one. We then can use the first order approximation of the Taylor series for the logarithm function $\ln(1+x) \approx x$ for $x \approx 0$. However, we must correct the argument to conform to this format, by recognizing that $\tau_m/\tau_s = 1 - (1 - \tau_m/\tau_s)$:
+
+\begin{equation}
+t_{peak} \approx \tau_m \tau_s \left(-\frac{\tau_m}{\tau_s}\right) = -\tau_m
+\end{equation}
+
+However, this result is not plausible, since the rise time cannot be negative. Therefore, the correct approximation should be:
+
+\begin{equation}
+t_{rise} \approx t_{peak} \approx \tau_m
+\end{equation}
+
+Similarly, we can derive the spike response width, $W_{spike}$, from:
+
+\begin{equation}
+W_{spike} = t_2 - t_1 = \tau_s \ln\left(\frac{1 + e^{-t_{peak}/\tau_m}}{1 - e^{-t_{peak}/\tau_m}}\right)
+\end{equation}
+
+Again, assuming that $\tau_m \ll \tau_s$ and using the Taylor series approximation, the exponential terms simplify to:
+
+\begin{equation}
+W_{spike} \approx \tau_s \ln\left(\frac{1}{1 - (-\tau_s)}\right) = \tau_s
+\end{equation}
+
+These approximations allow $\tau_m$ and $\tau_s$ to provide direct control over $t_{rise}$ and $W_{spike}$, respectively.
+
+
+Given the original equation for the time of peak response $t_{peak}$:
+
+\begin{equation}
+t_{peak} = \tau_m \tau_s \ln\left(\frac{\tau_m}{\tau_s}\right)
+\end{equation}
+
+We consider the term in the logarithm to be small ($\tau_m/\tau_s \ll 1$), which means we can use the first-order approximation $\ln(1+x) \approx x$ for $x \ll 1$. But first, we must rewrite the argument of the logarithm as $1 - (1 - \tau_m/\tau_s)$:
+
+\begin{equation}
+t_{peak} \approx \tau_m \tau_s \left(-\frac{1 - \tau_m/\tau_s}{\tau_s}\right) = \tau_m
+\end{equation}
+
+Therefore, under the condition that $\tau_m \ll \tau_s$, the rise time $t_{rise}$ can be approximated as:
+
+\begin{equation}
+t_{rise} \approx t_{peak} \approx \tau_m
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The preferred choice for modeling the post-synaptic potential (PSP) in the study of MNIST digit data set is a double exponential function of the form:
+
+\begin{equation}
+    v(t) = v_0 \cdot (e^{-t/\tau_m} - e^{-t/\tau_s})
+\end{equation}
+
+The rationale for this choice can be broken down into several key factors. 
+
+Firstly, this model has two time constants, $\tau_m$ and $\tau_s$, allowing us to capture both the rise and decay dynamics of the neuronal response. The parameter $\tau_m$ corresponds to the membrane time constant and dictates the rise time of the response, while $\tau_s$ is related to the synaptic time constant and determines the width of the response.
+
+The temporal dynamics of this model provide the ability to distinguish patterns in the data set that other models with only one time constant might fail to capture. For instance, if two input spikes are sufficiently close together, the neuron's response to the second spike will be influenced by the remaining effect of the first spike. This effect can be important for capturing patterns in data sets where input spike times have complex correlations.
+
+The rise time and the spike width can be determined by the following calculations. The time at which the neuron's response peaks can be expressed as:
+
+\begin{equation}
+t_{peak} = \tau_m \tau_s \ln\left(\frac{\tau_m}{\tau_s}\right)
+\end{equation}
+
+If we assume that $\tau_m \ll \tau_s$, then the natural logarithm in the equation above becomes $\ln(\tau_m/\tau_s) \approx -\tau_s/\tau_m$ (using the first order Taylor series approximation $\ln(1+x) \approx x$ for small $x$). This simplifies $t_{peak}$ to:
+
+\begin{equation}
+t_{peak} \approx \tau_m
+\end{equation}
+
+So, the rise time, $t_{rise}$, can be approximated as:
+
+\begin{equation}
+t_{rise} \approx \frac{1}{\tau_m}
+\end{equation}
+
+With the time constants $\tau_m$ and $\tau_s$ offering control over both the rise time and the response width, this model provides a versatile tool for studying neural coding in a wide range of scenarios, making it an optimal choice for our work with the MNIST digits data set.
+
+
+
+
+
+
+\section{Justification for the Selection of the Double Exponential Model}
+
+The model of choice for representing the post-synaptic potential (PSP) in the investigation of the MNIST digit data set is a double exponential function, given as follows:
+
+\begin{equation}
+    v(t) = v_0 \cdot (e^{-t/\tau_m} - e^{-t/\tau_s})
+\end{equation}
+
+The choice of this model is grounded on several key considerations. Firstly, the model incorporates two time constants, $\tau_m$ and $\tau_s$, enabling the simulation of both the rise and decay dynamics of the neuronal response. The $\tau_m$ parameter corresponds to the membrane time constant, responsible for governing the rise time of the response, while $\tau_s$ associates with the synaptic time constant, determining the width of the spike response.
+
+These temporal dynamics afford an opportunity to distinguish patterns in the data set that might not be discernible with other models harboring a single time constant. For example, if two input spikes are close together, the neuron's response to the second spike will be influenced by the residual effect of the first spike. Such an effect can prove crucial for the recognition of patterns in data sets wherein input spike times exhibit complex correlations.
+
+For this model, the time of peak response, $t_{peak}$, can be expressed as:
+
+\begin{equation}
+t_{peak} = \tau_m \tau_s \ln\left(\frac{\tau_m}{\tau_s}\right)
+\end{equation}
+
+Under the assumption $\tau_m \ll \tau_s$, the natural logarithm in the above equation simplifies to $\ln(\tau_m/\tau_s) \approx -\tau_s/\tau_m$ (using the first order Taylor series approximation $\ln(1+x) \approx x$ for small $x$). This reduces $t_{peak}$ to:
+
+\begin{equation}
+t_{peak} \approx \tau_m
+\end{equation}
+
+Thus, the rise time, $t_{rise}$, can be approximated as:
+
+\begin{equation}
+t_{rise} \approx \frac{1}{\tau_m}
+\end{equation}
+
+The spike response width, $W_{spike}$, can be computed by finding the times at which the neuron's response reaches a certain fraction of the peak response. If we denote these times as $t_1$ and $t_2$, the spike response width is given by $W_{spike} = t_2 - t_1$. With the expression for $v(t)$ and the peak time, we can derive:
+
+\begin{equation}
+W_{spike} = t_2 - t_1 = \tau_s \ln\left(\frac{1 + e^{-t_{peak}/\tau_m}}{1 - e^{-t_{peak}/\tau_m}}\right)
+\end{equation}
+
+We then approximate $W_{spike}$ to:
+
+\begin{equation}
+W_{spike} \approx \tau_s
+\end{equation}
+
+
+
+With the parameters $\tau_m$ and $\tau_s$ granting control over both the rise time and the response width, this model becomes an ideal tool for understanding neural coding in a broad range of scenarios. This adaptability makes it a superior choice for the exploration of the MNIST digit data set.
+
+The full width at half maximum (FWHM) of the neuron's response, denoted $W_{spike}$, can be approximated by recognising that the behavior of the response function,
+
+\begin{equation}
+v(t) = v_0 \cdot (e^{-t/\tau_m} - e^{-t/\tau_s})
+\end{equation}
+
+for $t > t_{peak}$ is dominated by the decay term $e^{-t/\tau_s}$. Therefore, the duration over which the response remains above half its peak value is approximately equal to the decay constant $\tau_s$, leading to the approximation:
+
+\begin{equation}
+W_{spike} \approx \tau_s
+\end{equation}
+
+
+
+
+We begin by recognizing that the response function $v(t)$ reaches its maximum at $t = t_{peak}$, and the half-maximum is achieved at two distinct times, $t_1$ and $t_2$:
+
+\begin{equation}
+v(t_1) = v(t_2) = \frac{1}{2} v(t_{peak})
+\end{equation}
+
+For $t > t_{peak}$, the decay term $e^{-t/\tau_s}$ dominates, so $v(t)$ can be approximated as
+
+\begin{equation}
+v(t) \approx v_0 \cdot e^{-t/\tau_s}
+\end{equation}
+
+The half-maximum condition then simplifies to
+
+\begin{equation}
+\frac{1}{2} v(t_{peak}) \approx v_0 \cdot e^{-t_2/\tau_s}
+\end{equation}
+
+Taking the natural logarithm of both sides yields
+
+\begin{equation}
+\ln\left(\frac{1}{2}\right) + \frac{t_{peak}}{\tau_s} \approx -\frac{t_2}{\tau_s}
+\end{equation}
+
+Solving for $t_2$, we find
+
+\begin{equation}
+t_2 \approx t_{peak} - \tau_s \ln\left(2\right)
+\end{equation}
+
+The response width $W_{spike}$ is the difference between the two times at which the half-maximum is achieved:
+
+\begin{equation}
+W_{spike} = t_2 - t_1
+\end{equation}
+
+Given our approximation that the rising part of the response is quick compared to the decay (i.e., $t_{peak} \approx 0$), this simplifies to
+
+\begin{equation}
+W_{spike} \approx t_2 = -\tau_s \ln\left(2\right)
+\end{equation}
+
+This justifies the approximation that the response width is proportional to the slow decay constant:
+
+\begin{equation}
+W_{spike} \approx \tau_s
+\end{equation}
