@@ -2,6 +2,25 @@
 
 And now all we need is to add the gating, and we have our backpropagation algorithm for our model:
 
+\begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
+\begin{center}
+
+    \label{st:BP-cross-entr-gating}
+    Using the Back-Propagation method our step iteration will be:
+
+    \begin{equation}
+        \forall k \in [N_L], E_l^k = \begin{cases} \sum_{m=1}^M E_{l+1}^{k,m}, & l < L \\ \frac{dL}{dz_L^k}, & l = L \end{cases}
+    \end{equation}
+
+    \begin{equation}
+        \forall k \in [N_L], E_l^{k,m} = (W_l^m)^T \cdot g_m(x) \cdot E_{l+1}^k, \quad l < L
+    \end{equation}
+
+\end{center}
+\end{mdframed}
+
+\textbf{Proof:}
+
 \begin{equation}
 \frac{df_\mu^m(z_l)}{dz_l} = g_m(x_\mu) \cdot \bar{1}_{N_l} \quad \text{where} \quad \bar{1}_{N_l} = \begin{bmatrix} 1 \\ \vdots \\ 1 \end{bmatrix} \in \mathbb{R}^{N_l}
 \end{equation}

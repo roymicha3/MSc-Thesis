@@ -8,8 +8,8 @@ That will make our life a little harder, for that reason we define \(z_l^i = z_l
 \begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
 \begin{center}
 
-    \label{st:GD-cross-entr-convl-tempotron}
-    Using the Gradient Descent method our step iteration will be:
+    \label{st:BP-cross-entr-time-tempotron}
+    Using the Back-Propagation method our step iteration will be:
     \begin{equation}
         E_l^k = \begin{cases} (W_{l+1})^T \cdot [(f^{l+1})' \odot E_{l+1}^k], & l < L \\ \frac{dL}{dz_L^k}, & l = L \end{cases}
     \end{equation}
