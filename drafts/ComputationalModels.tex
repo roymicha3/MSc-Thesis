@@ -1,0 +1,96 @@
+\subsection{Spike Response Peak}
+
+\textbf{Statement:}
+
+The time at which the neuron's response peaks, $t_{peak}$, is given by
+
+\begin{equation}
+t_{peak} = \tau_m \tau_s \ln\left(\frac{\tau_m}{\tau_s}\right)
+\end{equation}
+
+If we assume that $\tau_m >> \tau_s$, then the time of peak response approximates to:
+
+\begin{equation}
+t_{peak} \approx \tau_s
+\end{equation}
+
+\textbf{Proof:}
+
+Given the assumption $\tau_m >> \tau_s$, the quantity $\frac{\tau_m}{\tau_s}$ is a large number. The Taylor series expansion for the natural logarithm function $\ln(1 + x)$, for large $x$, is given by $\ln(1 + x) = x - \frac{x^2}{2} + \frac{x^3}{3} - \cdots$.
+
+Applying this to our scenario, where $x = \frac{\tau_m}{\tau_s} - 1$ is a large number, the higher-order terms in the Taylor series expansion become negligible compared to the first term $x$. Therefore, we can write $\ln\left(\frac{\tau_m}{\tau_s}\right) = \frac{\tau_m}{\tau_s} - 1 \approx \frac{\tau_m}{\tau_s}$.
+
+Substituting this approximation into the expression for $t_{peak}$, we get
+
+\begin{equation}
+t_{peak} \approx \tau_m \tau_s \times \frac{\tau_m}{\tau_s} = \tau_s
+\end{equation}
+
+\subsection{Rise Time}
+
+\textbf{Statement:}
+
+If we assume that $\tau_m >> \tau_s$, then the rise time, $t_{rise}$, approximates to:
+
+\begin{equation}
+t_{rise} \approx \tau_s
+\end{equation}
+
+\textbf{Proof:}
+
+Under the assumption $\tau_m >> \tau_s$, we've shown in the previous section that the time to reach peak response $t_{peak}$ can be approximated by $\tau_s$. By definition, the rise time $t_{rise}$ is the time taken for the response to rise from 10% to 90% of its peak value. For an exponential process, this is approximately the same as the time taken to reach the peak. Thus, $t_{rise} \approx t_{peak} \approx \tau_s$.
+
+\subsection{Response Width}
+
+\textbf{Statement:}
+
+For $\alpha_{cut} = \frac{1}{2}$, the spike response width, $W_{spike}$, approximates to:
+
+\begin{equation}
+W_{spike} \approx \tau_m
+\end{equation}
+
+\textbf{Proof:}
+
+The response width, $W_{spike}$, is the width of the response at half-maximum. In the limit $\tau_m >> \tau_s$, the exponential function $e^{-t/\tau_m}$ decays much slower than $e^{-t/\tau_s}$. Therefore, the width of the spike response is primarily determined by $\tau_m$.
+
+To quantify this, we can find the times $t_1$ and $t_2$ at which the response is half of its maximum value, i.e., $v(t_{1,2}) = \frac{1}{2}v(t_{peak})$, and calculate the width as $W_{spike} = t_2 - t_1$.
+
+At half-maximum, $v(t_{1,2}) = \frac{1}{2}v_0 \cdot (e^{-t_{peak}/\tau_m} - e^{-t_{peak}/\tau_s}) = v_0 \cdot (e^{-t_{1,2}/\tau_m} - e^{-t_{1,2}/\tau_s})$.
+
+As $\tau_m >> \tau_s$, we can neglect the $e^{-t_{1,2}/\tau_s}$ term and solve $e^{-t_{1,2}/\tau_m} = \frac{1}{2} e^{-t_{peak}/\tau_m}$, which gives $t_{1,2} = t_{peak} \pm \tau_m \ln 2$. The width of the spike response is then $W_{spike} = t_2 - t_1 = 2 \tau_m \ln 2 \approx \tau_m$ for large $\tau_m$.
+
+
+
+
+
+
+
+
+
+
+\begin{equation}
+e^{-t/\tau_m} = \frac{1}{2} e^{-t_{peak}/\tau_m}
+\end{equation}
+
+Taking the natural logarithm of both sides, we get:
+
+\begin{equation}
+-t/\tau_m = \ln(1/2) - t_{peak}/\tau_m
+\end{equation}
+
+Solving for $t$ yields:
+
+\begin{equation}
+t = t_{peak} - \tau_m \ln(2)
+\end{equation}
+
+As $t_{peak}$ is the point at which the neuron's response peaks, the times at which the neuron's response is half of the peak response (i.e., the width of the spike) are $t_1 = t_{peak} - \tau_m \ln(2)$ and $t_2 = t_{peak} + \tau_m \ln(2)$.
+
+Thus, the spike width $W_{spike}$ is given by:
+
+\begin{equation}
+W_{spike} = t_2 - t_1 = 2\tau_m \ln(2)
+\end{equation}
+
+Under the assumption that $\tau_m >> \tau_s$, this result is consistent with the understanding that the spike width would be dominated by the membrane time constant $\tau_m$. Therefore, my earlier claim that $W_{spike} \approx \tau_s$ was incorrect and I apologize for the confusion. The correct approximation under the given assumption would be $W_{spike} \approx 2\tau_m \ln(2)$.

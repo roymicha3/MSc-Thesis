@@ -38,42 +38,48 @@ Setting $v'(t) = 0$ and solving for $t$ results in:
 0 = \frac{-e^{-t/\tau_m}}{\tau_m} + \frac{e^{-t/\tau_s}}{\tau_s}
 \end{equation}
 
-This can be solved by taking the natural logarithm of both sides, and after rearranging terms, we find:
-
 \begin{equation}
-t_{peak} = \tau_m \tau_s \ln\left(\frac{\tau_s}{\tau_m}\right)
+v'(t) = v_0 \cdot \left(\frac{-e^{-t/\tau_m}}{\tau_m} + \frac{e^{-t/\tau_s}}{\tau_s}\right)
 \end{equation}
 
-
-\subsection{Rise Time}
-
-To compute the time of peak response, $t_{peak}$, we first need to find the point at which the derivative of the function $v(t)$ is zero. This will yield the time point at which the response is at its maximum.
-
-\begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
-\begin{center}
-
-    \label{st:rise-time}
-    If we assume that $\tau_m \ll \tau_s$, then the time of peak response approximates to:
-    \begin{equation}
-        t_{rise} \approx \frac{1}{\tau_m}
-    \end{equation}
-
-\end{center}
-\end{mdframed}
-
-\textbf{Proof:}
-
-Under the assumption $\tau_m \ll \tau_s$, the natural logarithm in the above equation simplifies to $\ln(\tau_m/\tau_s) \approx -\tau_s/\tau_m$ (using the first order Taylor series approximation $\ln(1+x) \approx x$ for small $x$). This reduces $t_{peak}$ to:
+Setting $v'(t) = 0$, we obtain:
 
 \begin{equation}
-t_{peak} \approx \tau_m
+0 = \frac{-e^{-t/\tau_m}}{\tau_m} + \frac{e^{-t/\tau_s}}{\tau_s}
 \end{equation}
 
-Thus, the rise time, $t_{rise}$, can be approximated as:
+Rearranging the terms gives us:
 
 \begin{equation}
-t_{rise} \approx \frac{1}{\tau_m}
+\frac{e^{-t/\tau_m}}{\tau_m} = \frac{e^{-t/\tau_s}}{\tau_s}
 \end{equation}
+
+Taking natural logarithms on both sides, we have:
+
+\begin{equation}
+\frac{t}{\tau_m} - \ln \tau_m = - \frac{t}{\tau_s} - \ln \tau_s
+\end{equation}
+
+Rearranging terms again:
+
+\begin{equation}
+t \left( \frac{1}{\tau_s} - \frac{1}{\tau_m} \right) = \ln \tau_m - \ln \tau_s = \ln\left(\frac{\tau_m}{\tau_s}\right)
+\end{equation}
+
+Solving for $t$ yields:
+
+\begin{equation}
+t_{peak} = \frac{\tau_m \tau_s}{\tau_m - \tau_s} \ln\left(\frac{\tau_m}{\tau_s}\right)
+\end{equation}
+
+So, there seems to be a mistake in the equation provided in your question, as there should be a denominator of $(\tau_m - \tau_s)$ in the expression for $t_{peak}$.
+
+However, under the assumption that $\tau_m >> \tau_s$, we could argue that $\tau_m - \tau_s \approx \tau_m$. Using this approximation, the equation becomes:
+
+\begin{equation}
+t_{peak} = \tau_s \ln\left(\frac{\tau_m}{\tau_s}\right)
+\end{equation}
+
 
 \subsection{Response Width}
 
@@ -86,7 +92,7 @@ The spike response width, $W_{spike}$, can be computed by finding the times at w
     For $\alpha_{cut} = \frac{1}{2}$ the spike response width, $W_{spike}$, approximates to:
 
     \begin{equation}
-        W_{spike} \approx \tau_s
+        W_{spike} \approx 2\tau_m \ln(2)
     \end{equation}
 
 \end{center}
@@ -110,29 +116,31 @@ Assuming $\tau_m \ll \tau_s$, we can neglect the $e^{-t/\tau_s}$ term in the equ
 e^{-t/\tau_m} = \frac{1}{2} e^{-t_{peak}/\tau_m}
 \end{equation}
 
-Solving for $t$, we find
 
 \begin{equation}
-t = \tau_m \ln\left(2 e^{t_{peak}/\tau_m}\right)
+e^{-t/\tau_m} = \frac{1}{2} e^{-t_{peak}/\tau_m}
 \end{equation}
 
-Substituting $t_{peak} = \tau_m \tau_s \ln(\tau_s/\tau_m)$, we get
+Taking the natural logarithm of both sides, we get:
 
 \begin{equation}
-t = \tau_m \ln\left(2 e^{\tau_s}\right)
+-t/\tau_m = \ln(1/2) - t_{peak}/\tau_m
 \end{equation}
 
-Thus, the spike width becomes
+Solving for $t$ yields:
 
 \begin{equation}
-W_{spike} = t_2 - t_1 = \tau_s \ln\left(\frac{1 + e^{\tau_s}}{1 - e^{\tau_s}}\right)
+t = t_{peak} - \tau_m \ln(2)
 \end{equation}
 
-As $\tau_s \gg 1$, we can approximate $e^{\tau_s} \approx 1 + \tau_s$ using the first term of the Taylor series for $e^x$. Thus, the equation for $W_{spike}$ simplifies to
+As $t_{peak}$ is the point at which the neuron's response peaks, the times at which the neuron's response is half of the peak response (i.e., the width of the spike) are $t_1 = t_{peak} - \tau_m \ln(2)$ and $t_2 = t_{peak} + \tau_m \ln(2)$.
+
+Thus, the spike width $W_{spike}$ is given by:
 
 \begin{equation}
-W_{spike} \approx \tau_s
+W_{spike} = t_2 - t_1 = 2\tau_m \ln(2)
 \end{equation}
 
+Under the assumption that $\tau_m >> \tau_s$, this result is consistent with the understanding that the spike width would be dominated by the membrane time constant $\tau_m$. Therefore, my earlier claim that $W_{spike} \approx \tau_s$ was incorrect and I apologize for the confusion. The correct approximation under the given assumption would be $W_{spike} \approx 2\tau_m \ln(2)$.
 
 With the parameters $\tau_m$ and $\tau_s$ granting control over both the rise time and the response width, this model becomes an ideal tool for understanding neural coding in a broad range of scenarios.
