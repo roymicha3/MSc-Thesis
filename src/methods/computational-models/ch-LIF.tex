@@ -18,9 +18,10 @@ These temporal dynamics afford an opportunity to distinguish patterns in the dat
     \label{st:peak}
     The time at which the neuron's response peaks, $t_{peak}$, is given by
 
-    \begin{equation}
-        t_{peak} = \tau_m \tau_s \ln\left(\frac{\tau_m}{\tau_s}\right)
-    \end{equation}
+    
+\begin{equation}
+t_{peak} = \frac{\tau_m \tau_s}{\tau_m - \tau_s} \ln\left(\frac{\tau_m}{\tau_s}\right)
+\end{equation}
 
 \end{center}
 \end{mdframed}
@@ -72,14 +73,6 @@ Solving for $t$ yields:
 t_{peak} = \frac{\tau_m \tau_s}{\tau_m - \tau_s} \ln\left(\frac{\tau_m}{\tau_s}\right)
 \end{equation}
 
-So, there seems to be a mistake in the equation provided in your question, as there should be a denominator of $(\tau_m - \tau_s)$ in the expression for $t_{peak}$.
-
-However, under the assumption that $\tau_m >> \tau_s$, we could argue that $\tau_m - \tau_s \approx \tau_m$. Using this approximation, the equation becomes:
-
-\begin{equation}
-t_{peak} = \tau_s \ln\left(\frac{\tau_m}{\tau_s}\right)
-\end{equation}
-
 
 \subsection{Response Width}
 
@@ -110,7 +103,7 @@ i.e.,
 e^{-t/\tau_m} - e^{-t/\tau_s} = \frac{1}{2}\left(e^{-t_{peak}/\tau_m} - e^{-t_{peak}/\tau_s}\right)
 \end{equation}
 
-Assuming $\tau_m \ll \tau_s$, we can neglect the $e^{-t/\tau_s}$ term in the equation, which gives
+Assuming $\tau_m \gg \tau_s$, we can neglect the $e^{-t/\tau_s}$ term in the equation, which gives
 
 \begin{equation}
 e^{-t/\tau_m} = \frac{1}{2} e^{-t_{peak}/\tau_m}
@@ -142,5 +135,17 @@ W_{spike} = t_2 - t_1 = 2\tau_m \ln(2)
 \end{equation}
 
 Under the assumption that $\tau_m >> \tau_s$, this result is consistent with the understanding that the spike width would be dominated by the membrane time constant $\tau_m$. Therefore, my earlier claim that $W_{spike} \approx \tau_s$ was incorrect and I apologize for the confusion. The correct approximation under the given assumption would be $W_{spike} \approx 2\tau_m \ln(2)$.
+
+For example, for $\tau_m = 15$ ms and $\tau_s = \tau_m / 4 = 3.75$ ms, we can calculate the spike width $W_{spike}$ using the formula obtained earlier:
+
+\begin{equation}
+W_{spike} = 2\tau_m \ln(2)
+\end{equation}
+
+Substitute $\tau_m = 15$ ms into the equation, we get:
+
+\begin{equation}
+W_{spike} = 2 \times 15 \times \ln(2) \approx 20.79 \text{ ms}
+\end{equation}
 
 With the parameters $\tau_m$ and $\tau_s$ granting control over both the rise time and the response width, this model becomes an ideal tool for understanding neural coding in a broad range of scenarios.
