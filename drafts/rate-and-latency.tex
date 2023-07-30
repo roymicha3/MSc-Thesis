@@ -100,7 +100,7 @@ First, we compute the observed firing rate. Given that $f = 1$ spike and $\Delta
 We then use the formula for the confidence interval:
 
 \begin{equation}
-\frac{1}{2\Delta T} \chi^{2}_{2\Delta T \cdot f, \frac{\alpha}{2}} \leq F \leq \frac{1}{2\Delta T} \chi^{2}_{2\Delta T \cdot (f+1), 1-\frac{\alpha}{2}}
+12 \cdot \Delta T \cdot \chi^{2}_{2\Delta T \cdot f, \frac{\alpha}{2}} \leq F \leq 12 \cdot \Delta T \cdot \chi^{2}_{2\Delta T \cdot (f+1), 1-\frac{\alpha}{2}}
 \end{equation}
 
 To find the specific values of $\chi^2$ for the degrees of freedom and percentiles we have, we need to use a $\chi^2$ table or statistical software.
@@ -131,12 +131,12 @@ So, the confidence interval for the firing rate can be written as $x = x_0 \pm \
 
 \section*{Confidence Interval Calculation for Firing Rate}
 
-For an interval $\Delta T = 10$ ms and a single spike observed within that range, the observed firing rate is $f = \frac{1}{\Delta T} = 100$ Hz. 
+For an interval $\Delta T = 20$ ms and a single spike observed within that range, the observed firing rate is $f = \frac{1}{\Delta T} = 50$ Hz. 
 
 The confidence interval for the firing rate can be calculated using the provided equation:
 
 \begin{equation}
-\frac{1}{2\Delta T} \chi^{2}_{2\Delta T \cdot f, \frac{\alpha}{2}} \leq F \leq \frac{1}{2\Delta T} \chi^{2}_{2\Delta T \cdot (f+1), 1-\frac{\alpha}{2}}
+12 \cdot \Delta T \cdot \chi^{2}_{2\Delta T \cdot f, \frac{\alpha}{2}} \leq F \leq 12 \cdot \Delta T \cdot \chi^{2}_{2\Delta T \cdot (f+1), 1-\frac{\alpha}{2}}
 \end{equation}
 
 For a 90\% confidence level, $\alpha = 0.1$, hence $\frac{\alpha}{2} = 0.05$ and $1-\frac{\alpha}{2} = 0.95$. Using the chi-square values for degrees of freedom $2\Delta T \cdot f$ and $2\Delta T \cdot (f+1)$ at these levels, denoted as $\chi^{2}_{\text{lower}}$ and $\chi^{2}_{\text{upper}}$ respectively, we can find:
