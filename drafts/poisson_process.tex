@@ -1,0 +1,94 @@
+Consider a \textbf{Poisson process} with rate parameter $\lambda > 0$. We aim to simulate this process over a time interval $T$ with a time-step $\Delta T$.
+
+The \textbf{Poisson process} is a type of counting process where events occur independently and randomly in time. In a given small interval of length $\Delta T$, the probability of "success" (an event occurring) in this Poisson process is $\lambda \Delta T$. 
+
+We divide the total time interval $T$ into $n = \frac{T}{\Delta T}$ smaller intervals. For each small interval, we generate a random number $U$ from the uniform distribution between 0 and 1. If $U$ is less than $\lambda \Delta T$, we record a "success" (1, which means an event occurred). If not, we record a "failure" (0, which means no event occurred).
+
+This procedure can be represented in pseudo code as follows:
+
+\begin{verbatim}
+def poisson_process(lambda, T, DeltaT):
+  n = T / DeltaT
+  events = [0]*n
+  for i in range(n):
+    U = random number from uniform(0, 1)
+    if U < lambda * DeltaT:
+      events[i] = 1
+  return events
+\end{verbatim}
+
+This function returns a binary list of length $n$. Each entry of the list represents a small time interval of length $\Delta T$. If an event occurs in this time interval, the entry is 1; otherwise, it's 0. 
+
+This method assumes that $\lambda \Delta T$ is small enough such that the probability of more than one event occurring within a small time interval $\Delta T$ is negligible. If this is not the case, a more sophisticated approach may be necessary to accurately simulate the Poisson process.
+
+
+Consider a \textbf{Poisson process} with rate parameter $R > 0$ in units of Hz (events per second). We aim to simulate this process over a time interval $T$ with a time-step $\Delta T$, both expressed in seconds.
+
+The \textbf{Poisson process} is a type of counting process, where events occur independently and randomly in time. In a given small interval of length $\Delta T$, the probability of "success" (an event occurring) in this Poisson process is $R \Delta T$.
+
+We divide the total time interval $T$ into $n = \frac{T}{\Delta T}$ smaller intervals. For each small interval, we generate a random number $U$ from the uniform distribution between 0 and 1. If $U$ is less than $R \Delta T$, we record a "success" (1, which means an event occurred). If not, we record a "failure" (0, which means no event occurred).
+
+This procedure can be represented in pseudo code as follows:
+
+\begin{verbatim}
+def poisson_process(R, T, DeltaT):
+  n = T / DeltaT
+  events = [0]*n
+  for i in range(n):
+    U = random number from uniform(0, 1)
+    if U < R * DeltaT:
+      events[i] = 1
+  return events
+\end{verbatim}
+
+This function returns a binary list of length $n$. Each entry of the list represents a small time interval of length $\Delta T$. If an event occurs in this time interval, the entry is 1, otherwise, it's 0.
+
+This method assumes that $R \Delta T$ is small enough such that the probability of more than one event occurring within a small time interval $\Delta T$ is negligible. If this is not the case, a more sophisticated approach may be necessary to accurately simulate the Poisson process.
+
+
+
+
+Given a Poisson process with rate $\lambda$, suppose we simulate the process as a series of $l$ coin tosses, where each coin toss corresponds to a time slot of duration $\Delta T$ in the measurement window. The chance of "success" (an event occurring) in each coin toss is $\lambda \Delta T$.
+
+We can estimate the rate of the Poisson process as $\hat{R} = \frac{X}{T}$, where $X$ is the total number of "successes" (events) and $T = l \cdot \Delta T$ is the total measurement time.
+
+The variance of $\hat{R}$ for a Poisson process is $\frac{\lambda}{T}$. If we want to determine the "true" rate with a given level of precision $\epsilon$, we can set our desired precision squared equal to the variance of our estimate, i.e.,
+
+\[
+\epsilon^2 = \frac{\lambda}{T}
+\]
+
+Solving this equation for $T$, we find the minimum measurement time $T_{\text{min}}$ needed to estimate the rate with our desired precision:
+
+\[
+T_{\text{min}} = \frac{\lambda}{\epsilon^2}
+\]
+
+
+
+
+The Central Limit Theorem (CLT) states that if $X_1, X_2, ..., X_n$ are independent and identically distributed random variables, each with a finite mean $\mu$ and variance $\sigma^2$, then the distribution of the sample mean $\bar{X} = \frac{1}{n} \sum_{i=1}^{n} X_i$ approaches a normal distribution as $n$ becomes large, regardless of the shape of the original distribution. In mathematical terms,
+
+\[
+\sqrt{n}(\bar{X}-\mu) \xrightarrow[]{d} N(0, \sigma^2)
+\]
+
+where $N(0, \sigma^2)$ is a normal distribution with mean 0 and variance $\sigma^2$.
+
+
+For a Poisson process observed over a time interval $T$, with $X$ events counted, the estimated rate of the process is $\hat{R} = \frac{X}{T}$.
+
+The standard deviation (SD) of $\hat{R}$ is $\sqrt{\frac{\hat{R}}{T}}$, so the standard error (SE) is given by $\frac{\sqrt{\hat{R}}}{\sqrt{T}}$. 
+
+The 90\% confidence interval for $\hat{R}$ can be calculated as follows:
+
+\[
+\hat{R} \pm 1.645 \times SE = \hat{R} \pm 1.645 \times \frac{\sqrt{\hat{R}}}{\sqrt{T}}
+\]
+
+Now, suppose the true rate $R=20$ Hz, the estimated rate $\hat{R}=20$ Hz, and the time step $\Delta T=1$ ms. Then, the 90\% confidence interval for $\hat{R}$ would be:
+
+\[
+\hat{R} = 20 \pm 1.645 \times \frac{\sqrt{20}}{\sqrt{T}}
+\]
+

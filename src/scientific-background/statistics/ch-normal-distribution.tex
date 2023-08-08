@@ -1,0 +1,41 @@
+\subsection{Normal Distribution}
+
+A normal distribution, also known as Gaussian distribution, is a type of continuous probability distribution for a real-valued random variable. 
+
+In statistics, the standard normal distribution, a specific case of the normal distribution where the mean ($\mu$) is 0 and the standard deviation ($\sigma$) is 1, is frequently used. Its probability density function (PDF) and cumulative distribution function (CDF) are defined as follows:
+
+\[
+f_Z(z) = \frac{1}{\sqrt{2\pi}} e^{-z^2/2}
+\]
+
+\[
+F_Z(z) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{z} e^{-x^2/2} dx
+\]
+
+For the standard normal distribution, we express values in terms of 'z-scores', measuring how many standard deviations an element deviates from the mean. The z-score corresponding to the 90th percentile in a two-sided interval is approximately 1.645, calculated by solving $F_Z(z) = 0.95$. Hence, the statement "approximately 90\% of values in a standard normal distribution lie within 1.645 standard deviations of the mean" is valid and refers to this z-score.
+
+For more details, see \cite{decarlo1997}. 
+
+\begin{mdframed}[backgroundcolor=gray_background, linewidth=0pt]
+    \textbf{Therom:} Central Limit Therom
+
+    The Central Limit Theorem (CLT) states that if $X_1, X_2, ..., X_l$ are independent and identically distributed random variables, each with a finite mean $\mu$ and variance $\sigma^2$, then the distribution of the sample mean $\bar{X} = \frac{1}{l} \sum_{i=1}^{l} X_i$ approaches a normal distribution as $n$ becomes large, regardless of the shape of the original distribution. In mathematical terms,
+
+    \[
+    \sqrt{l} \cdot (\bar{X}-\mu) \xrightarrow[]{d} N(0, \sigma^2)
+    \]
+    
+    where $N(0, \sigma^2)$ is a normal distribution with mean 0 and variance $\sigma^2$.
+    
+\end{mdframed}
+
+
+For a Poisson process observed over a time interval $T$, with $X$ events counted, the estimated rate of the process is $\hat{R} = \frac{X}{T}$.
+
+The standard deviation (SD) of $\hat{R}$ is $\sqrt{\frac{\hat{R}}{T}}$, so the standard error (SE) is given by $\frac{\sqrt{\hat{R}}}{\sqrt{T}}$. 
+
+The 90\% confidence interval for $\hat{R}$ can be calculated as follows:
+
+\[
+\hat{R} \pm 1.645 \times SE = \hat{R} \pm 1.645 \times \frac{\sqrt{\hat{R}}}{\sqrt{T}}
+\]

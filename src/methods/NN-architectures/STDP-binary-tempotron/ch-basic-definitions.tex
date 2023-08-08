@@ -18,33 +18,9 @@ For each pre-synaptic neuron $j$ with spike times $\{t_i^j\}_{i=1}^k$, the corre
 \begin{equation}
     k^j(t) = \sum_{t_i^j < t} k(t - t_i^j) \quad \Rightarrow \quad K_j = \left\{K^j\left[\frac{n}{N} \cdot T\right]\right\}_{n=0}^{N-1}
 \end{equation}
-
-The "presynaptic trace matrix" will be defined as follows:
-
-\begin{equation}
-    K = [K_1, \dots, K_l], \quad \text{for} \ l \in \mathbb{N} \ \text{presynaptic input neurons}
-\end{equation}
-
-Each pattern is defined by the firing times of the pre-synaptic neurons, and we can calculate its respective presynaptic trace matrix.
-
-But what is it good for?
-
-The post-synaptic voltage is defined by:
+We can define the activation to be:
 
 \begin{equation}
-    v(t) = \sum_{j=1}^l w_j \cdot K_j(t) \quad \Rightarrow \quad V = \sum_{j=1}^l w_j \cdot K_j
+    f(v_{max}) = v_{max} - v_{th}
 \end{equation}
-
-where:
-
-\begin{equation}
-    w = (w_1, \dots, w_l)^T
-\end{equation}
-
-Overall, the numeric definition is:
-
-\begin{equation}
-    V = K \cdot w
-\end{equation}
-
-We did it because matrix multiplication can be calculated much more efficiently than simple summation!
+And the labels is defined as $y = +1$ for $\oplus$ and $y=-1$ for $\ominus$.

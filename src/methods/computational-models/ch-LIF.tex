@@ -1,6 +1,6 @@
 \section{Computational Models}
 
-The model of choice for representing the post-synaptic potential (PSP) in the investigation of the MNIST digit data set is a double exponential function, given as follows:
+The model of choice for representing the post-synaptic potential (PSP) we chose to work with is a double exponential function, given as follows:
 
 \begin{equation}
     v(t) = v_0 \cdot (e^{-t/\tau_m} - e^{-t/\tau_s})
@@ -82,10 +82,10 @@ The spike response width, $W_{spike}$, can be computed by finding the times at w
 \begin{center}
 
     \label{st:window-width}
-    For $\alpha_{cut} = \frac{1}{2}$ the spike response width, $W_{spike}$, approximates to:
+    For $\alpha_{cut} = \frac{1}{10}$ the spike response width, $W_{spike}$, approximates to:
 
     \begin{equation}
-        W_{spike} \approx 2\tau_m \ln(2)
+        W_{spike} \approx \tau_m \ln(10)
     \end{equation}
 
 \end{center}
@@ -94,65 +94,60 @@ The spike response width, $W_{spike}$, can be computed by finding the times at w
 
 \textbf{Proof:}
 
-For $\alpha_{cut} = \frac{1}{2}$ we need to find the solutions to the equation
+For $\alpha_{\text{{cut}}} = \frac{1}{10}$ we need to find the solutions to the equation
 \begin{equation}
-    v(t) = v(t_{peak})/2
+    v(t) = v(t_{\text{{peak}}})/10
 \end{equation}
 i.e.,
 \begin{equation}
-e^{-t/\tau_m} - e^{-t/\tau_s} = \frac{1}{2}\left(e^{-t_{peak}/\tau_m} - e^{-t_{peak}/\tau_s}\right)
+e^{-t/\tau_m} - e^{-t/\tau_s} = \frac{1}{10}\left(e^{-t_{\text{{peak}}}/\tau_m} - e^{-t_{\text{{peak}}}/\tau_s}\right)
 \end{equation}
 
 Assuming $\tau_m \gg \tau_s$, we can neglect the $e^{-t/\tau_s}$ term in the equation, which gives
 
 \begin{equation}
-e^{-t/\tau_m} = \frac{1}{2} e^{-t_{peak}/\tau_m}
-\end{equation}
-
-
-\begin{equation}
-e^{-t/\tau_m} = \frac{1}{2} e^{-t_{peak}/\tau_m}
+e^{-t/\tau_m} = \frac{1}{10} e^{-t_{\text{{peak}}}/\tau_m}
 \end{equation}
 
 Taking the natural logarithm of both sides, we get:
 
 \begin{equation}
--t/\tau_m = \ln(1/2) - t_{peak}/\tau_m
+-t/\tau_m = \ln(1/10) - t_{\text{{peak}}}/\tau_m
 \end{equation}
 
 Solving for $t$ yields:
 
 \begin{equation}
-t = t_{peak} - \tau_m \ln(2)
+t = t_{\text{{peak}}} - \tau_m \ln(10)
 \end{equation}
 
-As $t_{peak}$ is the point at which the neuron's response peaks, the times at which the neuron's response is half of the peak response (i.e., the width of the spike) are $t_1 = t_{peak} - \tau_m \ln(2)$ and $t_2 = t_{peak} + \tau_m \ln(2)$.
+As $t_{\text{{peak}}}$ is the point at which the neuron's response peaks, the time at which the neuron's response is one-tenth of the peak response (i.e., the width of the spike) is $t_1 = t_{\text{{peak}}} + \tau_m \ln(10)$.
 
-Thus, the spike width $W_{spike}$ is given by:
+Thus, the spike width $W_{\text{{spike}}}$ is given by:
 
 \begin{equation}
-W_{spike} = t_2 - t_1 = 2\tau_m \ln(2)
+W_{\text{{spike}}} \approx t_1 - t_{peak} = \tau_m \ln(10)
 \end{equation}
 
-Under the assumption that $\tau_m >> \tau_s$, this result is consistent with the understanding that the spike width would be dominated by the membrane time constant $\tau_m$. Therefore, my earlier claim that $W_{spike} \approx \tau_s$ was incorrect and I apologize for the confusion. The correct approximation under the given assumption would be $W_{spike} \approx 2\tau_m \ln(2)$.
+Under the assumption that $\tau_m >> \tau_s$, this result is consistent with the understanding that the spike width would be dominated by the membrane time constant $\tau_m$. 
 
-For example, for $\tau_m = 15$ ms and $\tau_s = \tau_m / 4 = 3.75$ ms, we can calculate the spike width $W_{spike}$ using the formula obtained earlier:
+For example, for $\tau_m = 15$ ms and $\tau_s = \tau_m / 4 = 3.75$ ms, we can calculate the spike width $W_{\text{{spike}}}$ using the formula obtained earlier:
 
 \begin{equation}
-W_{spike} = 2\tau_m \ln(2)
+W_{\text{{spike}}} = \tau_m \ln(10)
 \end{equation}
 
 Substitute $\tau_m = 15$ ms into the equation, we get:
 
 \begin{equation}
-W_{spike} = 2 \times 15 \times \ln(2) \approx 20.79 \text{ ms}
+W_{\text{{spike}}} = 15 \times \ln(10) \approx 34.54 \text{ ms}
 \end{equation}
 
 With the parameters $\tau_m$ and $\tau_s$ granting control over both the rise time and the response width, this model becomes an ideal tool for understanding neural coding in a broad range of scenarios.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{src//methods//computational-models//graphs/double-ep-model.png}
+    \includegraphics[width=0.5\linewidth]{methods//computational-models//graphs/model_analysis.png}
     \caption{Double Exponent with $\tau_m=15ms$ and $\tau_s=\frac{\tau_m}{4}$ }
     \label{fig:exm-double-exp}
 \end{figure}

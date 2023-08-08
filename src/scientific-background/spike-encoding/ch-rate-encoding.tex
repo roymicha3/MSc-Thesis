@@ -9,3 +9,32 @@ One common implementation is to use the binomial distribution \(D = \text{Bin}(n
 \end{equation}
 
 where \(F_0\) is the maximum firing rate (20 Hz), and \(\Delta t\) is the time interval between consecutive samples. This equation allows us to set the expectancy \(E[D(x_{i,j})]\) for each \(x_{i,j}\) to \(f(x_{i,j}) \cdot F_0 \cdot T\), where \(T\) is the experiment time.
+
+Let's consider a \textbf{Poisson process} with rate parameter $R > 0$ in units of Hz (events per second). We aim to simulate this process over a time interval $T$ with a time-step $\Delta T$, both expressed in seconds.
+
+The \textbf{Poisson process} is a type of counting process, where events occur independently and randomly in time. In a given small interval of length $\Delta T$, the probability of "success" (an event occurring) in this Poisson process is $R \Delta T$.
+
+We divide the total time interval $T$ into $n = \frac{T}{\Delta T}$ smaller intervals. For each small interval, we generate a random number $U$ from the uniform distribution between 0 and 1. If $U$ is less than $R \Delta T$, we record a "success" (1, which means an event occurred). If not, we record a "failure" (0, which means no event occurred).
+
+This procedure can be represented in pseudo code as follows:
+
+\begin{mdframed}[backgroundcolor=green_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Pseudo-code}] \label{pscode:poisson-sample}
+
+function poisson process(R, T, $ \Delta T $): \\
+  n = T / $ \Delta T $ \\
+  events = zeroed array of size n \\
+  for i in range(n):
+
+\begin{enumerate}
+    \item U = random number from uniform(0, 1)
+
+    \item if $ U < R \cdot \Delta T \Rightarrow $ events[i] = 1
+\end{enumerate}
+
+return events
+
+\end{mdframed}
+
+This function returns a binary list of length $n$. Each entry of the list represents a small time interval of length $\Delta T$. If an event occurs in this time interval, the entry is 1, otherwise, it's 0.
+
+This method assumes that $R \Delta T$ is small enough such that the probability of more than one event occurring within a small time interval $\Delta T$ is negligible.

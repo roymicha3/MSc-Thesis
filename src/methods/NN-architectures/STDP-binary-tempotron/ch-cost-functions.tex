@@ -1,5 +1,6 @@
 \subsubsection{Max Time cost function}
 
+
 \begin{equation}
     c(\mathbf{w}_0) = \begin{cases}
     v_{\text{th}} - v_{\text{max}} & \text{if } v_{\text{max}} < v_{\text{th}} \text{ and } \oplus \\
@@ -7,6 +8,23 @@
     0 & \text{else}
     \end{cases}
 \end{equation}
+using the activation function from before:
+
+\begin{equation}
+    c(\mathbf{w}_0) = \begin{cases}
+    -f(v_{max}) & \text{if } v_{\text{max}} < v_{\text{max}} \text{ and } \oplus \\
+    f(v_{max}) & \text{if } v_{\text{max}} > v_{\text{th}} \text{ and } \ominus \\
+    0 & \text{else}
+    \end{cases}
+\end{equation}
+
+And overall with the label:
+
+\begin{equation}
+    c(w_o) = H(-y \cdot f(v_{max})) \cdot (-y \cdot f(v_{max}))
+\end{equation}
+
+Such that $H$ is the Heaviside function.
 
 \subsubsection{Convolution Based cost function}
 

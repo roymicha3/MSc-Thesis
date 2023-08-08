@@ -18,3 +18,9 @@ We now turn our attention to how we can incorporate this information within a gi
 
 If we consider an afferent firing rate of 20 Hz, to make a valid assumption, we need to at least sample over a window of 50 ms, or alternatively, a window of 50/n ms spread across n neurons. However, the question remains: is this enough?
 
+Let's use our definition of Rate Encoding from \ref{pscode:poisson-sample} to answer that question:
+
+Given a Poisson process with rate $\lambda$, suppose we simulate the process as a series of $l$ coin tosses, where each coin toss corresponds to a time slot of duration $\Delta T$ in the measurement window. The chance of "success" (an event occurring) in each coin toss is $\lambda \Delta T$.
+
+We can estimate the rate of the Poisson process as $\hat{R} = \frac{X}{T}$, where $X$ is the total number of "successes" (events) and $T = l \cdot \Delta T$ is the total measurement time.
+

@@ -6,51 +6,52 @@
     \label{st:GD-simple-medel}
     Using the Gradient Descent method our step iteration will be:
     \begin{equation}
-        \Delta w_j = K_j(t_{\text{max}})
+        \Delta w_j = -y \cdot H(-y \cdot f(v_{max})) \cdot K_j(t_{\text{max}})
     \end{equation}
 
 \end{center}
 \end{mdframed}
 
+\textbf{Proof:}
+
+Lets first define:
+\begin{equation} \notag
+    a = v_{max}-v_{th} \Rightarrow \frac{\partial{a}}{\partial{w_j}} = \frac{\partial{v_{max}}}{\partial{w_j}} = K_j(t_{max})
+\end{equation}
+\begin{equation} \notag
+    z = -y \cdot a \Rightarrow \frac{\partial{z}}{\partial{a}} = -y
+\end{equation}
+\begin{equation} \notag
+    c = H(z) \cdot z \Rightarrow \frac{\partial{c}}{\partial{z}} = H(z)
+\end{equation}
+And overall, using the chain rule:
 \begin{equation}
-\mathbf{w}_n = (w_1^n, w_2^n, \ldots, w_k^n)^T \notag
+    \frac{\partial{c}}{\partial{w}} = \frac{\partial{c}}{\partial{z}} \cdot \frac{\partial{z}}{\partial{a}} \cdot \frac{\partial{a}}{\partial{w}} = H(z) \cdot (-y) \cdot K_j(t_{max}) = -y \cdot H(-y \cdot f(v_{max})) \cdot K_j(t_{\text{max}})
 \end{equation}
 
-For $\lambda > 0$ as our learning rate:
+\begin{mdframed}[backgroundcolor=green_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Pseudo-code}]
+
+For each sample and label \(x, y\) and learning rate \(\gamma\): \\
+In each iteration of the learning algorithm, we will need to:
+
+\begin{enumerate}
+
+    \item Evaluate $V[t]$ by: 
 
 \begin{equation}
-\mathbf{w}_{n+1} = \mathbf{w}_n + \lambda \nabla c(\mathbf{w}_n)
+    V[t] = \sum_{j} w_j \cdot k_j[t]
 \end{equation}
 
-Where $\nabla c(\mathbf{w}_n) = \left(\frac{d}{dw_1} c(\mathbf{w}_n), \frac{d}{dw_2} c(\mathbf{w}_n), \ldots, \frac{d}{dw_k} c(\mathbf{w}_n)\right)^T$.
-
-For all $j \in [1, k]$, the derivative $\frac{d}{dw_j} c(\mathbf{w}_n)$ is given by:
-
-\begin{equation}
-    \frac{d}{dw_j} c(\mathbf{w}_n) = 
-    \begin{cases}
-    \sum_{t_j^l < t_{\text{max}}} k(t_{\text{max}} - t_j^l), & \text{if } v_{\text{max}} < v_{\text{th}} \land \oplus, \cr
-    -\sum_{t_j^l < t_{\text{max}}} k(t_{\text{max}} - t_j^l), & \text{if } v_{\text{max}} > v_{\text{th}} \land \ominus, \cr
-    0, & \text{else}
-    \end{cases}
-\end{equation}
-
-For each iteration of the learning algorithm, we will need to:
-
-Set $\lambda$ as the learning rate. \\
-Evaluate $V[t]$ by: 
-
-\begin{equation}
-    V = K \cdot \mathbf{w}
-\end{equation}
-
-Find $t_{\text{max}}$ by: 
+    \item Find $t_{\text{max}}$ by: 
 
 \begin{equation}
     t_{\text{max}} = \arg\max_t V[t]
 \end{equation}
 
-Finally, compute $\Delta w_j = \lambda \cdot K_j[t_{\text{max}}]$ by getting the $t_{\text{max}}$'th row in $K$.
+    \item Finally, compute $\Delta w_j = -y \cdot H(-y \cdot f(v_{max})) \cdot K_j[t_{\text{max}}]$
+
+\end{enumerate}
+\end{mdframed}
 
 \subsubsection{Training - Convolution based Cost function}
 

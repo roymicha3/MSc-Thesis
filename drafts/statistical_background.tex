@@ -1,0 +1,30 @@
+In statistics, the 90\% confidence interval for an estimate $\hat{R}$ is calculated using the formula:
+
+\[
+\hat{R} \pm 1.645 \times SE
+\]
+
+Here, $SE$ represents the standard error of the estimate $\hat{R}$. The factors that contribute to this equation are as follows:
+
+\begin{itemize}
+\item \textbf{Z-Score}: The value 1.645 is known as the Z-score. It is derived from the standard normal distribution, a special case of the normal distribution where the mean is 0 and the standard deviation is 1. For the standard normal distribution, approximately 90\% of values lie within 1.645 standard deviations of the mean. Therefore, the Z-score for a 90\% confidence interval is 1.645.
+
+\item \textbf{Standard Error (SE)}: Standard error is a measure of the statistical accuracy of an estimate, equal to the standard deviation divided by the square root of the sample size ($n$). It quantifies the variability or dispersion of the sample mean around the population mean. A larger standard error implies more variability in the estimates of the population mean, leading to a wider confidence interval.
+\end{itemize}
+
+Thus, the equation $\hat{R} \pm 1.645 \times SE$ provides a 90\% confidence interval around the estimate $\hat{R}$. This interval represents a range in which we are 90\% confident that the true population parameter resides, given the assumptions of our model and the data we have observed.
+
+
+A normal distribution, also known as Gaussian distribution, is a type of continuous probability distribution for a real-valued random variable. The standard normal distribution is a special case of the normal distribution. It is a normal distribution with mean of 0 and standard deviation of 1.
+
+The standard normal distribution is used as a basis for understanding what proportion of values lie within certain ranges. It follows a rule known as the 68-95-99.7 rule, or three-sigma rule, which states that approximately 68\% of values lie within one standard deviation from the mean, approximately 95\% within two standard deviations, and approximately 99.7\% within three standard deviations.
+
+The value of 1.645 is not a whole number of standard deviations under the three-sigma rule, but it is a commonly used z-score because it is the point at which approximately 90\% of values in a standard normal distribution fall within. This is calculated using the cumulative distribution function (CDF) of the standard normal distribution.
+
+To understand this, recall that the CDF $F_Z(z)$ of a random variable $Z$ is the probability that $Z$ will take a value less than or equal to $z$. For a standard normal random variable $Z$, this is given by:
+
+\[
+F_Z(z) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{z} e^{-x^2/2} dx
+\]
+
+To find the z-score that corresponds to a cumulative probability of 90\%, we solve $F_Z(z) = 0.90$ for $z$, which gives approximately $z = 1.28$. But since we are considering both sides of the mean (to form a 90\% confidence interval around the mean), we are interested in the z-score at which the cumulative probability is 0.95 (the central 90\% is between the 5th and 95th percentiles), yielding $z = 1.645$.

@@ -1,0 +1,104 @@
+The Heaviside step function is defined as:
+
+\[
+H(x) = 
+\begin{cases} 
+0 & \text{if } x < 0 \\
+0.5 & \text{if } x = 0 \\
+1 & \text{if } x > 0 
+\end{cases}
+\]
+
+Given this definition, the derivative of the function \(f(x) = xH(x)\) can be approached using piecewise differentiation:
+
+\begin{enumerate}
+\item When \(x < 0\), \(f(x) = 0\), so the derivative \(f'(x) = 0\).
+
+\item When \(x > 0\), \(f(x) = x\), so the derivative \(f'(x) = 1\).
+
+\item At \(x = 0\), the function is not differentiable, as it jumps from 0 to 1.
+\end{enumerate}
+
+So, the derivative of \(f(x) = xH(x)\) is:
+
+\[
+f'(x) = 
+\begin{cases} 
+0 & \text{if } x < 0 \\
+\text{undefined} & \text{if } x = 0 \\
+1 & \text{if } x > 0 
+\end{cases}
+\]
+
+Note: Some definitions of the Heaviside step function define \(H(0)\) as 0 or 1, or leave it undefined. Here, we choose to define it as 0.5 for symmetry, but the end result does not change: \(f(x)\) is still not differentiable at \(x = 0\).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The spike response width, $W_{\text{{spike}}}$, can be computed by finding the times at which the neuron's response reaches a certain fraction of the peak response (denoted as $\alpha_{\text{{cut}}}$). If we denote these times as $t_1$ and $t_2$, the spike response width is given by $W_{\text{{spike}}} = t_2 - t_1$.
+
+\begin{mdframed}[backgroundcolor=red\_background, linecolor=black, linewidth=2pt, frametitle=\textbf{{Statement}}]
+\begin{center}
+    \label{st:window-width}
+    For $\alpha_{\text{{cut}}} = \frac{1}{10}$ the spike response width, $W_{\text{{spike}}}$, approximates to:
+
+    \begin{equation}
+        W_{\text{{spike}}} \approx 2\tau_m \ln(10)
+    \end{equation}
+
+\end{center}
+\end{mdframed}
+
+\textbf{{Proof:}}
+
+For $\alpha_{\text{{cut}}} = \frac{1}{10}$ we need to find the solutions to the equation
+\begin{equation}
+    v(t) = v(t_{\text{{peak}}})/10
+\end{equation}
+i.e.,
+\begin{equation}
+e^{-t/\tau_m} - e^{-t/\tau_s} = \frac{1}{10}\left(e^{-t_{\text{{peak}}}/\tau_m} - e^{-t_{\text{{peak}}}/\tau_s}\right)
+\end{equation}
+
+Assuming $\tau_m \gg \tau_s$, we can neglect the $e^{-t/\tau_s}$ term in the equation, which gives
+
+\begin{equation}
+e^{-t/\tau_m} = \frac{1}{10} e^{-t_{\text{{peak}}}/\tau_m}
+\end{equation}
+
+Taking the natural logarithm of both sides, we get:
+
+\begin{equation}
+-t/\tau_m = \ln(1/10) - t_{\text{{peak}}}/\tau_m
+\end{equation}
+
+Solving for $t$ yields:
+
+\begin{equation}
+t = t_{\text{{peak}}} - \tau_m \ln(10)
+\end{equation}
+
+As $t_{\text{{peak}}}$ is the point at which the neuron's response peaks, the times at which the neuron's response is one-tenth of the peak response (i.e., the width of the spike) are $t_1 = t_{\text{{peak}}} - \tau_m \ln(10)$ and $t_2 = t_{\text{{peak}}} + \tau_m \ln(10)$.
+
+Thus, the spike width $W_{\text{{spike}}}$ is given by:
+
+\begin{equation}
+W_{\text{{spike}}} = t_2 - t_1 = 2\tau_m \ln(10)
+\end{equation}
+
+Under the assumption that $\tau_m >> \tau_s$, this result is consistent with the understanding that the spike width would be dominated by the membrane time constant $\tau_m$. 
+
+For example, for $\tau_m = 15$ ms and $\tau_s = \tau_m / 4 = 3.75$ ms, we can calculate the spike width $W_{\text{{spike}}}$ using the formula obtained earlier:
+
+\begin{equation}
+W_{\text{{spike}}} = 2\tau_m \ln(10)
+\end{equation}
+
+Substitute $\tau_m = 15$ ms into the equation, we get:
+
+\begin{equation}
+W_{\text{{spike}}} = 2 \times 15 \times \ln(10) \approx 69.31 \text{ ms}
+\end{equation}
+
+With the parameters $\tau_m$ and $\tau_s$ granting control over both the rise time and the response width, this model becomes an ideal tool for understanding neural coding in a broad range of scenarios.
