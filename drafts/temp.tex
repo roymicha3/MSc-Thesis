@@ -1,0 +1,20 @@
+\section{Observation}
+
+The data collected from the experiment showcases the relationship between the ratio (\( \alpha \)) of different input patterns to neurons in the input layer and the average number of iterations required for the Tempotron to converge.
+
+\textbf{Extreme Complexity Region (\( \alpha \geq\) 2.9)}: \\
+Notably, at \( \alpha = 2.8 \), the average epochs reach the maximum value of 750, which was our defined limit. This may hint at a failure to converge, indicating that the Tempotron finds it virtually impossible to discern patterns at such high complexities using the given parameters.
+
+Several factors might contribute to these observations:
+
+\begin{itemize}
+    \item The inherent design of the Tempotron, which relies on the temporal dynamics of spikes, may find it challenging to discriminate between overlapping or similar spike patterns as \( \alpha \) grows.
+    
+    \item The fixed parameters, such as the firing threshold \( V_{th} \) or the time constant \( \tau \), may not be optimal for handling higher complexity ratios. Adaptive mechanisms or parameter tuning might be necessary for such scenarios.
+    
+\end{itemize}
+
+In conclusion, the Tempotron exhibits strong performance in classifying time-dependent, its capability goes beyond the recognized limit of \( \alpha = 2 \) for a single-layer perceptron \cite{gutig2006tempotron}.
+
+
+
