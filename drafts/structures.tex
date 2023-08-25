@@ -1,0 +1,81 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\begin{document}
+
+\section*{Common Methods in Artificial Neural Network (ANN) Training}
+
+Training an Artificial Neural Network (ANN) involves updating the weights and biases of the network to minimize the error between the predicted and actual outputs. Several methods have been developed over the years to ensure efficient and effective training. 
+
+\subsection*{Gradient Descent and Variants}
+
+The core principle behind the training of ANNs is optimization, typically achieved using some variant of the gradient descent method.
+
+\begin{equation}
+w_{i+1} = w_i - \eta \nabla J(w_i)
+\end{equation}
+
+where \( w \) represents the weights, \( \eta \) is the learning rate, and \( \nabla J(w_i) \) is the gradient of the cost function \( J \) with respect to the weights.
+
+\noindent \textbf{Stochastic Gradient Descent (SGD)}:
+Instead of computing the gradient of the entire dataset, SGD updates the weights using the gradient of individual samples. This provides noisy but fast updates.
+
+\noindent \textbf{Momentum}:
+To mitigate the oscillations in SGD, momentum introduces a velocity component and a damping factor, \(\gamma\).
+
+\begin{equation}
+v_{i+1} = \gamma v_i + \eta \nabla J(w_i)
+\end{equation}
+\begin{equation}
+w_{i+1} = w_i - v_{i+1}
+\end{equation}
+
+\noindent \textbf{Adaptive Learning Rate Methods}: 
+Approaches like Adagrad, RMSprop, and Adam adjust the learning rate during training, often leading to faster convergence.
+
+\subsection*{Regularization Methods}
+
+To prevent overfitting and enhance the generalization capability of ANNs, several regularization techniques are employed.
+
+\noindent \textbf{L1 and L2 Regularization}:
+They add a penalty to the loss function. For L1:
+
+\begin{equation}
+J(w) = J_0 + \lambda ||w||_1
+\end{equation}
+
+and for L2:
+
+\begin{equation}
+J(w) = J_0 + \lambda ||w||_2^2
+\end{equation}
+
+where \( J_0 \) is the original loss function and \( \lambda \) is the regularization coefficient.
+
+\noindent \textbf{Dropout}:
+During training, random subsets of neurons are dropped out (set to zero), which acts as a form of ensemble learning within the network.
+
+\subsection*{Normalization Methods}
+
+\noindent \textbf{Batch Normalization}:
+To address the internal covariate shift problem, batch normalization normalizes the activations of a layer for each batch, i.e., transforms the activations to have zero mean and unit variance.
+
+\subsection*{Activation Functions}
+
+Activation functions introduce non-linearity into the network, allowing ANNs to model complex relationships.
+
+\noindent \textbf{Sigmoid}:
+\begin{equation}
+\sigma(z) = \frac{1}{1 + e^{-z}}
+\end{equation}
+
+\noindent \textbf{ReLU (Rectified Linear Unit)}:
+\begin{equation}
+f(z) = \max(0, z)
+\end{equation}
+
+These methods, alongside continual advancements in the field, facilitate the efficient training of ANNs, making them suitable for a plethora of tasks ranging from image recognition to natural language processing.
+
+\end{document}

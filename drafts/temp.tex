@@ -17,4 +17,51 @@ Several factors might contribute to these observations:
 In conclusion, the Tempotron exhibits strong performance in classifying time-dependent, its capability goes beyond the recognized limit of \( \alpha = 2 \) for a single-layer perceptron \cite{gutig2006tempotron}.
 
 
+\section*{Deeper Analysis of the Tempotron Model for MNIST Odd/Even Classification}
+
+The problem at hand is binary classification of MNIST digits into "odd" or "even" classes. While MNIST is a relatively simple dataset, the task's binary nature makes it intricate.
+
+\subsection*{1. Network Architecture}
+
+\begin{itemize}
+    \item The network consists of an input layer with $784$ neurons (corresponding to $28 \times 28$ pixel images) and a single output neuron.
+    \item The absence of hidden layers implies the model's capacity is restricted. Hence, the equation 
+    \[
+    \Delta w_i = y_{\mu}\frac{\int e^{\beta v_{\mu}(t)} k_i(t) \, dt}{\int e^{\beta v_{\mu}(t)} \, dt}
+    \]
+    becomes crucial as it defines the weight update based on the hyperparameter $\beta$.
+\end{itemize}
+
+\subsection*{2. Influence of \( \beta \)}
+
+\begin{itemize}
+    \item At lower values of \( \beta \), the exponential function might not be emphasizing the variations in the input data sufficiently. Mathematically, for lower values of \( \beta \), the term $e^{\beta v_{\mu}(t)}$ approaches $1$, leading to near uniform weight adjustments.
+    \item As \( \beta \) increases, the variance in weight adjustments becomes more pronounced, aiding in capturing the data's structure. The optimal range seems to be in the middle.
+    \item After a peak, further increasing \( \beta \) doesn't consistently improve performance, suggesting potential overemphasis on minute variations.
+\end{itemize}
+
+\subsection*{3. Nature of the Task}
+
+\begin{itemize}
+    \item Odd vs. even classification on MNIST isn't inherently linearly separable. Considering vectors representing image data, certain pairs may lie closer in the vector space, making their separation harder.
+    \item The peak performance (around 82\%) suggests inherent limitations of a linear classifier on this task, which can be mathematically supported by the fact that linear classifiers aim to find a hyperplane that separates the classes, a feat not always achievable for intricate data distributions like MNIST.
+\end{itemize}
+
+\subsection*{4. Implications for Further Experiments}
+
+\begin{itemize}
+    \item Given the plateau in performance, introducing hidden layers might allow for the creation of more complex decision boundaries, enhancing model performance.
+    \item Regularization techniques can counter potential overfitting, especially at high \( \beta \) values. For instance, introducing an $L_2$ regularization term, 
+    \[
+    R(w) = \lambda \lVert w \rVert^2,
+    \]
+    can mitigate the influence of individual weights.
+    \item Other hyperparameters or optimization strategies can further improve model robustness.
+\end{itemize}
+
+\section*{Conclusion}
+
+In the context of the MNIST odd/even classification task, both the architecture of the Tempotron and the hyperparameter \( \beta \) play pivotal roles. The insights derived can serve as a foundation for further work, juxtaposing these findings with other models for a comprehensive understanding.
+
+
 

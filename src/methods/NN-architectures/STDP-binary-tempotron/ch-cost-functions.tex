@@ -30,14 +30,39 @@ Such that $H$ is the Heaviside function.
 
 One problem with the biological implementation of our model is that the Tempotron’s solution to the temporal credit assignment problem requires knowing the time of the maximum postsynaptic voltage.
 
-Let us look at the following equation:
-
 \begin{equation}
-    \int e^{\beta v(t)} \cdot k(t) \, dt \rightarrow_{(\beta \rightarrow \infty)} e^{\beta v(t_{\text{max}})} \cdot k(t_{\text{max}})
+    h = \ln(\int_{0}^{T} e^{\beta v(t)} \cdot dt)
 \end{equation}
 
-To solve this issue, we will try to simulate finding the max value of the voltage function by using voltage convolution. Our new cost function will be:
+ The motive behind using this new output instead of $v(t_{max})$ lies in the following equation:
 
 \begin{equation}
-    E(\mathbf{w}_0) = \frac{1}{\beta} \sum_{\mu} y_{\mu} \ln\left(\int e^{\beta v_{\mu}(t)} \, dt\right)
+    \frac
+    { 
+        \int e^{\beta v(t)} \cdot k(t) \, dt 
+    } 
+    {
+        \int e^{\beta v(t)} \, dt 
+    } 
+    \rightarrow_{(\beta \rightarrow \infty)}  k(t_{\text{max}})
 \end{equation}
+
+We will try to simulate finding the max value of the voltage function by using voltage convolution. Our new cost function will be:
+
+using the activation function from before:
+
+\begin{equation}
+    c(\mathbf{w}_0) = \begin{cases}
+    -f(h) & \text{if } h < v_{th} \text{ and } \oplus \\
+    f(h) & \text{if } h > v_{th} \text{ and } \ominus \\
+    0 & \text{else}
+    \end{cases}
+\end{equation}
+
+And overall with the label:
+
+\begin{equation}
+    c(w_o) = H(-y \cdot f(h)) \cdot (-y \cdot f(h))
+\end{equation}
+
+Such that $H$ is the Heaviside function.
