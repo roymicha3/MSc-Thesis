@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+
+The LIF (Leaky Integrate-and-Fire) neuron model, parameterized by \(\tau\), uses \(k_i(t)\) to represent its response to a particular spike train \(i\). The potential \(v(t)\) is the result of accumulating responses over time, scaled by weights \(w_i\). The term \(h\) is a more complex representation that involves the potential \(v(t)\) and captures temporal patterns through an exponential term influenced by \(\beta\).
+
+When we explore the derivative \(\frac{dh}{dw_i}\), the role of \(\beta\) becomes paramount:
+
+\textbf{Small Values of \(\beta\):}
+As \(\beta \to 0\), \(\frac{dh}{dw_i}\) essentially becomes:
+\[ \frac{dh}{dw_i} \approx \int k_i(t) \, dt \]
+
+With a small \(\beta\), the model averages the responses across time. This means it doesn't pay much attention to the timing of each spike. This is similar to a perceptron that sums up inputs scalar.
+
+\textbf{Large Values of \(\beta\):}
+For high values of \(\beta\), \(\frac{dh}{dw_i}\) converges to:
+\[ \frac{dh}{dw_i} \approx k_i(t_{\text{max}}) \]
+where \(t_{\text{max}}\) is the time instant that maximizes \(v(t)\).
+
+For a large \(\beta\), the neuron mainly reacts when \(v(t)\) is at its peak. This is similar to how the max-time tempotron focuses on the exact moment the input reaches a peak.
+
+Essentially, the value of \(\beta\) is crucial for the tempotron's interpretation of time. A smaller \(\beta\) causes the neuron to blend inputs over time, resembling the behavior of a perceptron. On the other hand, a larger \(\beta\) emphasizes the most significant moments of input, akin to the max-time tempotron which highlights peak input times.
+
+\end{document}

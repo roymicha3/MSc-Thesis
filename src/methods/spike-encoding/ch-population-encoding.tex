@@ -6,18 +6,6 @@ As we discussed in section \ref{ch:computational-models}, we can integrate diffe
 
 In Statement \ref{st:window-width}, we demonstrated that each spike response has a distinct temporal extent. This 'window' signifies the period during which the spike can affect the downstream, or afferent, neurons it is connected to.
 
-From the perspective of an efferent neuron, the duration for assessing the afferent spike rate is crucial for accurate interpretation. Assuming the spike generation obeys a Poisson distribution, the confidence interval for the actual coded frequency, $F$, can be evaluated based on the observed frequency, $f = \frac{\text{spikes}}{\Delta T}$. A limited evaluation time, $\Delta T$, potentially introduces inaccuracies in this process. The degree of such inaccuracies directly influences the fidelity of information transmission across the network.
-
-The significance of neural activity is not just about whether spikes occur but also how frequently they occur. Accordingly, it's crucial for our models to interpret these spike rates in order to make informed decisions.
-
-When the assessment duration is short, the observed spike frequency may not accurately represent the true spike rate due to the inherent stochastic nature of spike generation, leading to misinterpretations. Consequently, the transmitted information can be distorted or lost, affecting the overall network's performance.
-
-In our analysis, we followed the argument put forth by \cite{gautrais1998rate}, claiming that if a single spike is observed within a 10 ms timeframe, the most that can be inferred, with 90\% confidence, is that the actual spike frequency lies between 5 and 474 Hz.
-
-We now turn our attention to how we can incorporate this information within a given time range. It's crucial to note that observing one Poisson process during a span of $\Delta T$ ms is the same as observing n such processes during a period of $\frac{\Delta T}{n}$ ms.
-
-If we consider an afferent firing rate of 20 Hz, to make a valid assumption, we need to at least sample over a window of 50 ms, or alternatively, a window of 50/n ms spread across n neurons. However, the question remains: is this enough?
-
 Let's use our definition of Rate Encoding from \ref{pscode:poisson-sample} to answer that question:
 
 Given a Poisson process with rate $\lambda$, suppose we simulate the process as a series of $l$ coin tosses, where each coin toss corresponds to a time slot of duration $\Delta T$ in the measurement window. The chance of "success" (an event occurring) in each coin toss is $\lambda \Delta T$.

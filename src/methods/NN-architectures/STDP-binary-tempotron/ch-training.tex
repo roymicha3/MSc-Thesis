@@ -1,5 +1,7 @@
 \subsubsection{Training - Simple Cost function}
 
+\label{sssec:training-simple-cost}
+
 \begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
 \begin{center}
 
@@ -55,6 +57,7 @@ In each iteration of the learning algorithm, we will need to:
 
 \subsubsection{Training - Convolution based Cost function}
 
+\label{sssec:training-conv-cost}
 
 \begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
 \begin{center}
@@ -63,7 +66,7 @@ In each iteration of the learning algorithm, we will need to:
     Using the Gradient Descent method our step iteration will be:
 
     \begin{equation}
-        \Delta w_j = -y \cdot H(-y \cdot f(h_{\mu)})) \cdot \frac{\int e^{\beta v_{\mu}(t)} k_i(t) dt}{\int e^{\beta v_{\mu}(t)} dt}
+        \Delta w_j = -y_{\mu} \cdot H(-y_{\mu} \cdot f(h_{\mu)})) \cdot \frac{\int e^{\beta v_{\mu}(t)} k_i(t) dt}{\int e^{\beta v_{\mu}(t)} dt}
     \end{equation}
 
 \end{center}
@@ -135,9 +138,4 @@ To talk about the numeric evaluation of $\Delta w$, we first need to talk about 
     \end{theorem}
 \end{mdframed}
 
-The new step computation will be:
-
-\begin{equation}
-    \Delta w_i = y_{\mu} \cdot \frac{\frac{T}{N}\sum_{n=0}^{N-1} e^{\beta \cdot v[nT/N]} \cdot k_i[nT/N]}{\frac{T}{N}\sum_{n=0}^{N-1} e^{\beta \cdot v[nT/N]}} = y_{\mu} \cdot \frac{\sum_{n=0}^{N-1} e^{\beta \cdot v[nT/N]} \cdot k_i[nT/N]}{\sum_{n=0}^{N-1} e^{\beta \cdot v[nT/N]}}
-\end{equation}
-
+The new step computation will use this form of derivative.

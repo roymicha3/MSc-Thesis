@@ -1,28 +1,28 @@
 
-\section{The Impact of Input Complexity on Tempotron Performance}
+\subsection{The Impact of Input Complexity on Tempotron Performance}
 
-\subsection{Experimental Framework}
+\subsubsection{Experimental Framework}
 
 The primary objective of this investigation is to evaluate the performance trajectory of the Tempotron model in response to varying degrees of input complexity. The complexity measure, \( \alpha \), represents the ratio of distinct spike patterns \( P \) to the total number of input neurons \( N \):
 \[ \alpha = \frac{P}{N} \]
 
 
-\subsection{Input Data Synthesis}
+\subsubsection{Input Data Synthesis}
 
 Spike sequences were generated to ensure each neuron emits a solitary spike at random intervals, creating a myriad of unique patterns as governed by the \( \alpha \) ratio.
 
-\subsection{Model Architecture}
+\subsubsection{Model Architecture}
 
 The Tempotron model's design and operational mechanics are primarily defined in \ref{st:GD-simple-medel}
 
 
-\subsection{Procedure}
+\subsubsection{Procedure}
 
 For each selected \( \alpha \) value, multiple experimental trials were executed, each undergoing a preset number of learning iterations, processing data in specified batch sizes.
 
 
 
-\subsection{Parameter Descriptions}
+\subsubsection{Parameter Descriptions}
 
 \begin{enumerate}
     \item \textbf{Duration \( T \): 500 ms} \\
@@ -31,7 +31,7 @@ For each selected \( \alpha \) value, multiple experimental trials were executed
     \item \textbf{Time step \( dt \): 1 ms} \\
     The sampling time at which we "measure" the experiment.
     
-    \item \textbf{Resting potential \( V_0 \): 2.12} 
+    \item \textbf{Potential Scaling Factor \( V_0 \): 2.12} 
     
     \item \textbf{Firing threshold \( V_{th} \): 1} \\
     The potential level at which a neuron emits a spike. When the neuron's membrane potential exceeds \( V_{th} \), it "fires" or produces an output spike.
@@ -49,7 +49,7 @@ For each selected \( \alpha \) value, multiple experimental trials were executed
 
 \end{enumerate}
 
-\subsection{Results}
+\subsubsection{Results}
 
 \begin{figure}[H]
     \centering
@@ -59,7 +59,7 @@ For each selected \( \alpha \) value, multiple experimental trials were executed
 \end{figure}
 
 
-\subsection{Observation}
+\subsubsection{Observation}
 
 The data collected from the experiment showcases the relationship between the ratio (\( \alpha \)) of different input patterns to neurons in the input layer and the average number of iterations required for the Tempotron to converge.
 
@@ -74,7 +74,5 @@ Several factors might contribute to these observations:
     \item The fixed parameters, such as the firing threshold \( V_{th} \) or the time constant \( \tau \), may not be optimal for handling higher complexity ratios. Adaptive mechanisms or parameter tuning might be necessary for such scenarios.
     
 \end{itemize}
-
-In conclusion, the Tempotron exhibits strong performance in classifying time-dependent, its capability goes beyond the recognized limit of \( \alpha = 2 \) for a single-layer perceptron \cite{gutig2006tempotron}. This fact is a strong foundation on which we rely our hipthesis that the Tempotron holds significant structural and ? benefits over the perceptron
 
 In conclusion, the Tempotron demonstrates strong performance in classifying time-dependent patterns. Remarkably, its capacity surpasses the recognized threshold of \( \alpha = 2 \) associated with a single-layer perceptron \cite{gutig2006tempotron}. This observation forms a basis for our hypothesis that the Tempotron offers substantial structural and functional advantages over the perceptron.
