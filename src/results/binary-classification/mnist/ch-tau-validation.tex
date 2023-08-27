@@ -2,8 +2,8 @@
 
 \subsubsection{Motivation}
 
-The parameter \(\tau\) in the LIF neuron model influences the neuron's temporal dynamics, governing both its spike response width and the timing of its peak response, as discussed in section \ref{}. 
-Let's delve deeper into the impact of varying \(\tau\) values on our current classification task.
+The parameter $\tau$ in the LIF neuron model influences the neuron's temporal dynamics, governing both its spike response width and the timing of its peak response, as discussed in section \ref{st:window-width} and \ref{st:peak}. 
+Let's delve deeper into the impact of varying $\tau$ values on our current classification task.
 
 
 \subsubsection{Experimental Framework}
@@ -65,4 +65,9 @@ For each selected $\tau$ value, multiple experimental trials were executed, each
 
 
 \subsubsection{Observation}
+
+From the graph, it's clear that for smaller values of \( \tau \), the model's classification accuracy declines. Think of \( \tau \) as the model's "neural attention span." When this attention span, represented by \( \tau \), is too short, the model struggles to detect and integrate spike responses from different input neurons that fire in a short time frame.
+
+
+* We plan to test additional \( \tau \) values to find where accuracy starts to decrease and establish the ideal \( \tau \) range for the tempotron to detect spatio-temporal patterns.
 
