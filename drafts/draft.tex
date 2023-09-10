@@ -102,3 +102,94 @@ W_{\text{{spike}}} = 2 \times 15 \times \ln(10) \approx 69.31 \text{ ms}
 \end{equation}
 
 With the parameters $\tau_m$ and $\tau_s$ granting control over both the rise time and the response width, this model becomes an ideal tool for understanding neural coding in a broad range of scenarios.
+
+
+
+let's define - gating:
+gating function:
+\begin{equation} \notag
+    \text{$g$ = the gating activation} - g: \mathbb{R}^N \rightarrow \mathbb{R}
+\end{equation}
+\begin{equation}
+    g_m(x) = \theta(\overline{w}_m^g \cdot x) : \overline{w}_m^g \in \mathbb{R}^N
+\end{equation}
+\begin{equation} \notag
+    \theta = \text{ either a soft or hard heaviside function}
+\end{equation}
+and gating activation:
+\begin{equation}
+    F_g(x) = g(x) \cdot x
+\end{equation}
+
+and for global gating we have that:
+\begin{equation}
+    \{F_{g_m}\}_{m=1}^M \text{- gating activation}
+\end{equation}
+\begin{equation}
+    x_i^{out} = \sum_{m=1}^M \overline{w}_{m, i} \cdot F_{g_m}(x) : \overline{w}_{m, i} \in \mathbb{R}^N
+\end{equation}
+Statement: 
+ReLU activation is a special case of global gating.
+
+Proof:
+for $M=N$ and $\forall m \in [M], \forall i \in [N] \rightarrow \overline{w}_m^g = \mathbb{1}_m$  we have that: $g_i = \theta(\mathbb{1}_i \cdot x) = \theta(x_i)$.
+together with $\overline{w}_{m, i} = w_{m, i} \cdot \mathbb{1}_i : w_{m, i} \in \mathbb{R}$.
+\begin{equation}
+    w_{i, j}^m = 
+    \begin{cases}
+        w_{i, j} & \text{if } m = j, \\
+        0 & \text{otherwise.}
+    \end{cases}
+\end{equation}
+or in other words: $\overline{w}_{m} = \begin{bmatrix}
+w_{m, 1} & 0 & \cdots & 0 \\
+0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & 1 
+\end{bmatrix}
+_{N \times N}$
+
+then:
+\begin{equation}
+    F_{g_m}(x) = g_m(x) \cdot x = H(x_m) \cdot x
+\end{equation}
+
+overall:
+\begin{equation}
+    x_i^{out} = \sum_{m=1}^M \overline{w}_{m, i} \cdot F_{g_m}(x) = \sum_{m=1}^M \overline{w}_{m, i} \cdot H(x_i)\cdot x = \sum_{m=1}^M w_m \cdot H(x_m) \cdot x_m = \sum_{j=1}^N w_j \cdot ReLU(x_j)
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Let $\overline{x} \in \mathbb{R}^N$ be an input vector. We define the gating function $g_m(x)$ and the activation function $F_{g_m}(x)$ as follows.
+
+\textbf{Definitions:}
+\begin{equation}
+g_m(\overline{x}) = \theta(\overline{w}_m^g \cdot \overline{x}) \, , \, \overline{w}_m^g \in \mathbb{R}^N \, , \, \theta \in \{\text{soft/hard heaviside, softmax, one-hot vector}\}
+\end{equation}
+\begin{equation}
+    g : \mathbb{R}^N \rightarrow [0, 1]
+\end{equation}
+\begin{equation}
+F_{g_m} : \mathbb{R} \rightarrow \mathbb{R} , \, F_{g_m}(x) = g_m(\overline{x}) \cdot x
+\end{equation}
+
+\textbf{Statement:}
+ReLU is a specific case of the Global Gating mechanism.
+
+\textbf{Proof:}
+For $M=N$ and $\overline{w}_m^g = \mathbb{1}_m$, we get $g_m(\overline{x}) = H(x_m)$. 
+By considering:
+\begin{equation}
+w_{i, j}^m = 
+\begin{cases}
+    w_{i, j} & \text{if } m = j \\
+    0 & \text{otherwise}
+\end{cases}
+\end{equation}
+we derive
+\begin{equation}
+x_i^{out} = \sum_{j=1}^N w_{i, j} \cdot \text{ReLU}(x_j)
+\end{equation}

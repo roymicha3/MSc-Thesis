@@ -12,31 +12,21 @@ For example:
 Let $\overline{x} \in \mathbb{R}^N$ be an input vector, marking the starting point of our investigation into the gating and activation functions. 
 
 \textbf{Definitions:}
-
-\begin{equation} \notag
+\begin{equation}
 g_m(\overline{x}) = \theta(\overline{w}_m^g \cdot \overline{x}) \, , \, \overline{w}_m^g \in \mathbb{R}^N \, , \, \theta \in \{\text{soft/hard heaviside, softmax, one-hot vector}\}
 \end{equation}
-
 \begin{equation}
     g : \mathbb{R}^N \rightarrow [0, 1]
 \end{equation}
-
-\begin{equation} \notag
+\begin{equation}
 F_{g_m} : \mathbb{R} \rightarrow \mathbb{R} , \, F_{g_m}(x) = g_m(\overline{x}) \cdot x
 \end{equation}
 
-\begin{mdframed}[backgroundcolor=red_background, linecolor=black, linewidth=2pt, frametitle=\textbf{Statement}]
-\begin{center}
-
-    \label{st:Global-Gating-as-ReLU}
-    From our study, we can easily conclude that the ReLU function is a specific case of the Global Gating mechanism.
-
-\end{center}
-\end{mdframed}
+\textbf{Statement:}
+From our study, we can easily conclude that the ReLU function is a specific case of the Global Gating mechanism.
 
 \textbf{Proof:}
 Setting the stage with $M=N$ and $\overline{w}_m^g = \mathbb{1}_m$, we find a mathematical representation where $g_m(\overline{x}) = H(x_m)$. Delving deeper:
-
 \begin{equation}
 w_{i, j}^m = 
 \begin{cases}
@@ -44,7 +34,6 @@ w_{i, j}^m =
     0 & \text{otherwise}
 \end{cases}
 \end{equation}
-
 we arrive at a conclusive formula:
 \begin{equation}
 x_i^{out} = \sum_{j=1}^N w_{i, j} \cdot \text{ReLU}(x_j)
